@@ -5,7 +5,9 @@ module.exports = {
   "entry": "./src/ad-rotator.js",
   "output": {
     path: path.resolve(__dirname, "dist"),
-    "filename": "ad-rotator.js"
+    "filename": "ad-rotator.js",
+      library: 'adRotator',
+      libraryTarget:'window'
   },
   "devtool": "source-map",
   "module": {
