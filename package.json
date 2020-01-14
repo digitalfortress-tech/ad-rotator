@@ -6,6 +6,10 @@
   "homepage": "https://github.com/niketpathak/ad-rotator",
   "license": "MIT",
   "scripts": {
+    "dev": "npm run server -- --mode development --progress",
+    "prod": "npm run server -- --mode production",
+    "watch": "npm run dev -- --watch",
+    "server": "webpack --hide-modules",
     "tag": "npm version minor --no-git-tag-version && npm run build && PACKAGE_VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]') && git commit -am \"$PACKAGE_VERSION release\" && git tag v$PACKAGE_VERSION"
   },
   "author": {
@@ -45,6 +49,16 @@
     "blockadblock"
   ],
   "devDependencies": {
-
+    "@babel/core": "^7.8.3",
+    "@babel/preset-env": "^7.8.3",
+    "babel-loader": "^8.0.6",
+    "css-loader": "^3.4.2",
+    "eslint": "^6.8.0",
+    "eslint-loader": "^3.0.3",
+    "less": "^3.10.3",
+    "less-loader": "^5.0.0",
+    "mini-css-extract-plugin": "^0.9.0",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10"
   }
 }
