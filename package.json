@@ -1,0 +1,50 @@
+{
+  "name": "ad-rotator",
+  "title": "ad-rotator.js",
+  "description": "A light-weight JS library to rotate advertisements.",
+  "version": "1.0.0",
+  "homepage": "https://github.com/niketpathak/ad-rotator",
+  "license": "MIT",
+  "scripts": {
+    "tag": "npm version minor --no-git-tag-version && npm run build && PACKAGE_VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]') && git commit -am \"$PACKAGE_VERSION release\" && git tag v$PACKAGE_VERSION"
+  },
+  "author": {
+    "name": "Niket Pathak",
+    "email": "contact@niketpathak.com",
+    "url": "https://niketpathak.com"
+  },
+  "browser": "dist/ad-rotator.min.js",
+  "main": "dist/ad-rotator.js",
+  "module": "dist/ad-rotator.es.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/niketpathak/ad-rotator.git"
+  },
+  "bugs": {
+    "url": "https://github.com/niketpathak/ad-rotator/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/niketpathak/ad-rotator/blob/master/LICENSE"
+    }
+  ],
+  "files": [
+    "dist/"
+  ],
+  "keywords": [
+    "ad",
+    "adverts",
+    "rotator",
+    "adrotator",
+    "ads",
+    "advertisement",
+    "bypass adblock",
+    "disable adblock",
+    "penetrate adblock",
+    "blockadblock"
+  ],
+  "devDependencies": {
+
+  }
+}
