@@ -1,2 +1,2 @@
 # ad-rotator
-A simple script that rotates Adverts
+A light-weight JS library to rotate advertisements.
