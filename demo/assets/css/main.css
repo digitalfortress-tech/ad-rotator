@@ -1,0 +1,10 @@
+
+
+.main-content {
+    width: 66.66%;
+    float: left;
+}
+.sidebar {
+    width: 33.33%;
+    float: left;
+}
