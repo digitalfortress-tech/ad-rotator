@@ -1,3 +1,5 @@
+import './style.less'
+
 /**
  * DefaultConfig
  * @param shape
@@ -22,7 +24,6 @@ function getDefaultConfig(shape = 'square') {
     config.height = 600;
     config.width = 300;
   }
-
   return  config;
 }
 
@@ -31,6 +32,7 @@ function rotateImage(El, units, conf) {
   // console.debug('***rotateImg', randomUnit, units, conf);
   let img = new Image(conf.height, conf.width);
   img.src = randomUnit.img;
+  img.classList.add('fadeIn');
   El.childNodes[0] ? El.replaceChild(img, El.childNodes[0]) : El.appendChild(img);
 }
 
