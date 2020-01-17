@@ -1,5 +1,10 @@
 import './style.less'
 
+/*
+ Iteration within the array
+ */
+let iter = 0;
+
 /**
  * DefaultConfig
  * @param shape
@@ -28,12 +33,18 @@ function getDefaultConfig(shape = 'square') {
 }
 
 function rotateImage(El, units, conf) {
-  const randomUnit = units.length === 1 ? units[0] : units[Math.floor(Math.random() * (units.length - 1 + 1))];
-  // console.debug('***rotateImg', randomUnit, units, conf);
+  let unit = units[iter];
+  if (conf.random) {    // get random unit
+    unit = units.length === 1 ? units[0] : units[Math.floor(Math.random() * (units.length - 1 + 1))];
+  }
+  // console.debug('***rotateImg', unit, units, conf, iter);
   let img = new Image(conf.height, conf.width);
-  img.src = randomUnit.img;
+  img.src = unit.img;
   img.classList.add('fadeIn');
   El.childNodes[0] ? El.replaceChild(img, El.childNodes[0]) : El.appendChild(img);
+  iter++;
+  // reset iterator when array length is reached
+  if (units.length - 1 <= iter) iter = 0;
 }
 
 export default function (htmlEl, units = [], options = {}) {
