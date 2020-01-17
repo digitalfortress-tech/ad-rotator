@@ -51,7 +51,7 @@ function rotateImage(El, conf) {
   } else {                                                  // sequential
     unit = items[iter];
     iter++;
-    if (items.length - 1 <= iter) iter = 0;                 // reset iterator when array length is reached
+    if (items.length <= iter) iter = 0;                     // reset iterator when array length is reached
   }
   // console.debug('***rotateImg', unit, items, conf, iter, items_immutable);
   let img = new Image(conf.height, conf.width);
