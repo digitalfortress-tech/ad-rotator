@@ -4,6 +4,11 @@ import './style.less'
  Iteration within the array
  */
 let iter = 0;
+/*
+Each avert item
+ */
+let items = [];
+let items_immutable = [];
 
 /**
  * DefaultConfig
@@ -32,19 +37,27 @@ function getDefaultConfig(shape = 'square') {
   return  config;
 }
 
-function rotateImage(El, units, conf) {
-  let unit = units[iter];
-  if (conf.random) {    // get random unit
-    unit = units.length === 1 ? units[0] : units[Math.floor(Math.random() * (units.length - 1 + 1))];
+function rotateImage(El, conf) {
+  let unit;
+  if (conf.random) {                                        // get random unit
+    const index = Math.floor(Math.random() * (items.length - 1 + 1));
+    unit = items.length === 1 ? units[0] : items[index];
+    if (items.length !== 1) {
+      items.splice(index, 1);                               // remove item from arr
+    } else {
+      items = JSON.parse(JSON.stringify(items_immutable));
+    }
+
+  } else {                                                  // sequential
+    unit = items[iter];
+    iter++;
+    if (items.length - 1 <= iter) iter = 0;                 // reset iterator when array length is reached
   }
-  // console.debug('***rotateImg', unit, units, conf, iter);
+  // console.debug('***rotateImg', unit, items, conf, iter, items_immutable);
   let img = new Image(conf.height, conf.width);
   img.src = unit.img;
   img.classList.add('fadeIn');
   El.childNodes[0] ? El.replaceChild(img, El.childNodes[0]) : El.appendChild(img);
-  iter++;
-  // reset iterator when array length is reached
-  if (units.length - 1 <= iter) iter = 0;
 }
 
 export default function (htmlEl, units = [], options = {}) {
@@ -53,11 +66,10 @@ export default function (htmlEl, units = [], options = {}) {
     conf.debug && console.error('Missing/malformed parameters. Html El, Ad Units', htmlEl, units);
     return false;
   }
-  rotateImage(htmlEl, units, conf);
-  window.setInterval(rotateImage, conf.timer, htmlEl, units, conf);
-
-
-
+  items = units;
+  items_immutable = JSON.parse(JSON.stringify(units));
+  rotateImage(htmlEl, conf);
+  window.setInterval(rotateImage, conf.timer, htmlEl, conf);
 
   // console.debug('***htmlEl', htmlEl, htmlEl instanceof HTMLElement);
 
