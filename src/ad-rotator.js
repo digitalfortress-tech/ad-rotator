@@ -57,6 +57,7 @@ function rotateImage(El, conf) {
   // create link
   let link = document.createElement('a');
   link.href = unit.url || '';
+  link.setAttribute("rel", "noopener nofollow noreferrer");
   // create image
   let img = new Image(conf.height, conf.width);
   img.src = unit.img;
