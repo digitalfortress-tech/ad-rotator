@@ -25,6 +25,7 @@ function getDefaultConfig(shape = 'square') {
     sticky: false,
     timer: 10000,
     random: true,
+    static: false,
     debug: false
   };
   if (shape === 'leaderboard') {
@@ -40,24 +41,32 @@ function getDefaultConfig(shape = 'square') {
 function rotateImage(El, conf) {
   let unit;
   if (conf.random) {                                        // get random unit
-    const index = items.length === 1 ? 0 : Math.floor(Math.random() * (items.length - 1 + 1));
+    const index = items.length === 1 ? 0 : Math.floor(Math.random() * items.length );
     unit = items[index];
     if (items.length !== 1) {
       items.splice(index, 1);                               // remove item from arr
     } else {
       items = JSON.parse(JSON.stringify(items_immutable));
     }
-
   } else {                                                  // sequential
     unit = items[iter];
     iter++;
     if (items.length <= iter) iter = 0;                     // reset iterator when array length is reached
   }
-  // console.debug('***rotateImg', unit, items, conf, iter, items_immutable);
+
+  // create link
+  let link = document.createElement('a');
+  link.href = unit.url || '';
+  // create image
   let img = new Image(conf.height, conf.width);
   img.src = unit.img;
   img.classList.add('fadeIn');
-  El.childNodes[0] ? El.replaceChild(img, El.childNodes[0]) : El.appendChild(img);
+  // attach an image to the link
+  link.appendChild(img);
+  // add the link to the El
+  El.childNodes[0] ? El.replaceChild(link, El.childNodes[0]) : El.appendChild(link);
+
+  // console.debug('***rotateImg', unit, items, conf, iter, items_immutable);
 }
 
 export default function (htmlEl, units = [], options = {}) {
@@ -69,6 +78,8 @@ export default function (htmlEl, units = [], options = {}) {
   items = units;
   items_immutable = JSON.parse(JSON.stringify(units));
   rotateImage(htmlEl, conf);
+  if (conf.static) return  true;
+
   window.setInterval(rotateImage, conf.timer, htmlEl, conf);
 
   // console.debug('***htmlEl', htmlEl, htmlEl instanceof HTMLElement);
