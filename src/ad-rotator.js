@@ -40,8 +40,8 @@ function getDefaultConfig(shape = 'square') {
 function rotateImage(El, conf) {
   let unit;
   if (conf.random) {                                        // get random unit
-    const index = Math.floor(Math.random() * (items.length - 1 + 1));
-    unit = items.length === 1 ? units[0] : items[index];
+    const index = items.length === 1 ? 0 : Math.floor(Math.random() * (items.length - 1 + 1));
+    unit = items[index];
     if (items.length !== 1) {
       items.splice(index, 1);                               // remove item from arr
     } else {
