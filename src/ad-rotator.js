@@ -13,7 +13,7 @@ let items_immutable = [];
 /**
  * DefaultConfig
  * @param shape
- * @returns {{padding: number, margin: number, shape: string, sticky: boolean, width: number, height: number}}
+ * @return {{timer: number, random: boolean, static: boolean, debug: boolean, shape: string, width: number, sticky: boolean, imgClass: string, linkClass: string, height: number}}
  */
 function getDefaultConfig(shape = 'square') {
   let config = {
@@ -35,7 +35,7 @@ function getDefaultConfig(shape = 'square') {
     config.height = 600;
     config.width = 300;
   }
-  return  config;
+  return config;
 }
 
 function rotateImage(El, conf) {
@@ -95,6 +95,3 @@ export default function (El, units = [], options = {}) {
 
   return true;
 }
-
-
-// @todo: add support for inline encoded images too
