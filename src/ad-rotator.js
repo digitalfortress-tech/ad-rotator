@@ -20,8 +20,8 @@ function getDefaultConfig(shape = 'square') {
     shape: 'square',
     height: 300,
     width: 250,
-    padding: 0,
-    margin: 0,
+    imgClass: '',
+    linkClass: '',
     sticky: false,
     timer: 10000,
     random: true,
@@ -58,10 +58,12 @@ function rotateImage(El, conf) {
   let link = document.createElement('a');
   link.href = unit.url || '';
   link.setAttribute("rel", "noopener nofollow noreferrer");
+  conf.linkClass && link.classList.add(conf.linkClass);
   // create image
   let img = new Image(conf.height, conf.width);
   img.src = unit.img;
   img.classList.add('fadeIn');
+  conf.imgClass && img.classList.add(conf.imgClass);
   // attach an image to the link
   link.appendChild(img);
   // add the link to the El
@@ -70,20 +72,26 @@ function rotateImage(El, conf) {
   // console.debug('***rotateImg', unit, items, conf, iter, items_immutable);
 }
 
-export default function (htmlEl, units = [], options = {}) {
+export default function (El, units = [], options = {}) {
   const conf = Object.assign({}, getDefaultConfig(), options);
-  if (!htmlEl || !htmlEl instanceof HTMLElement || !units || !units instanceof Array || !units.length || !units[0] instanceof Object || !units[0].url || !units[0].img) {
-    conf.debug && console.error('Missing/malformed parameters. Html El, Ad Units', htmlEl, units);
-    return false;
+  if (!El || !El instanceof HTMLElement || !units || !units instanceof Array || !units.length || !units[0] instanceof Object || !units[0].url || !units[0].img) {
+    conf.debug && console.error('Missing/malformed parameters. Element, Ad Units -', El, units);
+    return;
   }
+  // verify expected props values
+  if (isNaN(conf.timer) || isNaN(conf.height) || isNaN(conf.width)) {
+    conf.debug && console.error('Config Error', conf);
+    return;
+  }
+
   items = units;
   items_immutable = JSON.parse(JSON.stringify(units));
-  rotateImage(htmlEl, conf);
+  rotateImage(El, conf);
   if (conf.static) return  true;
 
-  window.setInterval(rotateImage, conf.timer, htmlEl, conf);
+  window.setInterval(rotateImage, conf.timer, El, conf);
 
-  // console.debug('***htmlEl', htmlEl, htmlEl instanceof HTMLElement);
+  // console.debug('***HtmlEl', El, El instanceof HTMLElement);
 
   return true;
 }
