@@ -1,4 +1,4 @@
-import './style.less'
+import "./style.less";
 
 /*
  Iteration within the array
@@ -15,23 +15,23 @@ let items_immutable = [];
  * @param shape
  * @return {{timer: number, random: boolean, static: boolean, debug: boolean, shape: string, width: number, sticky: boolean, imgClass: string, linkClass: string, height: number}}
  */
-function getDefaultConfig(shape = 'square') {
+function getDefaultConfig(shape = "square") {
   let config = {
-    shape: 'square',
+    shape: "square",
     height: 300,
     width: 250,
-    imgClass: '',
-    linkClass: '',
+    imgClass: "",
+    linkClass: "",
     sticky: false,
     timer: 10000,
     random: true,
     static: false,
     debug: false
   };
-  if (shape.toLowerCase() === 'leaderboard') {
+  if (shape.toLowerCase() === "leaderboard") {
     config.height = 90;
     config.width = 728;
-  } else if (shape.toLowerCase() === 'sidebar') {
+  } else if (shape.toLowerCase() === "sidebar") {
     config.height = 600;
     config.width = 300;
   }
@@ -55,14 +55,14 @@ function rotateImage(El, conf) {
   }
 
   // create link
-  let link = document.createElement('a');
-  link.href = unit.url || '';
+  let link = document.createElement("a");
+  link.href = unit.url || "";
   link.setAttribute("rel", "noopener nofollow noreferrer");
   conf.linkClass && link.classList.add(conf.linkClass);
   // create image
   let img = new Image(conf.width, conf.height);
   img.src = unit.img;
-  img.classList.add('fadeIn');
+  img.classList.add("fadeIn");
   conf.imgClass && img.classList.add(conf.imgClass);
   // attach an image to the link
   link.appendChild(img);
@@ -73,14 +73,14 @@ function rotateImage(El, conf) {
 }
 
 export default function (El, units = [], options = {}) {
-  const conf = Object.assign({}, getDefaultConfig(options.shape || ''), options);
-  if (!El || !El instanceof HTMLElement || !units || !units instanceof Array || !units.length || !units[0] instanceof Object || !units[0].url || !units[0].img) {
-    conf.debug && console.error('Missing/malformed parameters. Element, Ad Units -', El, units);
+  const conf = Object.assign({}, getDefaultConfig(options.shape || ""), options);
+  if (!El || !(El instanceof HTMLElement) || !units || !(units instanceof Array) || !units.length || !(units[0] instanceof Object) || !units[0].url || !units[0].img) {
+    conf.debug && console.error("Missing/malformed parameters. Element, Ad Units -", El, units);
     return;
   }
   // verify expected props values
   if (isNaN(conf.timer) || isNaN(conf.height) || isNaN(conf.width)) {
-    conf.debug && console.error('Config Error', conf);
+    conf.debug && console.error("Config Error", conf);
     return;
   }
 

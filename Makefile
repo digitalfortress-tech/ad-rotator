@@ -3,3 +3,6 @@ install:
 
 watch:
 	@npm run watch
+
+lint:
+	@npm run lint
