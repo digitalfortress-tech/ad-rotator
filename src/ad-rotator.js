@@ -28,10 +28,10 @@ function getDefaultConfig(shape = 'square') {
     static: false,
     debug: false
   };
-  if (shape === 'leaderboard') {
+  if (shape.toLowerCase() === 'leaderboard') {
     config.height = 90;
     config.width = 728;
-  } else if (shape === 'sidebar') {
+  } else if (shape.toLowerCase() === 'sidebar') {
     config.height = 600;
     config.width = 300;
   }
@@ -60,7 +60,7 @@ function rotateImage(El, conf) {
   link.setAttribute("rel", "noopener nofollow noreferrer");
   conf.linkClass && link.classList.add(conf.linkClass);
   // create image
-  let img = new Image(conf.height, conf.width);
+  let img = new Image(conf.width, conf.height);
   img.src = unit.img;
   img.classList.add('fadeIn');
   conf.imgClass && img.classList.add(conf.imgClass);
@@ -73,7 +73,7 @@ function rotateImage(El, conf) {
 }
 
 export default function (El, units = [], options = {}) {
-  const conf = Object.assign({}, getDefaultConfig(), options);
+  const conf = Object.assign({}, getDefaultConfig(options.shape || ''), options);
   if (!El || !El instanceof HTMLElement || !units || !units instanceof Array || !units.length || !units[0] instanceof Object || !units[0].url || !units[0].img) {
     conf.debug && console.error('Missing/malformed parameters. Element, Ad Units -', El, units);
     return;
