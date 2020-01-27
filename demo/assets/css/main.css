@@ -1,10 +1,25 @@
+/* Mobile first */
 
-
-.main-content {
-    width: 66.66%;
-    float: left;
+.main-content, .sidebar {
+    width: 100%;
+    padding: 15px 0;
+    overflow: hidden;
 }
-.sidebar {
-    width: 33.33%;
-    float: left;
+
+
+/* Desktop queries */
+
+@media screen and (min-width: 992px) {
+    .main-content, .sidebar {
+        float: left;
+        padding: 0 15px;
+        overflow: hidden;
+    }
+    .main-content {
+        width: calc(66.66% - 30px);
+
+    }
+    .sidebar {
+        width: calc(33.33% - 30px);
+    }
 }
