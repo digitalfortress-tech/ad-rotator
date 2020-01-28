@@ -22,6 +22,7 @@ function getDefaultConfig(shape = "square") {
     width: 250,
     imgClass: "",
     linkClass: "",
+    objectFit: "inherit",
     sticky: false,
     timer: 10000,
     random: true,
@@ -64,6 +65,7 @@ function rotateImage(El, conf) {
   img.src = unit.img;
   img.classList.add("fadeIn");
   conf.imgClass && img.classList.add(conf.imgClass);
+  img.style.objectFit = conf.objectFit;
   // attach an image to the link
   link.appendChild(img);
   // add the link to the El

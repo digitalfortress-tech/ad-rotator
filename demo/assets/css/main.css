@@ -5,6 +5,9 @@
     padding: 15px 0;
     overflow: hidden;
 }
+nav ul {
+    list-style: none;
+}
 
 
 /* Desktop queries */
