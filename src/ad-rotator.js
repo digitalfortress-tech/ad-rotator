@@ -23,7 +23,7 @@ function getDefaultConfig(shape = "square") {
     imgClass: "",
     linkClass: "",
     objectFit: "inherit",
-    sticky: false,
+    sticky: null,
     timer: 10000,
     random: true,
     static: false,
@@ -37,6 +37,44 @@ function getDefaultConfig(shape = "square") {
     config.width = 300;
   }
   return config;
+}
+
+function stickyPub(El, conf) {
+  // console.debug("***sticky", El, conf);
+  let {beforeEl, afterEl, topOffset} = conf.sticky;
+  let startPos = 0, endPos = 0, scrollPos = 0;
+  let ticking = false;
+  if (beforeEl && beforeEl instanceof HTMLElement) {
+    startPos = beforeEl.offsetTop;
+  }
+  if (afterEl && afterEl instanceof HTMLElement) {
+    endPos = afterEl.offsetTop;
+  }
+  // console.debug("***startPos, endPos, topOffset", startPos, endPos, topOffset);
+
+  window.addEventListener("scroll", () => {
+    scrollPos = window.scrollY;
+
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        if (scrollPos > startPos) {
+          El.style.position = "fixed";
+          El.style.top = parseInt(topOffset, 10) || 30 + "px";
+        } else {
+          El.style.position = "relative";
+        }
+        if (endPos && scrollPos > (endPos - conf.height)) {
+          El.style.position = "relative";
+        }
+
+        ticking = false;
+      });
+
+      ticking = true;
+    }
+    // console.debug("***scrollPOS", scrollPos);
+    // @todo: take into account computedStyles to account for top margin/padding
+  });
 }
 
 function rotateImage(El, conf) {
@@ -89,6 +127,7 @@ export default function (El, units = [], options = {}) {
   items = units;
   items_immutable = JSON.parse(JSON.stringify(units));
   rotateImage(El, conf);
+  if (conf.sticky && typeof conf.sticky === "object") { stickyPub(El, conf); }
   if (conf.static) return  true;
 
   window.setInterval(rotateImage, conf.timer, El, conf);

@@ -5,6 +5,12 @@
     padding: 15px 0;
     overflow: hidden;
 }
+.summary {
+    width: calc(100% - 30px);
+    padding: 15px;
+    overflow: hidden;
+    float: left;
+}
 nav ul {
     list-style: none;
 }
