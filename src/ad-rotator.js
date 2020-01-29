@@ -41,7 +41,7 @@ function getDefaultConfig(shape = "square") {
 
 function stickyPub(El, conf) {
   // console.debug("***sticky", El, conf);
-  let {beforeEl, afterEl, topOffset} = conf.sticky;
+  let {beforeEl, afterEl, offsetTop, offsetBottom} = conf.sticky;
   let startPos = 0, endPos = 0, scrollPos = 0;
   let ticking = false;
   if (beforeEl && beforeEl instanceof HTMLElement) {
@@ -50,7 +50,7 @@ function stickyPub(El, conf) {
   if (afterEl && afterEl instanceof HTMLElement) {
     endPos = afterEl.offsetTop;
   }
-  // console.debug("***startPos, endPos, topOffset", startPos, endPos, topOffset);
+  // console.debug("***startPos, endPos, offsetTop", startPos, endPos, offsetTop, offsetBottom);
 
   window.addEventListener("scroll", () => {
     scrollPos = window.scrollY;
@@ -59,21 +59,19 @@ function stickyPub(El, conf) {
       window.requestAnimationFrame(() => {
         if (scrollPos > startPos) {
           El.style.position = "fixed";
-          El.style.top = parseInt(topOffset, 10) || 30 + "px";
+          El.style.top = parseInt(offsetTop, 10) || 30 + "px";
         } else {
           El.style.position = "relative";
         }
-        if (endPos && scrollPos > (endPos - conf.height)) {
+        if (endPos && scrollPos > (endPos - conf.height - (parseInt(offsetBottom, 10) || 0))) {
           El.style.position = "relative";
         }
-
         ticking = false;
+        // console.debug("***scrollPOS", scrollPos);
       });
 
       ticking = true;
     }
-    // console.debug("***scrollPOS", scrollPos);
-    // @todo: take into account computedStyles to account for top margin/padding
   });
 }
 
