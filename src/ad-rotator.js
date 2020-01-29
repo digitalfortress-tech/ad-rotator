@@ -56,9 +56,8 @@ function stickyPub(El, conf) {
   }
 
   window.addEventListener("scroll", () => {
-    scrollPos = window.scrollY;
-
     if (!ticking) {
+      scrollPos = window.scrollY;
       window.requestAnimationFrame(() => {
         if (scrollPos > startPos) {
           El.style.position = "fixed";
@@ -71,7 +70,6 @@ function stickyPub(El, conf) {
         }
         ticking = false;
       });
-
       ticking = true;
     }
   });
