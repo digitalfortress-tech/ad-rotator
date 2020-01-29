@@ -13,7 +13,7 @@ let items_immutable = [];
 /**
  * DefaultConfig
  * @param shape
- * @return {{timer: number, random: boolean, static: boolean, debug: boolean, shape: string, width: number, sticky: boolean, imgClass: string, linkClass: string, height: number}}
+ * @return {{timer: number, random: boolean, static: boolean, debug: boolean, shape: string, objectFit: string, width: number, sticky: null, imgClass: string, linkClass: string, height: number}}
  */
 function getDefaultConfig(shape = "square") {
   let config = {
@@ -40,7 +40,6 @@ function getDefaultConfig(shape = "square") {
 }
 
 function stickyPub(El, conf) {
-  // console.debug("***sticky", El, conf);
   let {beforeEl, afterEl, offsetTop, offsetBottom} = conf.sticky;
   let startPos = 0, endPos = 0, scrollPos = 0;
   let ticking = false;
@@ -50,7 +49,6 @@ function stickyPub(El, conf) {
   if (afterEl && afterEl instanceof HTMLElement) {
     endPos = afterEl.offsetTop;
   }
-  // console.debug("***startPos, endPos, offsetTop", startPos, endPos, offsetTop, offsetBottom);
 
   window.addEventListener("scroll", () => {
     scrollPos = window.scrollY;
@@ -67,7 +65,6 @@ function stickyPub(El, conf) {
           El.style.position = "relative";
         }
         ticking = false;
-        // console.debug("***scrollPOS", scrollPos);
       });
 
       ticking = true;
@@ -106,8 +103,6 @@ function rotateImage(El, conf) {
   link.appendChild(img);
   // add the link to the El
   El.childNodes[0] ? El.replaceChild(link, El.childNodes[0]) : El.appendChild(link);
-
-  // console.debug('***rotateImg', unit, items, conf, iter, items_immutable);
 }
 
 export default function (El, units = [], options = {}) {
@@ -129,8 +124,6 @@ export default function (El, units = [], options = {}) {
   if (conf.static) return  true;
 
   window.setInterval(rotateImage, conf.timer, El, conf);
-
-  // console.debug('***HtmlEl', El, El instanceof HTMLElement);
 
   return true;
 }
