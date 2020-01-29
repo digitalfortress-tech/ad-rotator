@@ -1,5 +1,10 @@
 import "./style.less";
 
+/**
+ * Minimum screen width to consider as desktop
+ * @type {number}
+ */
+const desktopWidth = 992;
 /*
  Iteration within the array
  */
@@ -120,7 +125,7 @@ export default function (El, units = [], options = {}) {
   items = units;
   items_immutable = JSON.parse(JSON.stringify(units));
   rotateImage(El, conf);
-  if (conf.sticky && typeof conf.sticky === "object") { stickyPub(El, conf); }
+  if (conf.sticky && window.screen.availWidth >= desktopWidth && typeof conf.sticky === "object") { stickyPub(El, conf); }
   if (conf.static) return  true;
 
   window.setInterval(rotateImage, conf.timer, El, conf);
