@@ -10,13 +10,13 @@ npm install ad-rotator
 
 ###Usage
 
-1. In the browser context,
-
+**In the browser context,**
 - Include the script file  `<script src="node_modules/adRotator/dist/ad-rotator.js"></script>` at the bottom of your page
 - The library will be available as a global object at `window.adRotator`
 
-2. As a module,
+**As a module,**
 - Import the package directly `import * as adRotator from ad-rotator`
+- Require the package `var adRotator = require("ad-rotator")`
 
 #### Configuration
 
