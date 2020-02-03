@@ -1,14 +1,25 @@
-# Ad-rotator
+# Ad-rotator [![npm version](https://badge.fury.io/js/ad-rotator.svg)](https://badge.fury.io/js/ad-rotator)
+
 A light-weight JS library to rotate advertisements.
 
-###Install
+**Ad-rotator.js**
+- allows you to display adverts to adblock users as well
+- is a highly-performant library built using pure Javascript
+- allows custom dynamic advertisements to be injected 
+- has NO DEPENDENCIES :D 
+- a light-weight library, only [![](http://img.badgesize.io/https://cdn.jsdelivr.net/npm/ad-rotator?compression=gzip)](https://cdn.jsdelivr.net/npm/ad-rotator) minified and gzipped
+- supports advertisements in different sizes with many custom configuration options
+- works well for mobiles/tablets
+- has built-in support for _sticky_ advertisements
+- is completely free and open source
+
+---
+##Install
 Install using npm by using the following command -
 ```shell script
 npm install ad-rotator
 ```
-###
-
-###Usage
+##Usage
 
 **In the browser context,**
 - Include the script file  `<script src="node_modules/adRotator/dist/ad-rotator.js"></script>` at the bottom of your page
@@ -18,7 +29,7 @@ npm install ad-rotator
 - Import the package directly `import * as adRotator from ad-rotator`
 - Require the package `var adRotator = require("ad-rotator")`
 
-#### Configuration
+## Configuration
 
 Ad-rotator.js requires 2 mandatory parameters to be setup. 
 - [Mandatory] The Container element where the Ads should be displayed/rotated
@@ -63,8 +74,9 @@ On executing the above, adRotator is instantiated with the default configuration
     debug: false
 }
 ```
+---
 
-###Description - 
+##Description - 
 1. **Shape** (default - `square`) - This is the expected shape of the Ad. It can also be set to `leaderboard` or `sidebar`. **Leaderboard** takes the standard horizontal size of advertisements (height - 90px, width - 728px) whereas **Sidebar** is used for advertisements in the sidebar with a standard size of (height - 600px, width - 300px) 
 2. **Height** (default - `300`) - The height of the advertisement
 3. **Width** (default - `250`) - The width of the advertisement
@@ -82,7 +94,24 @@ sticky: {
     offsetTop: '10' // or 10px
 }
 ```
-8. Timer: (default - `10000` ms). The time after which an advertisement will be rotated
-9. random: (default - `true`) The advertisements are rotated in a random fashion by default. Set to `false` to have them rotated sequentially
-10. static: (default - `false`) Set to `true` if you wish to disable ad-Rotation
-11. debug: (default - `false`) Set to `true` if you wish to see logging information
+8. **Timer**: (default - `10000` ms). The time after which an advertisement will be rotated
+9. **random**: (default - `true`) The advertisements are rotated in a random fashion by default. Set to `false` to have them rotated sequentially
+10. **static**: (default - `false`) Set to `true` if you wish to disable ad-Rotation
+11. **debug**: (default - `false`) Set to `true` if you wish to see logging information
+
+---
+
+
+#### Contribute
+
+Interested in contributing features and fixes?
+
+[Read more on contributing](./contributing.md).
+
+#### Changelog
+
+See the [Changelog](https://github.com/niketpathak/adRotator/wiki/Changelog)
+
+#### License
+
+[MIT](LICENSE) © [Niket Pathak](https://niketpathak.com)
