@@ -24,16 +24,6 @@ $ yarn add ad-rotator
 ```
 Then include the library on your page.
 
-**In the browser context,**
-```html
-<!-- In the head tag -->
-<script src="./node_modules/adRotator/dist/ad-rotator.js"></script>
-
-<!-- Alternatively, you can use a CDN -->
-<script src="https://cdn.jsdelivr.net/npm/ad-rotator"></script>
-```
-The library will be available as a global object at `window.adRotator`
-
 **As a module,** 
 ```javascript
 // using ES6 modules
@@ -42,8 +32,16 @@ import adRotator from 'ad-rotator'
 // using CommonJS modules
 var adRotator = require('ad-rotator')
 ```
-- Import the package directly `import * as adRotator from ad-rotator`
-- Require the package `var adRotator = require("ad-rotator")`
+
+**In the browser context,**
+```html
+<!-- Include the library -->
+<script src="./node_modules/adRotator/dist/ad-rotator.js"></script>
+
+<!-- Alternatively, you can use a CDN -->
+<script src="https://cdn.jsdelivr.net/npm/ad-rotator"></script>
+```
+The library will be available as a global object at `window.adRotator`
 
 ## Configuration
 
@@ -72,7 +70,7 @@ var items = [
     { url: 'https://digitalfortress.tech#2', img: 'https://niketpathak.com/images/works/maestrobits_sq.jpg'}
 ];
 ```
-Then Initialize **adRotator** by passing the container `DOM Element` as the first parameter and the `Array` of advertisements as the second parameter
+Then Initialize **adRotator** by passing the `DOM Element` and the `Array` of advertisements as parameters
 ```javascript
 // initialize adRotator
 new AdRotator(
@@ -80,7 +78,7 @@ new AdRotator(
   items
 );
 ```
-That's it to setup AdRotator!
+That's it! You should now have Ad-rotation in action!
 
 ## Configuration Options
 
@@ -103,11 +101,11 @@ ad-rotator.js is instantiated with the default configuration parameters as shown
 ```
 ---
 
-## Description - 
+#### Description - 
 
 1. **Shape** (default - `square`) - This is the expected shape of the Ad. It can also be set to `leaderboard` or `sidebar`. **Leaderboard** takes the standard horizontal size of advertisements (height - 90px, width - 728px) whereas **Sidebar** is used for advertisements in the sidebar with a standard size of (height - 600px, width - 300px) 
-2. **Height** (default - `300`) - The height of the advertisement
-3. **Width** (default - `250`) - The width of the advertisement
+2. **Height** (default - `300` px) - The height of the advertisement
+3. **Width** (default - `250` px) - The width of the advertisement
 4. **imgClass** (default - `""`) - Class that should be added to the image Tag
 5. **linkClass** (default - `""`) - Class that should be added to the link Tag
 6. **objectFit**: (default - `inherit`) - The `object-fit` property that should be used for the image
@@ -116,8 +114,8 @@ ad-rotator.js is instantiated with the default configuration parameters as shown
 sticky: {
     beforeEl: document.querySelector('.heading'),
     afterEl: document.querySelector('.summary'),
-    offsetTop: '10',        // or '10px'
-    offsetBottom: '150px',  // or '150'
+    offsetTop: '10',        // or '10px' (defaults to 30px)
+    offsetBottom: '150px',  // or '150'  (defaults to 0px)
 }
 // beforeEl -> Element before the advertisement
 // afterEl  -> Element after the advertisement
@@ -129,16 +127,16 @@ sticky: {
 
 ---
 
-#### Contribute
+### Contribute
 
 Interested in contributing features and fixes?
 
 [Read more on contributing](./contributing.md).
 
-#### Changelog
+### Changelog
 
 See the [Changelog](https://github.com/niketpathak/adRotator/wiki/Changelog)
 
-#### License
+### License
 
 [MIT](LICENSE) © [Niket Pathak](https://niketpathak.com)
