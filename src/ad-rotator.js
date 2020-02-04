@@ -131,11 +131,13 @@ export default function (El, units = [], options = {}) {
   let inter;
   items = units;
   items_immutable = JSON.parse(JSON.stringify(units));
-  rotateImage(El, conf);
-  if (conf.sticky && window.screen.availWidth >= desktopWidth && typeof conf.sticky === "object") { stickyPub(El, conf); }
+  if (items.length === 1) conf.static = true;
 
-  // rotate images only if not static
-  if (!conf.static) inter = window.setInterval(rotateImage, conf.timer, El, conf);
+  rotateImage(El, conf);
+  if (!conf.static) inter = window.setInterval(rotateImage, conf.timer, El, conf);    // rotate images only if not static
+
+  // make sticky
+  if (conf.sticky && window.screen.availWidth >= desktopWidth && typeof conf.sticky === "object") { stickyPub(El, conf); }
 
   return {
     pause() {
