@@ -137,6 +137,11 @@ export default function (El, units = [], options = {}) {
     destroy() {
       this.pause();
       while(El.firstChild) { El.firstChild.remove();}
+    },
+    add(item) {
+      if (item && (item instanceof Object) && item.url && item.img) {
+        items_immutable.push(item);
+      }
     }
   };
 }
