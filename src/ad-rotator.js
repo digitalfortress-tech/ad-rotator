@@ -110,23 +110,33 @@ function rotateImage(El, conf) {
 
 export default function (El, units = [], options = {}) {
   const conf = Object.assign({}, getDefaultConfig(options.shape || ""), options);
-  if (!El || !(El instanceof HTMLElement) || !units || !(units instanceof Array) || !units.length || !(units[0] instanceof Object) || !units[0].url || !units[0].img) {
-    conf.debug && console.error("Missing/malformed parameters. Element, Ad Units -", El, units);
-    return;
-  }
-  // verify expected props values
-  if (isNaN(conf.timer) || isNaN(conf.height) || isNaN(conf.width)) {
-    conf.debug && console.error("Config Error", conf);
-    return;
+  if (!El || !(El instanceof HTMLElement) || !units || !(units instanceof Array) || !units.length || !(units[0] instanceof Object) || !units[0].url || !units[0].img
+          || isNaN(conf.timer) || isNaN(conf.height) || isNaN(conf.width)
+  ) {
+    conf.debug && console.error("Missing/malformed parameters - El, Units, Config", El, units, conf);
+    return 0;
   }
 
+  let inter;
   items = units;
   items_immutable = JSON.parse(JSON.stringify(units));
   rotateImage(El, conf);
   if (conf.sticky && window.screen.availWidth >= desktopWidth && typeof conf.sticky === "object") { stickyPub(El, conf); }
-  if (conf.static) return  true;
 
-  window.setInterval(rotateImage, conf.timer, El, conf);
+  // rotate images only if not static
+  if (!conf.static) inter = window.setInterval(rotateImage, conf.timer, El, conf);
 
-  return true;
+  return {
+    pause() {
+      if (inter) { clearInterval(inter);}
+    },
+    start() {
+      this.pause();
+      if (!conf.static) inter = window.setInterval(rotateImage, conf.timer, El, conf);
+    },
+    destroy() {
+      this.pause();
+      while(El.firstChild) { El.firstChild.remove();}
+    }
+  };
 }
