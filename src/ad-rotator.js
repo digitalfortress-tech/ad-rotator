@@ -5,8 +5,9 @@ import "./style.less";
  * @type {number}
  */
 const desktopWidth = 992;
-/*
- Iteration within the array
+/**
+ * Iteration within the array
+ * @type {number}
  */
 let iter = 0;
 /*
@@ -86,9 +87,9 @@ function rotateImage(El, conf) {
       items = JSON.parse(JSON.stringify(items_immutable));
     }
   } else {                                                  // sequential
-    unit = items[iter];
+    unit = items_immutable[iter];
     iter++;
-    if (items.length <= iter) iter = 0;                     // reset iterator when array length is reached
+    if (items_immutable.length <= iter) iter = 0;           // reset iterator when array length is reached
   }
 
   // create link
