@@ -3,14 +3,14 @@
 A fast, light-weight and highly configurable JS library to rotate advertisements.
 
 **Ad-rotator.js**
-- allows you to display advertisements to adblock users as well
-- is a highly-performant library built using pure Javascript
+- is a highly-performant library in pure Javascript
 - has NO DEPENDENCIES :D 
-- supports advertisements in different sizes with many custom configuration options
+- allows you to **display advertisements to adblock users** as well
 - allows custom dynamic advertisements to be injected 
 - a light-weight library, only [![](http://img.badgesize.io/https://cdn.jsdelivr.net/npm/ad-rotator?compression=gzip)](https://cdn.jsdelivr.net/npm/ad-rotator) minified and gzipped
-- Responsive/Optimised for mobiles/tablets
-- has built-in support for _sticky_ advertisements
+- supports advertisements in different sizes with many custom configuration options
+- Responsive/Optimised for mobiles & tablets
+- has built-in support for **_sticky_ advertisements**
 - is completely free and open source
 
 ---
@@ -22,7 +22,7 @@ $ npm install --save ad-rotator
 # Alternatively you can use Yarn
 $ yarn add ad-rotator
 ```
-Then include the library on your page.
+Then include the library in your App/Page.
 
 **As a module,** 
 ```javascript
@@ -54,11 +54,7 @@ Ad-rotator.js requires 2 mandatory parameters to be setup. A 3rd optional parame
 
 In Html, add a container Element.
 ```html
-<head></head>
-<body>
-    <div id="containerElement"></div>
-    <script src="https://cdn.jsdelivr.net/npm/ad-rotator"></script>
-</body>
+<div id="containerElement"></div>
 ```
 
 Then create an `Array` with the advertisements to be displayed. The array must have a similar schema.
@@ -104,8 +100,8 @@ ad-rotator.js is instantiated with the default configuration parameters as shown
 #### Description - 
 
 1. **Shape** (default - `square`) - This is the expected shape of the Ad. It can also be set to `leaderboard` or `sidebar`. **Leaderboard** takes the standard horizontal size of advertisements (height - 90px, width - 728px) whereas **Sidebar** is used for advertisements in the sidebar with a standard size of (height - 600px, width - 300px) 
-2. **Height** (default - `300` px) - The height of the advertisement
-3. **Width** (default - `250` px) - The width of the advertisement
+2. **Height** (default - `300` _px_) - The height of the advertisement
+3. **Width** (default - `250` _px_) - The width of the advertisement
 4. **imgClass** (default - `""`) - Class that should be added to the image Tag
 5. **linkClass** (default - `""`) - Class that should be added to the link Tag
 6. **objectFit**: (default - `inherit`) - The `object-fit` property that should be used for the image
@@ -120,7 +116,7 @@ sticky: {
 // beforeEl -> Element before the advertisement
 // afterEl  -> Element after the advertisement
 ```
-8. **Timer**: (default - `10000` ms). The time after which an advertisement will be rotated
+8. **Timer**: (default - `10000` _ms_). The time after which an advertisement will be rotated
 9. **random**: (default - `true`) The advertisements are rotated in a random fashion by default. Set to `false` to have them rotated sequentially
 10. **static**: (default - `false`) Set to `true` if you wish to disable ad-Rotation
 11. **debug**: (default - `false`) Set to `true` to see error logs
