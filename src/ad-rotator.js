@@ -10,6 +10,11 @@ const desktopWidth = 992;
  * @type {number}
  */
 let iter = 0;
+/**
+ * The last Displayed Unit
+ * @type {{}}
+ */
+let prevItem = {};
 /*
 Each avert item
  */
@@ -78,18 +83,21 @@ function stickyPub(El, conf) {
 
 function rotateImage(El, conf) {
   let unit;
-  if (conf.random) {                                        // get random unit
-    const index = items.length === 1 ? 0 : Math.floor(Math.random() * items.length );
+  if (conf.random) {                                                  // get random unit
+    let index = items.length === 1 ? 0 : Math.floor(Math.random() * items.length );
+    while (items.length > 1 && prevItem.img === items[index].img) {   // ensure randomness at the end of array
+      index = Math.floor(Math.random() * items.length );
+    }
     unit = items[index];
     if (items.length !== 1) {
-      items.splice(index, 1);                               // remove item from arr
+      items.splice(index, 1);                                         // remove item from arr
     } else {
       items = JSON.parse(JSON.stringify(items_immutable));
     }
-  } else {                                                  // sequential
+  } else {                                                            // sequential
     unit = items_immutable[iter];
     iter++;
-    if (items_immutable.length <= iter) iter = 0;           // reset iterator when array length is reached
+    if (items_immutable.length <= iter) iter = 0;                     // reset iterator when array length is reached
   }
 
   // create link
@@ -107,6 +115,8 @@ function rotateImage(El, conf) {
   link.appendChild(img);
   // add the link to the El
   El.childNodes[0] ? El.replaceChild(link, El.childNodes[0]) : El.appendChild(link);
+  // set the last displayed Unit
+  prevItem = unit;
 }
 
 export default function (El, units = [], options = {}) {
