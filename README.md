@@ -1,4 +1,4 @@
-# Ad-rotator [![npm version](https://badge.fury.io/js/ad-rotator.svg)](https://badge.fury.io/js/ad-rotator)
+# Ad-rotator [![npm version](https://badge.fury.io/js/ad-rotator.svg)](https://badge.fury.io/js/ad-rotator) [![Build Status](https://travis-ci.org/niketpathak/adRotator.svg?branch=master)](https://travis-ci.org/niketpathak/adRotator)
 
 A light-weight JS library to rotate advertisements.
 
@@ -14,12 +14,12 @@ A light-weight JS library to rotate advertisements.
 - is completely free and open source
 
 ---
-##Install
+## Install
 Install using npm by using the following command -
 ```shell script
 npm install ad-rotator
 ```
-##Usage
+## Usage
 
 **In the browser context,**
 - Include the script file  `<script src="node_modules/adRotator/dist/ad-rotator.js"></script>` at the bottom of your page
@@ -76,7 +76,7 @@ On executing the above, adRotator is instantiated with the default configuration
 ```
 ---
 
-##Description - 
+## Description - 
 1. **Shape** (default - `square`) - This is the expected shape of the Ad. It can also be set to `leaderboard` or `sidebar`. **Leaderboard** takes the standard horizontal size of advertisements (height - 90px, width - 728px) whereas **Sidebar** is used for advertisements in the sidebar with a standard size of (height - 600px, width - 300px) 
 2. **Height** (default - `300`) - The height of the advertisement
 3. **Width** (default - `250`) - The width of the advertisement

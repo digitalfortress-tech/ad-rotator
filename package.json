@@ -2,7 +2,7 @@
   "name": "ad-rotator",
   "title": "ad-rotator.js",
   "description": "A light-weight JS library to rotate advertisements.",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "homepage": "https://github.com/niketpathak/ad-rotator",
   "license": "MIT",
   "scripts": {
@@ -11,6 +11,7 @@
     "watch": "npm run dev -- --watch",
     "server": "webpack --hide-modules",
     "tag": "npm version minor --no-git-tag-version && npm run build && PACKAGE_VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]') && git commit -am \"$PACKAGE_VERSION release\" && git tag v$PACKAGE_VERSION",
+    "test": "echo 'Tests coming soon' && exit 0",
     "lint": "eslint --fix ./src"
   },
   "author": {
