@@ -5,11 +5,6 @@ import "./style.less";
  * @type {number}
  */
 const desktopWidth = 992;
-/**
- * Iteration within the array
- * @type {number}
- */
-let iter = 0;
 
 /**
  * DefaultConfig
@@ -70,23 +65,22 @@ function stickyPub(El, conf) {
   });
 }
 
-function rotateImage(El, units, conf, tempUnits, prevItem = {}) {
+function rotateImage(El, units, conf, unitsClone, prevItem = {})  {
   let unit;
-  if (conf.random) {                                                  // get random unit
-    let index = tempUnits.length === 1 ? 0 : Math.floor(Math.random() * tempUnits.length );
-    while (tempUnits.length > 1 && prevItem.img === tempUnits[index].img) {   // ensure randomness at the end of array
-      index = Math.floor(Math.random() * tempUnits.length );
+  if (conf.random) {                                                                                // get random unit
+    let index = unitsClone.length === 1 ? 0 : Math.floor(Math.random() * unitsClone.length );
+    while (unitsClone.length > 1 && prevItem.img === unitsClone[index].img) {                       // ensure randomness at the end of array
+      index = Math.floor(Math.random() * unitsClone.length );
     }
-    unit = tempUnits[index];
-    if (tempUnits.length !== 1) {
-      tempUnits.splice(index, 1);                                         // remove item from arr
+    unit = unitsClone[index];
+    if (unitsClone.length !== 1) {
+      unitsClone.splice(index, 1);                                                                  // remove item from arr
     } else {
-      tempUnits = JSON.parse(JSON.stringify(units));
+      unitsClone = JSON.parse(JSON.stringify(units));
     }
-  } else {                                                            // sequential
-    unit = units[iter];
-    iter++;
-    if (units.length <= iter) iter = 0;                               // reset iterator when array length is reached
+  } else {                                                                                          // sequential
+    unit = unitsClone.shift();
+    if (!unitsClone.length) unitsClone = JSON.parse(JSON.stringify(units));             // reset clone when array length is reached
   }
 
   // create link
@@ -106,7 +100,7 @@ function rotateImage(El, units, conf, tempUnits, prevItem = {}) {
   El.childNodes[0] ? El.replaceChild(link, El.childNodes[0]) : El.appendChild(link);
 
   return {
-    tempUnits,
+    unitsClone,
     prevItem: unit
   };
 }
@@ -119,9 +113,9 @@ export default function (El, units = [], options = {}) {
     return console.error("Missing/malformed parameters - El, Units, Config", El, units, conf);
   }
 
-  let inter;
+  let inter;                // reference to interval
   let prevItem = null;
-  let tempUnits = JSON.parse(JSON.stringify(units));    // clone units
+  let unitsClone = JSON.parse(JSON.stringify(units));    // clone units
   if (units.length === 1) conf.static = true;
 
   // make sticky
@@ -133,14 +127,15 @@ export default function (El, units = [], options = {}) {
     },
     start() {
       this.pause();
-      let res = rotateImage(El, units, conf, tempUnits);
-      tempUnits = res.tempUnits;
+      let res = rotateImage(El, units, conf, unitsClone);
+      unitsClone = res.unitsClone;
       prevItem = res.prevItem;
+
       // rotate images only if not static
       if (!conf.static)
         inter = window.setInterval(function () {
-          res = rotateImage(El, units, conf, tempUnits, prevItem);
-          tempUnits = res.tempUnits;
+          res = rotateImage(El, units, conf, unitsClone, prevItem);
+          unitsClone = res.unitsClone;
           prevItem = res.prevItem;
         }, conf.timer);
     },
