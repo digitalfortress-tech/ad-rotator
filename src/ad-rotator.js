@@ -10,16 +10,6 @@ const desktopWidth = 992;
  * @type {number}
  */
 let iter = 0;
-/**
- * The last Displayed Unit
- * @type {{}}
- */
-let prevItem = {};
-/*
-Each avert item
- */
-let items = [];
-let items_immutable = [];
 
 /**
  * DefaultConfig
@@ -81,23 +71,23 @@ function stickyPub(El, conf) {
   });
 }
 
-function rotateImage(El, conf) {
+function rotateImage(El, units, conf, tempUnits, prevItem = {}) {
   let unit;
   if (conf.random) {                                                  // get random unit
-    let index = items.length === 1 ? 0 : Math.floor(Math.random() * items.length );
-    while (items.length > 1 && prevItem.img === items[index].img) {   // ensure randomness at the end of array
-      index = Math.floor(Math.random() * items.length );
+    let index = tempUnits.length === 1 ? 0 : Math.floor(Math.random() * tempUnits.length );
+    while (tempUnits.length > 1 && prevItem.img === tempUnits[index].img) {   // ensure randomness at the end of array
+      index = Math.floor(Math.random() * tempUnits.length );
     }
-    unit = items[index];
-    if (items.length !== 1) {
-      items.splice(index, 1);                                         // remove item from arr
+    unit = tempUnits[index];
+    if (tempUnits.length !== 1) {
+      tempUnits.splice(index, 1);                                         // remove item from arr
     } else {
-      items = JSON.parse(JSON.stringify(items_immutable));
+      tempUnits = JSON.parse(JSON.stringify(units));
     }
   } else {                                                            // sequential
-    unit = items_immutable[iter];
+    unit = units[iter];
     iter++;
-    if (items_immutable.length <= iter) iter = 0;                     // reset iterator when array length is reached
+    if (units.length <= iter) iter = 0;                               // reset iterator when array length is reached
   }
 
   // create link
@@ -115,8 +105,11 @@ function rotateImage(El, conf) {
   link.appendChild(img);
   // add the link to the El
   El.childNodes[0] ? El.replaceChild(link, El.childNodes[0]) : El.appendChild(link);
-  // set the last displayed Unit
-  prevItem = unit;
+
+  return {
+    tempUnits,
+    prevItem: unit
+  };
 }
 
 export default function (El, units = [], options = {}) {
@@ -129,12 +122,9 @@ export default function (El, units = [], options = {}) {
   }
 
   let inter;
-  items = units;
-  items_immutable = JSON.parse(JSON.stringify(units));
-  if (items.length === 1) conf.static = true;
-
-  rotateImage(El, conf);
-  if (!conf.static) inter = window.setInterval(rotateImage, conf.timer, El, conf);    // rotate images only if not static
+  let prevItem = null;
+  let tempUnits = JSON.parse(JSON.stringify(units));    // clone units
+  if (units.length === 1) conf.static = true;
 
   // make sticky
   if (conf.sticky && window.screen.availWidth >= desktopWidth && typeof conf.sticky === "object") { stickyPub(El, conf); }
@@ -145,7 +135,16 @@ export default function (El, units = [], options = {}) {
     },
     start() {
       this.pause();
-      if (!conf.static) inter = window.setInterval(rotateImage, conf.timer, El, conf);
+      let res = rotateImage(El, units, conf, tempUnits);
+      tempUnits = res.tempUnits;
+      prevItem = res.prevItem;
+      // rotate images only if not static
+      if (!conf.static)
+        inter = window.setInterval(function () {
+          res = rotateImage(El, units, conf, tempUnits, prevItem);
+          tempUnits = res.tempUnits;
+          prevItem = res.prevItem;
+        }, conf.timer);
     },
     destroy() {
       this.pause();
@@ -153,7 +152,7 @@ export default function (El, units = [], options = {}) {
     },
     add(item) {
       if (item && (item instanceof Object) && item.url && item.img) {
-        items_immutable.push(item);
+        units.push(item);
       }
     }
   };

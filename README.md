@@ -69,10 +69,12 @@ var items = [
 Then Initialize **adRotator** by passing the `DOM Element` and the `Array` of advertisements as parameters
 ```javascript
 // initialize adRotator
-new AdRotator(
+var rotator = new AdRotator(
   document.getElementById('containerElement'),
   items
 );
+// start the rotation
+rotator.start(); 
 ```
 That's it! You should now have Ad-rotation in action!
 
