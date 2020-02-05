@@ -47,7 +47,7 @@ The library will be available as a global object at `window.adRotator`
 
 Ad-rotator.js requires 2 mandatory parameters to be setup. A 3rd optional parameter can be provided to override default values.
 - `DOM element` (required) - A container Element where the Ads should be displayed
-- `Array` (required) - An Array of Advertisements(`[{url: '', img: ''},...]`) to be displayed
+- `Array` (required) - An Array of Advertisements(`[{url: '', img: ''},...]`) to be displayed. `img` can be an absolute URL, a relative URL or even a base-64 encoded image.
 - `Object` (optional) - An Object with custom configuration to override default values
 
 ## Usage 
@@ -77,6 +77,64 @@ var rotator = new AdRotator(
 rotator.start(); 
 ```
 That's it! You should now have Ad-rotation in action!
+
+### API
+
+* [`AdRotator.start()`](#adrotatorstart)
+* [`AdRotator.pause()`](#adrotatorpause)
+* [`AdRotator.add()`](#adrotatoradd)
+* [`AdRotator.destroy()`](#adrotatordestroy)
+
+
+#### AdRotator.`start()`
+
+Starts the Ad-Rotation
+
+```javascript
+const rotator = new AdRotator(
+    document.getElementById('containerElement'),
+    [
+        { url: 'https://niketpathak.com#1', img: 'https://niketpathak.com/images/works/gkm_pic_sq.jpg'},
+        { url: 'https://digitalfortress.tech#2', img: 'https://niketpathak.com/images/works/maestrobits_sq.jpg'}
+    ],
+    {shape: "sidebar"}    // configuration options
+);
+rotator.start(); // starts the animation
+```
+
+#### AdRotator.`pause()`
+
+Pauses the Rotation. 
+```javascript
+const rotator = new AdRotator( /* options */ )
+rotator.pause();        // pauses the rotation
+```
+To resume the rotation, simply call `AdRotation.start()`
+
+
+#### AdRotator.`add()`
+
+Inject a new Advertisement into the AdRotator.
+```javascript
+const rotator = new AdRotator( /* options */ )
+rotator.add(
+  {
+    url: 'https://digitalfortress.tech',
+    img: './path-to-img'
+  } 
+);        
+```
+
+#### AdRotator.`destroy()`
+
+Destroy the AdRotator instance. Removes all adverts from the DOM.
+
+```javascript
+const rotator = new AdRotator( /* options */ )
+rotator.destroy();        // pauses the rotation
+```
+To reactivate AdRotator, simply call `AdRotation.start()`
+
 
 ## Configuration Options
 
