@@ -261,14 +261,13 @@
           },
 
         ];
-        var instance1 = new adRotator(document.getElementById("sidebar-placement-1"), units, {debug: true, shape: 'sidebar', timer: 5000});
+        var instance1 = new adRotator(document.getElementById("sidebar-placement-1"), units, {shape: 'sidebar', timer: '5000'});
         instance1.start();
         // console.debug('***instance1', instance1);
-        var instance2 = new adRotator(document.getElementById("hz-placement-1"), units2, {debug: true, shape: 'leaderboard', objectFit: 'cover', timer: 5000});
+        var instance2 = new adRotator(document.getElementById("hz-placement-1"), units2, {shape: 'leaderboard', objectFit: 'cover', timer: 5000});
         instance2.start();
         // console.debug('***instance2', instance2);
         var instance3 = new adRotator(document.getElementById("sq-placement-1"), units3, {
-          debug: true,
           timer: 5000,
           sticky: {
             beforeEl: document.querySelector('.default-shape-square'),

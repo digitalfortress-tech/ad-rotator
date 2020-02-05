@@ -14,7 +14,7 @@ let iter = 0;
 /**
  * DefaultConfig
  * @param shape
- * @return {{timer: number, random: boolean, static: boolean, debug: boolean, shape: string, objectFit: string, width: number, sticky: null, imgClass: string, linkClass: string, height: number}}
+ * @return {{timer: number, random: boolean, static: boolean, shape: string, objectFit: string, width: number, sticky: null, imgClass: string, linkClass: string, height: number}}
  */
 function getDefaultConfig(shape = "square") {
   let config = {
@@ -27,8 +27,7 @@ function getDefaultConfig(shape = "square") {
     sticky: null,
     timer: 10000,
     random: true,
-    static: false,
-    debug: false
+    static: false
   };
   if (shape.toLowerCase() === "leaderboard") {
     config.height = 90;
@@ -117,8 +116,7 @@ export default function (El, units = [], options = {}) {
   if (!El || !(El instanceof HTMLElement) || !units || !(units instanceof Array) || !units.length || !(units[0] instanceof Object) || !units[0].url || !units[0].img
           || isNaN(conf.timer) || isNaN(conf.height) || isNaN(conf.width)
   ) {
-    conf.debug && console.error("Missing/malformed parameters - El, Units, Config", El, units, conf);
-    return 0;
+    return console.error("Missing/malformed parameters - El, Units, Config", El, units, conf);
   }
 
   let inter;
