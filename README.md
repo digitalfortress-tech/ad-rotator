@@ -150,8 +150,7 @@ ad-rotator.js is instantiated with the default configuration parameters as shown
     objectFit: "inherit",
     sticky: null,
     timer: 10000,
-    random: true,
-    static: false
+    random: true
 }
 ```
 ---
@@ -163,7 +162,7 @@ ad-rotator.js is instantiated with the default configuration parameters as shown
 3. **Width** (default - `250` _px_) - The width of the advertisement
 4. **imgClass** (default - `""`) - Class that should be added to the image Tag
 5. **linkClass** (default - `""`) - Class that should be added to the link Tag
-6. **objectFit**: (default - `inherit`) - The `object-fit` property that should be used for the image
+6. **objectFit**: (default - `inherit`) - The `object-fit` property that should be used for the image (`inherit`,`contain`,`cover`, `fill`,...)
 7. **sticky**: (default - `null`) - By default, the advertisement shown is not sticky. You can make it sticky by providing a configuration object -
 ```javascript
 sticky: {
@@ -177,7 +176,6 @@ sticky: {
 ```
 8. **Timer**: (default - `10000` _ms_). The time after which an advertisement will be rotated
 9. **random**: (default - `true`) The advertisements are rotated in a random fashion by default. Set to `false` to have them rotated sequentially
-10. **static**: (default - `false`) Set to `true` if you wish to disable ad-Rotation
 
 ---
 

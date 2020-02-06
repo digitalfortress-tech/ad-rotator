@@ -9,7 +9,7 @@ const desktopWidth = 992;
 /**
  * DefaultConfig
  * @param shape
- * @return {{timer: number, random: boolean, static: boolean, shape: string, objectFit: string, width: number, sticky: null, imgClass: string, linkClass: string, height: number}}
+ * @return {{timer: number, random: boolean, shape: string, objectFit: string, width: number, sticky: null, imgClass: string, linkClass: string, height: number}}
  */
 function getDefaultConfig(shape = "square") {
   let config = {
@@ -21,8 +21,7 @@ function getDefaultConfig(shape = "square") {
     objectFit: "inherit",
     sticky: null,
     timer: 10000,
-    random: true,
-    static: false
+    random: true
   };
   if (shape.toLowerCase() === "leaderboard") {
     config.height = 90;
@@ -116,7 +115,6 @@ export default function (El, units = [], options = {}) {
   let inter;                // reference to interval
   let prevItem = null;
   let unitsClone = JSON.parse(JSON.stringify(units));    // clone units
-  if (units.length === 1) conf.static = true;
 
   // make sticky
   if (conf.sticky && window.screen.availWidth >= desktopWidth && typeof conf.sticky === "object") { stickyPub(El, conf); }
@@ -131,8 +129,8 @@ export default function (El, units = [], options = {}) {
       unitsClone = res.unitsClone;
       prevItem = res.prevItem;
 
-      // rotate images only if not static
-      if (!conf.static)
+      // rotate only if multiple units are present
+      if (units.length > 1)
         inter = window.setInterval(function () {
           res = rotateImage(El, units, conf, unitsClone, prevItem);
           unitsClone = res.unitsClone;
