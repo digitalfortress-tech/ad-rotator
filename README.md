@@ -83,6 +83,7 @@ That's it! You should now have Ad-rotation in action!
 * [`AdRotator.start()`](#adrotatorstart)
 * [`AdRotator.pause()`](#adrotatorpause)
 * [`AdRotator.add()`](#adrotatoradd)
+* [`AdRotator.remove()`](#adrotatorremove)
 * [`AdRotator.destroy()`](#adrotatordestroy)
 
 
@@ -124,6 +125,21 @@ rotator.add(
   } 
 );        
 ```
+
+#### AdRotator.`remove()`
+
+Remove an item from the Advertisements array. 
+```javascript
+const rotator = new AdRotator( /* options */ )
+rotator.remove(); // remove the last item
+rotator.rotate(   // remove a specific item
+  {
+    url: 'https://digitalfortress.tech', // url is optional
+    img: './path-to-img'
+  } 
+);        
+```
+The `remove()` method deletes the last item in the advertisements array. To remove a particular advertisement, you can also pass it a parameter (**`rotatorInstance.remove({ img: 'xyz.gif'})`**)
 
 #### AdRotator.`destroy()`
 

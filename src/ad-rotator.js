@@ -147,6 +147,11 @@ export default function (El, units = [], options = {}) {
       if (item && (item instanceof Object) && item.url && item.img) {
         units.push(item);
       }
+    },
+    remove(ob) {
+      if (!ob) units.pop();
+      else units = units.filter(item => item.img !== ob.img);
+      if (units.length <= 1) this.pause();
     }
   };
 }
