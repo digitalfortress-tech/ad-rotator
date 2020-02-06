@@ -122,6 +122,7 @@ export default function (El, units = [], options = {}) {
   if (conf.sticky && window.screen.availWidth >= desktopWidth && typeof conf.sticky === "object") { stickyPub(El, conf); }
 
   return {
+    conf,
     pause() {
       if (inter) { clearInterval(inter);}
     },

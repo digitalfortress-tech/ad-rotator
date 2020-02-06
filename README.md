@@ -76,7 +76,7 @@ var rotator = new AdRotator(
 // start the rotation
 rotator.start(); 
 ```
-That's it! You should now have Ad-rotation in action!
+That's it! You should now have Ad-rotation in action! By default, the Ads are rotated in a random fashion. See configuration options for more variations
 
 ### API
 
@@ -139,7 +139,7 @@ rotator.rotate(   // remove a specific item
   } 
 );        
 ```
-The `remove()` method deletes the last item in the advertisements array. To remove a particular advertisement, you can also pass it a parameter (**`rotatorInstance.remove({ img: 'xyz.gif'})`**)
+The `remove()` method deletes the last item in the advertisements array. To remove a particular advertisement, you can also pass it a parameter (**`rotatorInstance.remove({ img: 'xyz.gif'})`**). The change in the Advertisements array will be reflected in the next rotation cycle
 
 #### AdRotator.`destroy()`
 
