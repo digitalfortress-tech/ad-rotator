@@ -21,7 +21,8 @@ function getDefaultConfig(shape = "square") {
     objectFit: "inherit",
     sticky: null,
     timer: 10000,
-    random: true
+    random: true,
+    newTab: false
   };
   if (shape.toLowerCase() === "leaderboard") {
     config.height = 90;
@@ -87,6 +88,7 @@ function rotateImage(El, units, conf, unitsClone, prevItem = {})  {
   link.href = unit.url || "";
   link.setAttribute("rel", "noopener nofollow noreferrer");
   conf.linkClass && link.classList.add(conf.linkClass);
+  conf.newTab && link.setAttribute("target", "_blank");
   // create image
   let img = new Image(conf.width, conf.height);
   img.src = unit.img;

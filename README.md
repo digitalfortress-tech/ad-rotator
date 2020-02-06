@@ -150,7 +150,8 @@ ad-rotator.js is instantiated with the default configuration parameters as shown
     objectFit: "inherit",
     sticky: null,
     timer: 10000,
-    random: true
+    random: true,
+    newTab: false
 }
 ```
 ---
@@ -176,7 +177,7 @@ sticky: {
 ```
 8. **Timer**: (default - `10000` _ms_). The time after which an advertisement will be rotated
 9. **random**: (default - `true`) The advertisements are rotated in a random fashion by default. Set to `false` to have them rotated sequentially
-
+10. **newTab**: (default - `false`) Set to `true` to open the advertisement URL in a new Tab
 ---
 
 ### Contribute
