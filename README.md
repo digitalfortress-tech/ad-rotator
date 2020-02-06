@@ -109,7 +109,7 @@ Pauses the Rotation.
 const rotator = new AdRotator( /* options */ )
 rotator.pause();        // pauses the rotation
 ```
-To resume the rotation, simply call `AdRotation.start()`
+To resume the rotation, simply call `AdRotatorInstance.start()`
 
 
 #### AdRotator.`add()`
@@ -127,13 +127,13 @@ rotator.add(
 
 #### AdRotator.`destroy()`
 
-Destroy the AdRotator instance. Removes all adverts from the DOM.
+Destroy the AdRotator instance. Removes the associated adverts from the DOM.
 
 ```javascript
 const rotator = new AdRotator( /* options */ )
 rotator.destroy();        // pauses the rotation
 ```
-To reactivate AdRotator, simply call `AdRotation.start()`
+To reactivate AdRotator, simply call `AdRotatorInstance.start()`
 
 
 ## Configuration Options
@@ -151,8 +151,7 @@ ad-rotator.js is instantiated with the default configuration parameters as shown
     sticky: null,
     timer: 10000,
     random: true,
-    static: false,
-    debug: false
+    static: false
 }
 ```
 ---
@@ -179,7 +178,6 @@ sticky: {
 8. **Timer**: (default - `10000` _ms_). The time after which an advertisement will be rotated
 9. **random**: (default - `true`) The advertisements are rotated in a random fashion by default. Set to `false` to have them rotated sequentially
 10. **static**: (default - `false`) Set to `true` if you wish to disable ad-Rotation
-11. **debug**: (default - `false`) Set to `true` to see error logs
 
 ---
 
