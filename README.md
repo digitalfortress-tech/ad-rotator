@@ -147,7 +147,7 @@ Destroy the AdRotator instance. Removes the associated adverts from the DOM.
 
 ```javascript
 const rotator = new AdRotator( /* options */ )
-rotator.destroy();        // pauses the rotation
+rotator.destroy();        // destroys the rotation+DOM
 ```
 To reactivate AdRotator, simply call `AdRotatorInstance.start()`
 
@@ -194,6 +194,15 @@ sticky: {
 8. **Timer**: (default - `10000` _ms_). The time after which an advertisement will be rotated
 9. **random**: (default - `true`) The advertisements are rotated in a random fashion by default. Set to `false` to have them rotated sequentially
 10. **newTab**: (default - `false`) Set to `true` to open the advertisement URL in a new Tab
+
+#### Note
+It is also possible to change configuration options after instantiation. (The only exception being that changing the `shape` option will not automatically change the `height` & `width` options) 
+```javascript
+// init AdRotator with default options
+const rotator = new AdRotator( /* options */ )
+// update config to change to sequential rotation
+rotator.conf.random = false; 
+```
 ---
 
 ### Contribute
