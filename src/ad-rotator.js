@@ -67,6 +67,7 @@ function stickyPub(El, conf) {
 
 function rotateImage(El, units, conf, unitsClone, prevItem = {})  {
   let unit;
+  console.debug('***',unitsClone, prevItem);
   if (conf.random) {                                                                                // get random unit
     let index = unitsClone.length === 1 ? 0 : Math.floor(Math.random() * unitsClone.length );
     while (unitsClone.length > 1 && prevItem.img === unitsClone[index].img) {                       // ensure randomness at the end of array
@@ -115,29 +116,33 @@ export default function (El, units = [], options = {}) {
   }
 
   let inter;                // reference to interval
+  let ret;                  // reference to return value of `rotateImage`
   let prevItem = null;
   let unitsClone = JSON.parse(JSON.stringify(units));    // clone units
 
   // make sticky
   if (conf.sticky && window.screen.availWidth >= desktopWidth && typeof conf.sticky === "object") { stickyPub(El, conf); }
 
-  return {
+  // prepare output
+  const out = {
     conf,
     pause() {
       if (inter) { clearInterval(inter);}
     },
     start() {
+      ret = rotateImage(El, units, conf, unitsClone);
+      unitsClone = ret.unitsClone;
+      prevItem = ret.prevItem;
+      this.resume();
+    },
+    resume() {
       this.pause();
-      let res = rotateImage(El, units, conf, unitsClone);
-      unitsClone = res.unitsClone;
-      prevItem = res.prevItem;
-
       // rotate only if multiple units are present
       if (units.length > 1)
         inter = window.setInterval(function () {
-          res = rotateImage(El, units, conf, unitsClone, prevItem);
-          unitsClone = res.unitsClone;
-          prevItem = res.prevItem;
+          ret = rotateImage(El, units, conf, unitsClone, prevItem);
+          unitsClone = ret.unitsClone;
+          prevItem = ret.prevItem;
         }, conf.timer);
     },
     destroy() {
@@ -155,4 +160,15 @@ export default function (El, units = [], options = {}) {
       if (units.length <= 1) this.pause();
     }
   };
+
+  // Add events
+  El.addEventListener("mouseover", () => {
+    out.pause();
+  });
+
+  El.addEventListener("mouseout", () => {
+    out.resume();
+  });
+
+  return out;
 }
