@@ -82,6 +82,7 @@ That's it! You should now have Ad-rotation in action! By default, the Ads are ro
 
 * [`AdRotator.start()`](#adrotatorstart)
 * [`AdRotator.pause()`](#adrotatorpause)
+* [`AdRotator.resume()`](#adrotatorresume)
 * [`AdRotator.add()`](#adrotatoradd)
 * [`AdRotator.remove()`](#adrotatorremove)
 * [`AdRotator.destroy()`](#adrotatordestroy)
@@ -110,7 +111,16 @@ Pauses the Rotation.
 const rotator = new AdRotator( /* options */ )
 rotator.pause();        // pauses the rotation
 ```
-To resume the rotation, simply call `AdRotatorInstance.start()`
+To resume the rotation, simply call `AdRotatorInstance.resume()`
+
+#### AdRotator.`resume()`
+
+Pauses the Rotation. 
+```javascript
+const rotator = new AdRotator( /* options */ )
+rotator.resume();        // resumes the rotation
+```
+To resume the rotation, simply call `AdRotatorInstance.resume()`
 
 
 #### AdRotator.`add()`

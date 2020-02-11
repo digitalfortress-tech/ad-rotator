@@ -169,7 +169,5 @@ export default function (El, units = [], options = {}) {
     out.resume();
   });
 
-  //@todo: update readme
-
   return out;
 }

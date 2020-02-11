@@ -8,11 +8,12 @@ script:
   - npm run prod
   - npm run test
 
-deploy:
-  provider: npm
-  email: $NPM_EMAIL
-  api_key: $NPM_API_KEY
-  on:
-    tags: true
-  # make sure we keep our dist directory
-  skip_cleanup: true
+# block for now
+#deploy:
+#  provider: npm
+#  email: $NPM_EMAIL
+#  api_key: $NPM_API_KEY
+#  on:
+#    tags: true
+#  # make sure we keep our dist directory
+#  skip_cleanup: true
