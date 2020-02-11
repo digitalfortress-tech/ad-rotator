@@ -115,7 +115,7 @@ To resume the rotation, simply call `AdRotatorInstance.resume()`
 
 #### AdRotator.`resume()`
 
-Pauses the Rotation. 
+Resumes the Rotation. 
 ```javascript
 const rotator = new AdRotator( /* options */ )
 rotator.resume();        // resumes the rotation
