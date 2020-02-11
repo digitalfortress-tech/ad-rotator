@@ -67,7 +67,6 @@ function stickyPub(El, conf) {
 
 function rotateImage(El, units, conf, unitsClone, prevItem = {})  {
   let unit;
-  console.debug('***',unitsClone, prevItem);
   if (conf.random) {                                                                                // get random unit
     let index = unitsClone.length === 1 ? 0 : Math.floor(Math.random() * unitsClone.length );
     while (unitsClone.length > 1 && prevItem.img === unitsClone[index].img) {                       // ensure randomness at the end of array
@@ -169,6 +168,8 @@ export default function (El, units = [], options = {}) {
   El.addEventListener("mouseout", () => {
     out.resume();
   });
+
+  //@todo: update readme
 
   return out;
 }
