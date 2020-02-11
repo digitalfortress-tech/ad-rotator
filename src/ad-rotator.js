@@ -122,6 +122,25 @@ export default function (El, units = [], options = {}) {
   // make sticky
   if (conf.sticky && window.screen.availWidth >= desktopWidth && typeof conf.sticky === "object") { stickyPub(El, conf); }
 
+  // Manage events
+  const eventManager = {
+    init() {
+      this.destroy();
+      El.addEventListener("mouseover", () => {
+        out.pause();
+      });
+
+      El.addEventListener("mouseout", () => {
+        out.resume();
+      });
+    },
+    destroy() {
+      const clone = El.cloneNode(true);
+      El.parentNode.replaceChild(clone, El);
+      El = clone;
+    }
+  };
+
   // prepare output
   const out = {
     conf,
@@ -129,6 +148,7 @@ export default function (El, units = [], options = {}) {
       if (inter) { clearInterval(inter);}
     },
     start() {
+      eventManager.init();
       ret = rotateImage(El, units, conf, unitsClone);
       unitsClone = ret.unitsClone;
       prevItem = ret.prevItem;
@@ -147,6 +167,7 @@ export default function (El, units = [], options = {}) {
     destroy() {
       this.pause();
       while(El.firstChild) { El.firstChild.remove();}
+      eventManager.destroy();
     },
     add(item) {
       if (item && (item instanceof Object) && item.url && item.img) {
@@ -159,15 +180,6 @@ export default function (El, units = [], options = {}) {
       if (units.length <= 1) this.pause();
     }
   };
-
-  // Add events
-  El.addEventListener("mouseover", () => {
-    out.pause();
-  });
-
-  El.addEventListener("mouseout", () => {
-    out.resume();
-  });
 
   return out;
 }
