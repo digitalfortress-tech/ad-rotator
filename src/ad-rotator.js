@@ -119,9 +119,6 @@ export default function (El, units = [], options = {}) {
   let prevItem = null;
   let unitsClone = JSON.parse(JSON.stringify(units));    // clone units
 
-  // make sticky
-  if (conf.sticky && window.screen.availWidth >= desktopWidth && typeof conf.sticky === "object") { stickyPub(El, conf); }
-
   // Manage events
   const eventManager = {
     init() {
@@ -133,6 +130,8 @@ export default function (El, units = [], options = {}) {
       El.addEventListener("mouseout", () => {
         out.resume();
       });
+      // make sticky
+      if (conf.sticky && window.screen.availWidth >= desktopWidth && typeof conf.sticky === "object") { stickyPub(El, conf); }
     },
     destroy() {
       const clone = El.cloneNode(true);
