@@ -57,7 +57,7 @@ let items = [
 ```
 
 `img` can be an absolute URL, a relative URL or even a base-64 encoded image.
-- `Object` (optional) - An Object with custom configuration to override default values
+- `Object` (optional) - An Object with custom configuration to override default values. ([`Configuration Options`](#configuration-options))
 
 ## Usage 
 
@@ -195,7 +195,7 @@ ad-rotator.js is instantiated with the default configuration parameters as shown
 
 #### Description - 
 
-1. **Shape** (_`String`_, default - `"square"`) - This is the expected shape of the Ad. It can also be set to `leaderboard` or `sidebar`. When set to **Leaderboard**, the standard horizontal size of height - 90px, width - 728px is used, whereas when shape is to **Sidebar**, the standard size of height - 600px, width - 300px is used.
+1. **Shape** (_`String`_, default - `"square"`) - This is the expected shape of the Ad. It can also be set to `leaderboard` or `sidebar`. When set to **Leaderboard**, the standard horizontal size of height - 90px, width - 728px is used, whereas when shape is set to **Sidebar**, the standard size of height - 600px, width - 300px is used.
 2. **Height** (_`Int`_, default - `300` _px_) - The height of the advertisement
 3. **Width** (_`Int`_, default - `250` _px_) - The width of the advertisement
 4. **imgClass** (_`String`_, default - `""`) - Class that should be added to the image Tag
@@ -221,7 +221,7 @@ It is also possible to change configuration options after instantiation. (The on
 ```javascript
 // init AdRotator with default options
 const rotator = new AdRotator( /* options */ )
-// update config to change to sequential rotation
+// update config after instantiation to change to sequential rotation
 rotator.conf.random = false; 
 ```
 ---
