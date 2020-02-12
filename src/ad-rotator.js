@@ -45,7 +45,7 @@ function stickyPub(El, conf) {
     endPos = afterEl.offsetTop;
   }
 
-  window.addEventListener("scroll", () => {
+  const eventHandler = () => {
     if (!ticking) {
       scrollPos = window.scrollY;
       window.requestAnimationFrame(() => {
@@ -62,7 +62,10 @@ function stickyPub(El, conf) {
       });
       ticking = true;
     }
-  });
+  };
+
+  window.addEventListener("scroll", eventHandler);
+  return eventHandler;
 }
 
 function rotateImage(El, units, conf, unitsClone, prevItem = {})  {
@@ -121,6 +124,7 @@ export default function (El, units = [], options = {}) {
 
   // Manage events
   const eventManager = {
+    scrollEventRef: null,
     init() {
       this.destroy();
       El.addEventListener("mouseover", () => {
@@ -131,12 +135,13 @@ export default function (El, units = [], options = {}) {
         out.resume();
       });
       // make sticky
-      if (conf.sticky && window.screen.availWidth >= desktopWidth && typeof conf.sticky === "object") { stickyPub(El, conf); }
+      if (conf.sticky && window.screen.availWidth >= desktopWidth && typeof conf.sticky === "object") { this.scrollEventRef = stickyPub(El, conf); }
     },
     destroy() {
       const clone = El.cloneNode(true);
       El.parentNode.replaceChild(clone, El);
       El = clone;
+      if (this.scrollEventRef)  window.removeEventListener("scroll", this.scrollEventRef);
     }
   };
 
