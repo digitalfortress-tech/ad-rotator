@@ -3,11 +3,11 @@
 A fast, light-weight and highly configurable JS library to rotate advertisements.
 
 **Ad-rotator.js**
-- is a highly-performant library in pure Javascript
+- is a vastly performant library in pure Javascript
 - has NO DEPENDENCIES :D 
-- allows you to **display advertisements to adblock users** as well
-- allows custom dynamic advertisements to be injected 
-- a light-weight library, only [![](http://img.badgesize.io/https://cdn.jsdelivr.net/npm/ad-rotator?compression=gzip)](https://cdn.jsdelivr.net/npm/ad-rotator) minified and gzipped
+- allows you to **display native advertisements to adblock users** as well
+- enables custom dynamic advertisements to be injected 
+- is a light-weight library, only [![](http://img.badgesize.io/https://cdn.jsdelivr.net/npm/ad-rotator?compression=gzip)](https://cdn.jsdelivr.net/npm/ad-rotator) minified and gzipped
 - supports advertisements in different sizes with many custom configuration options
 - Responsive/Optimised for mobiles & tablets
 - has built-in support for **_sticky_ advertisements**
@@ -30,7 +30,7 @@ Then include the library in your App/Page.
 import adRotator from 'ad-rotator'
 
 // using CommonJS modules
-var adRotator = require('ad-rotator')
+var adRotator = require("ad-rotator")
 ```
 
 **In the browser context,**
@@ -47,7 +47,16 @@ The library will be available as a global object at `window.adRotator`
 
 Ad-rotator.js requires 2 mandatory parameters to be setup. A 3rd optional parameter can be provided to override default values.
 - `DOM element` (required) - A container Element where the Ads should be displayed
-- `Array` (required) - An Array of Advertisements(`[{url: '', img: ''},...]`) to be displayed. `img` can be an absolute URL, a relative URL or even a base-64 encoded image.
+- `Array` (required) - An Array of Advertisements(`[{url: '', img: ''},...]`) to be displayed. Each advertisement is expected to be an object with 2 mandatory keys `img` and `url` -
+```javascript
+let items = [
+  {img: './assets/image.jpg', url: 'https://xyz#1'},                      // ad 1
+  {img: 'https://xyz/image.png', url: 'https://xyz#2'},                   // ad 2
+  {img: 'data:image/jpeg;base64,/9j/4AAQSkZJRg...', url: 'http://xyz#3'}  // ad 3
+]
+```
+
+`img` can be an absolute URL, a relative URL or even a base-64 encoded image.
 - `Object` (optional) - An Object with custom configuration to override default values
 
 ## Usage 
@@ -57,11 +66,11 @@ In Html, add a container Element.
 <div id="containerElement"></div>
 ```
 
-Then create an `Array` with the advertisements to be displayed. The array must have a similar schema.
+Then create an `Array` with the advertisements to be displayed.
 
 ```javascript
 // An array with the advertisements to display
-var items = [
+let items = [
     { url: 'https://niketpathak.com#1', img: 'https://niketpathak.com/images/works/gkm_pic_sq.jpg'},
     { url: 'https://digitalfortress.tech#2', img: 'https://niketpathak.com/images/works/maestrobits_sq.jpg'}
 ];
@@ -69,7 +78,7 @@ var items = [
 Then Initialize **adRotator** by passing the `DOM Element` and the `Array` of advertisements as parameters
 ```javascript
 // initialize adRotator
-var rotator = new AdRotator(
+const rotator = new AdRotator(
   document.getElementById('containerElement'),
   items
 );
@@ -96,12 +105,12 @@ Starts the Ad-Rotation
 const rotator = new AdRotator(
     document.getElementById('containerElement'),
     [
-        { url: 'https://niketpathak.com#1', img: 'https://niketpathak.com/images/works/gkm_pic_sq.jpg'},
+        { url: 'https://gospelmusic.io#1', img: 'https://niketpathak.com/images/works/gkm_pic_sq.jpg'},
         { url: 'https://digitalfortress.tech#2', img: 'https://niketpathak.com/images/works/maestrobits_sq.jpg'}
     ],
     {shape: "sidebar"}    // configuration options
 );
-rotator.start(); // starts the animation
+rotator.start(); // starts the rotation
 ```
 
 #### AdRotator.`pause()`
@@ -121,7 +130,7 @@ const rotator = new AdRotator( /* options */ )
 rotator.pause();
 rotator.resume();        // resumes the rotation
 ```
-After calling `pause()`, use `AdRotatorInstance.resume()` to resume rotation.
+Use `AdRotatorInstance.resume()` to resume a paused rotation.
 
 
 #### AdRotator.`add()`
@@ -131,11 +140,12 @@ Inject a new Advertisement into the AdRotator.
 const rotator = new AdRotator( /* options */ )
 rotator.add(
   {
-    url: 'https://digitalfortress.tech',
+    url: 'https://gospelmusic.io',
     img: './path-to-img'
   } 
 );        
 ```
+The newly injected Advertisement will be displayed in the next rotation cycle
 
 #### AdRotator.`remove()`
 
@@ -143,7 +153,7 @@ Remove an item from the Advertisements array.
 ```javascript
 const rotator = new AdRotator( /* options */ )
 rotator.remove(); // remove the last item
-rotator.rotate(   // remove a specific item
+rotator.remove(   // remove a specific item
   {
     url: 'https://digitalfortress.tech', // url is optional
     img: './path-to-img'
@@ -154,11 +164,11 @@ The `remove()` method deletes the last item in the advertisements array. To remo
 
 #### AdRotator.`destroy()`
 
-Destroy the AdRotator instance. Removes the associated adverts from the DOM.
+Destroy the AdRotator instance. Cleans up the DOM and removes the associated events.
 
 ```javascript
 const rotator = new AdRotator( /* options */ )
-rotator.destroy();        // destroys the rotation+DOM
+rotator.destroy();        // destroys the rotation, DOM and events
 ```
 To reactivate AdRotator, simply call `AdRotatorInstance.start()`
 
@@ -185,13 +195,13 @@ ad-rotator.js is instantiated with the default configuration parameters as shown
 
 #### Description - 
 
-1. **Shape** (default - `square`) - This is the expected shape of the Ad. It can also be set to `leaderboard` or `sidebar`. **Leaderboard** takes the standard horizontal size of advertisements (height - 90px, width - 728px) whereas **Sidebar** is used for advertisements in the sidebar with a standard size of (height - 600px, width - 300px) 
-2. **Height** (default - `300` _px_) - The height of the advertisement
-3. **Width** (default - `250` _px_) - The width of the advertisement
-4. **imgClass** (default - `""`) - Class that should be added to the image Tag
-5. **linkClass** (default - `""`) - Class that should be added to the link Tag
-6. **objectFit**: (default - `inherit`) - The `object-fit` property that should be used for the image (`inherit`,`contain`,`cover`, `fill`,...)
-7. **sticky**: (default - `null`) - By default, the advertisement shown is not sticky. You can make it sticky by providing a configuration object -
+1. **Shape** (_`String`_, default - `"square"`) - This is the expected shape of the Ad. It can also be set to `leaderboard` or `sidebar`. When set to **Leaderboard**, the standard horizontal size of height - 90px, width - 728px is used, whereas when shape is to **Sidebar**, the standard size of height - 600px, width - 300px is used.
+2. **Height** (_`Int`_, default - `300` _px_) - The height of the advertisement
+3. **Width** (_`Int`_, default - `250` _px_) - The width of the advertisement
+4. **imgClass** (_`String`_, default - `""`) - Class that should be added to the image Tag
+5. **linkClass** (_`String`_, default - `""`) - Class that should be added to the link Tag
+6. **objectFit**: (_`String`_, default - `"inherit"`) - The `object-fit` property that should be used for the image (`inherit`,`contain`,`cover`, `fill`,...)
+7. **sticky**: (_`Object|null`_, default - `null`) - By default, the advertisement shown is not sticky. You can make it sticky by providing a configuration object -
 ```javascript
 sticky: {
     beforeEl: document.querySelector('.heading'),
@@ -202,9 +212,9 @@ sticky: {
 // beforeEl -> Element before the advertisement
 // afterEl  -> Element after the advertisement
 ```
-8. **Timer**: (default - `10000` _ms_). The time after which an advertisement will be rotated
-9. **random**: (default - `true`) The advertisements are rotated in a random fashion by default. Set to `false` to have them rotated sequentially
-10. **newTab**: (default - `false`) Set to `true` to open the advertisement URL in a new Tab
+8. **Timer**: (_`Int`_, default - `10000` _ms_). The time after which an advertisement will be rotated
+9. **random**: (_`Bool`_, default - `true`) The advertisements are rotated in a random fashion by default. Set to `false` to have them rotated sequentially
+10. **newTab**: (_`Bool`_, default - `false`) Set to `true` to open the advertisement URL in a new Tab
 
 #### Note
 It is also possible to change configuration options after instantiation. (The only exception being that changing the `shape` option will not automatically change the `height` & `width` options) 
