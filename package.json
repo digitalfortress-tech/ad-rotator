@@ -2,8 +2,7 @@
   "name": "ad-rotator",
   "title": "ad-rotator.js",
   "description": "A light-weight JS library to rotate advertisements.",
-  "version": "2.6.0",
-  "main": "dist/ad-rotator.js",
+  "version": "2.6.1",
   "homepage": "https://github.com/niketpathak/ad-rotator",
   "license": "MIT",
   "scripts": {
@@ -22,7 +21,6 @@
   },
   "browser": "dist/ad-rotator.min.js",
   "main": "dist/ad-rotator.js",
-  "module": "dist/ad-rotator.es.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/niketpathak/ad-rotator.git"
