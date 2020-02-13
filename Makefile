@@ -6,3 +6,6 @@ watch:
 
 lint:
 	@npm run lint
+
+prod:
+	@npm run prod
