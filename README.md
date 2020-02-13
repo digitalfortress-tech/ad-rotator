@@ -8,7 +8,8 @@ A fast, light-weight and highly configurable JS library to rotate advertisements
 - allows you to **display native advertisements to adblock users** as well
 - enables custom dynamic advertisements to be injected 
 - is a light-weight library, only [![](http://img.badgesize.io/https://cdn.jsdelivr.net/npm/ad-rotator?compression=gzip)](https://cdn.jsdelivr.net/npm/ad-rotator) minified and gzipped
-- supports advertisements in different sizes with many custom configuration options
+- supports **multiple instances** of advertisements in different sizes with many custom configuration options
+- Native support to pause ad-rotation on hover
 - Responsive/Optimised for mobiles & tablets
 - has built-in support for **_sticky_ advertisements**
 - is completely free and open source
@@ -57,7 +58,7 @@ let items = [
 ```
 
 `img` can be an absolute URL, a relative URL or even a base-64 encoded image.
-- `Object` (optional) - An Object with custom configuration to override default values. ([`Configuration Options`](#configuration-options))
+- `Object` (optional) - An Object with custom configuration options to override default values. (See all [`configuration options`](#configuration-options))
 
 ## Usage 
 
@@ -85,7 +86,7 @@ const rotator = new AdRotator(
 // start the rotation
 rotator.start(); 
 ```
-That's it! You should now have Ad-rotation in action! By default, the Ads are rotated in a random fashion. See configuration options for more variations
+That's it! You should now have Ad-rotation in action! By default, the Ads are rotated in a random fashion. See [`configuration options`](#configuration-options) for more variations
 
 ### API
 
@@ -164,7 +165,7 @@ The `remove()` method deletes the last item in the advertisements array. To remo
 
 #### AdRotator.`destroy()`
 
-Destroy the AdRotator instance. Cleans up the DOM and removes the associated events.
+Destroys Ad Rotation. Cleans up the DOM and removes all associated events.
 
 ```javascript
 const rotator = new AdRotator( /* options */ )
