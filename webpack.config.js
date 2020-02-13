@@ -8,7 +8,8 @@ module.exports = {
     "filename": "ad-rotator.js",
     "library": "adRotator",
     "libraryExport": "default" ,   // to export only the default fn
-    "libraryTarget": "umd"
+    "libraryTarget": "umd",
+    "globalObject": "this"
   },
   "devtool": "source-map",
   "module": {
