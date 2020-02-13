@@ -4,10 +4,11 @@ module.exports = {
   "mode": "development",
   "entry": "./src/ad-rotator.js",
   "output": {
-    path: path.resolve(__dirname, "dist"),
+    "path": path.resolve(__dirname, "dist"),
     "filename": "ad-rotator.js",
-    library: 'adRotator',
-    libraryExport: 'default'    // to export only the default fn
+    "library": "adRotator",
+    "libraryExport": "default" ,   // to export only the default fn
+    "libraryTarget": "umd"
   },
   "devtool": "source-map",
   "module": {
