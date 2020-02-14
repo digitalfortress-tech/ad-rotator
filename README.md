@@ -37,7 +37,7 @@ var adRotator = require("ad-rotator")
 **In the browser context,**
 ```html
 <!-- Include the library -->
-<script src="./node_modules/adRotator/dist/ad-rotator.js"></script>
+<script src="./node_modules/ad-rotator/dist/ad-rotator.js"></script>
 
 <!-- Alternatively, you can use a CDN -->
 <script src="https://cdn.jsdelivr.net/npm/ad-rotator"></script>
