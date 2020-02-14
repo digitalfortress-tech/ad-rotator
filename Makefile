@@ -9,3 +9,7 @@ lint:
 
 prod:
 	@npm run prod
+
+publish:
+	@make prod
+	@npm publish
