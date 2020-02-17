@@ -81,12 +81,16 @@ Then Initialize **adRotator** by passing the `DOM Element` and the `Array` of ad
 // initialize adRotator
 const rotator = new AdRotator(
   document.getElementById('containerElement'),
-  items
+  items,
+  { debug: true }       // optional
 );
 // start the rotation
 rotator.start(); 
 ```
-That's it! You should now have Ad-rotation in action! By default, the Ads are rotated in a random fashion. See [`configuration options`](#configuration-options) for more variations
+That's it! You should now have Ad-rotation in action! By default, the Ads are rotated in a random fashion. See [`configuration options`](#configuration-options) for more variations. 
+
+
+_**_NOTE:_**_ By default, `adRotator` is designed to **fail silently** for any configuration error. This means that it will neither pollute the DOM nor will it attach any events if case of an error. It will also not log any console error messages. This can make it difficult to diagnose an error, hence during development, it is recommended to turn on the `{debug: true}` config option. 
 
 ### API
 
@@ -189,7 +193,8 @@ ad-rotator.js is instantiated with the default configuration parameters as shown
     sticky: null,
     timer: 10000,
     random: true,
-    newTab: false
+    newTab: false,
+    debug: false
 }
 ```
 ---
@@ -216,6 +221,7 @@ sticky: {
 8. **Timer**: (_`Int`_, default - `10000` _ms_). The time after which an advertisement will be rotated
 9. **random**: (_`Bool`_, default - `true`) The advertisements are rotated in a random fashion by default. Set to `false` to have them rotated sequentially
 10. **newTab**: (_`Bool`_, default - `false`) Set to `true` to open the advertisement URL in a new Tab
+11.  **debug**: (_`Bool`_, default - `false`) Set to `true` to see error information in the console. Recommended to turn this on during development.
 
 #### Note
 It is also possible to change configuration options after instantiation. (The only exception being that changing the `shape` option will not automatically change the `height` & `width` options) 
