@@ -261,10 +261,10 @@
           },
 
         ];
-        var instance1 = new adRotator(document.getElementById("sidebar-placement-1"), units, {shape: 'sidebar', timer: '2000', random: false});
+        var instance1 = new adRotator(document.getElementById("sidebar-placement-1"), units, {shape: 'sidebar', timer: 's2000', random: false, debug: true});
         instance1.start();
         // console.debug('***instance1', instance1);
-        var instance2 = new adRotator(document.getElementById("hz-placement-1"), units2, {shape: 'leaderboard', objectFit: 'cover', timer: 5000});
+        var instance2 = new adRotator(document.getElementById("hz-placement-1"), units2, {shape: 'leaderboard', objectFit: 'cover', timer: 5000, debug: true});
         instance2.start();
         // console.debug('***instance2', instance2);
         var instance3 = new adRotator(document.getElementById("sq-placement-1"), units3, {
@@ -273,7 +273,8 @@
             beforeEl: document.querySelector('.default-shape-square'),
             afterEl: document.querySelector('.summary'),
             offsetBottom: '150px'
-          }
+          },
+          debug: true
         });
         instance3.start();
         // console.debug('***instance3', instance3);

@@ -22,7 +22,8 @@ function getDefaultConfig(shape = "square") {
     sticky: null,
     timer: 10000,
     random: true,
-    newTab: false
+    newTab: false,
+    debug: false
   };
   if (shape.toLowerCase() === "leaderboard") {
     config.height = 90;
@@ -110,11 +111,13 @@ function rotateImage(El, units, conf, unitsClone, prevItem = {})  {
 }
 
 export default function (El, units = [], options = {}) {
+  let initErr = false;
   const conf = Object.assign({}, getDefaultConfig(options.shape || ""), options);
   if (!El || !(El instanceof HTMLElement) || !units || !(units instanceof Array) || !units.length || !(units[0] instanceof Object) || !units[0].url || !units[0].img
           || isNaN(conf.timer) || isNaN(conf.height) || isNaN(conf.width)
   ) {
-    return console.error("Missing/malformed parameters - El, Units, Config", El, units, conf);
+    conf.debug && console.error("Missing/malformed parameters - El, Units, Config", El, units, conf);
+    initErr = true;
   }
 
   let inter;                // reference to interval
@@ -152,6 +155,7 @@ export default function (El, units = [], options = {}) {
       if (inter) { clearInterval(inter);}
     },
     start() {
+      if (initErr) return;
       eventManager.init();
       ret = rotateImage(El, units, conf, unitsClone);
       unitsClone = ret.unitsClone;
@@ -159,6 +163,7 @@ export default function (El, units = [], options = {}) {
       this.resume();
     },
     resume() {
+      if (initErr) return;
       this.pause();
       // rotate only if multiple units are present
       if (units.length > 1)
@@ -169,16 +174,19 @@ export default function (El, units = [], options = {}) {
         }, conf.timer);
     },
     destroy() {
+      if (initErr) return;
       this.pause();
       while(El.firstChild) { El.firstChild.remove();}
       eventManager.destroy();
     },
     add(item) {
+      if (initErr) return;
       if (item && (item instanceof Object) && item.url && item.img) {
         units.push(item);
       }
     },
     remove(ob) {
+      if (initErr) return;
       if (!ob) units.pop();
       else units = units.filter(item => item.img !== ob.img);
       if (units.length <= 1) this.pause();
