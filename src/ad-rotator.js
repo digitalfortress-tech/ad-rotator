@@ -20,7 +20,7 @@ function getDefaultConfig(shape = "square") {
     linkClass: "",
     objectFit: "inherit",
     sticky: null,
-    timer: 10000,
+    timer: 5000,
     random: true,
     newTab: false,
     debug: false
