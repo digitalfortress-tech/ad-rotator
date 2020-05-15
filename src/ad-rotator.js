@@ -52,7 +52,7 @@ function stickyPub(El, conf) {
       window.requestAnimationFrame(() => {
         if (scrollPos > startPos) {
           El.style.position = "fixed";
-          El.style.top = parseInt(offsetTop, 10) || 30 + "px";
+          El.style.top = ((parseInt(offsetTop, 10)) || 30) + "px";
         } else {
           El.style.position = "relative";
         }
