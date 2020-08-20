@@ -10,6 +10,7 @@ A fast, light-weight and highly configurable JS library to rotate advertisements
 - is a light-weight library, only [![](http://img.badgesize.io/https://cdn.jsdelivr.net/npm/ad-rotator?compression=gzip)](https://cdn.jsdelivr.net/npm/ad-rotator) minified and gzipped
 - supports **multiple instances** of advertisements in different sizes with many custom configuration options
 - Native support to pause ad-rotation on hover
+- Enables you to display **device specific ads** i.e. ads targeted towards mobile/desktop
 - Responsive/Optimised for mobiles & tablets
 - has built-in support for **_sticky_ advertisements**
 - is completely free and open source
@@ -90,7 +91,7 @@ rotator.start();
 That's it! You should now have Ad-rotation in action! By default, the Ads are rotated in a random fashion. See [`configuration options`](#configuration-options) for more variations. 
 
 
-_**_NOTE:_**_ By default, `adRotator` is designed to **fail silently** for any configuration error. This means that it will neither pollute the DOM nor will it attach any events if case of an error. It will also not log any console error messages. This can make it difficult to diagnose an error, hence during development, it is recommended to turn on the `{debug: true}` config option. 
+_**_NOTE:_**_ By default, `adRotator` is designed to **fail silently** for any configuration error. This means that it will neither pollute the DOM nor will it attach any events if case of an error. It will also not log any console error messages. This can make it difficult to diagnose an error, hence during initial setup/development, it is recommended to turn on the `{debug: true}` config option. 
 
 ### API
 
@@ -201,22 +202,22 @@ ad-rotator.js is instantiated with the default configuration parameters as shown
 
 #### Description - 
 
-1. **Shape** (_`String`_, default - `"square"`) - This is the expected shape of the Ad. It can also be set to `leaderboard` or `sidebar`. When set to **Leaderboard**, the standard horizontal size of height - 90px, width - 728px is used, whereas when shape is set to **Sidebar**, the standard size of height - 600px, width - 300px is used.
+1. **Shape** (_`String`_, default - `"square"`) - This is the expected shape of the Ad. It can also be set to `leaderboard` or `sidebar` or `mobile`. When set to **Leaderboard**, the standard horizontal size of height - 90px, width - 728px is used, when shape is set to **Sidebar**, the standard size of height - 600px, width - 300px is used and when the shape is set to **Mobile**, the width is set to the width of the mobile screen & the height is set to 90px. (These default values can be overriden with the following parameters). Setting shape to `mobile` also sets the target device to mobile, which means the ads in this instance will only be visible on a mobile device.
 2. **Height** (_`Int`_, default - `300` _px_) - The height of the advertisement
 3. **Width** (_`Int`_, default - `250` _px_) - The width of the advertisement
 4. **imgClass** (_`String`_, default - `""`) - Class that should be added to the image Tag
 5. **linkClass** (_`String`_, default - `""`) - Class that should be added to the link Tag
 6. **objectFit**: (_`String`_, default - `"inherit"`) - The `object-fit` property that should be used for the image (`inherit`,`contain`,`cover`, `fill`,...)
-7. **sticky**: (_`Object|null`_, default - `null`) - By default, the advertisement shown is not sticky. You can make it sticky by providing a configuration object -
+7. **sticky**: (_`Object|null`_, default - `null`) - By default, the advertisement shown is not sticky. To enable sticky advertisements, pass an empty object `sticky: {}`. Alternatively, you can customize sticky advertisements further by providing the following configuration properties -
 ```javascript
 sticky: {
     beforeEl: document.querySelector('.heading'),
     afterEl: document.querySelector('.summary'),
-    offsetTop: '10',        // or '10px' (defaults to 30px)
+    offsetTop: '10',        // or '10px' (defaults to 0px)
     offsetBottom: '150px',  // or '150'  (defaults to 0px)
 }
-// beforeEl -> Element before the advertisement
-// afterEl  -> Element after the advertisement
+// beforeEl => Element after which the ad becomes sticky
+// afterEl => Element after which ad stops being sticky
 ```
 8. **Timer**: (_`Int`_, default - `5000` _ms_). The time after which an advertisement will be rotated
 9. **random**: (_`Bool`_, default - `true`) The advertisements are rotated in a random fashion by default. Set to `false` to have them rotated sequentially
@@ -224,13 +225,16 @@ sticky: {
 11.  **debug**: (_`Bool`_, default - `false`) Set to `true` to see error information in the console. Recommended to turn this on during development.
 
 #### Note
-It is also possible to change configuration options after instantiation. (The only exception being that changing the `shape` option will not automatically change the `height` & `width` options) 
+It is possible to change configuration options after instantiation. 
 ```javascript
 // init AdRotator with default options
 const rotator = new AdRotator( /* options */ )
 // update config after instantiation to change to sequential rotation
 rotator.conf.random = false; 
 ```
+The only 2 exceptions are: 
+- Updating the `shape` config option will not automatically update the `height` & `width` config options as it does during instantiation. 
+- Updating the `shape` to `mobile` will not automatically set the target device to mobile as it does during instantiation.
 ---
 
 ### Contribute

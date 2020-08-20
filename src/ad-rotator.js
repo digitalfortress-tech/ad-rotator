@@ -5,6 +5,11 @@ import "./style.less";
  * @type {number}
  */
 const desktopWidth = 992;
+/**
+ * Detected device
+ * @type {string}
+ */
+const device = window.screen.availWidth >= desktopWidth ? "desktop" : "mobile";
 
 /**
  * DefaultConfig
@@ -25,12 +30,21 @@ function getDefaultConfig(shape = "square") {
     newTab: false,
     debug: false
   };
-  if (shape.toLowerCase() === "leaderboard") {
+  switch(shape.toLowerCase()) {
+  case "leaderboard":
     config.height = 90;
     config.width = 728;
-  } else if (shape.toLowerCase() === "sidebar") {
+    break;
+  case "sidebar":
     config.height = 600;
     config.width = 300;
+    break;
+  case "mobile":
+    config.width = window.screen.availWidth;
+    config.height = 90;
+    break;
+  default:
+    break;
   }
   return config;
 }
@@ -138,7 +152,7 @@ export default function (El, units = [], options = {}) {
         out.resume();
       });
       // make sticky
-      if (conf.sticky && window.screen.availWidth >= desktopWidth && typeof conf.sticky === "object") { this.scrollEventRef = stickyPub(El, conf); }
+      if (conf.sticky && typeof conf.sticky === "object" && (device === "desktop" || conf.shape === "mobile")) { this.scrollEventRef = stickyPub(El, conf); }
     },
     destroy() {
       const clone = El.cloneNode(true);
@@ -156,6 +170,7 @@ export default function (El, units = [], options = {}) {
     },
     start() {
       if (initErr) return;
+      if (conf.shape === "mobile" && device !== "mobile") return;
       eventManager.init();
       ret = rotateImage(El, units, conf, unitsClone);
       unitsClone = ret.unitsClone;
