@@ -25,6 +25,7 @@ function getDefaultConfig(shape = "square") {
     linkClass: "",
     objectFit: "inherit",
     sticky: null,
+    target: "all",
     timer: 5000,
     random: true,
     newTab: false,
@@ -42,6 +43,7 @@ function getDefaultConfig(shape = "square") {
   case "mobile":
     config.width = window.screen.availWidth;
     config.height = 90;
+    config.target = "mobile";
     break;
   default:
     break;
@@ -152,7 +154,7 @@ export default function (El, units = [], options = {}) {
         out.resume();
       });
       // make sticky
-      if (conf.sticky && typeof conf.sticky === "object" && (device === "desktop" || conf.shape === "mobile")) { this.scrollEventRef = stickyPub(El, conf); }
+      if (conf.sticky && typeof conf.sticky === "object") { this.scrollEventRef = stickyPub(El, conf); }
     },
     destroy() {
       const clone = El.cloneNode(true);
@@ -170,7 +172,9 @@ export default function (El, units = [], options = {}) {
     },
     start() {
       if (initErr) return;
-      if (conf.shape === "mobile" && device !== "mobile") return;
+      if (conf.target === "mobile" && device !== "mobile"
+        || conf.target === "desktop" && device !== "desktop"  
+      ) return;
       eventManager.init();
       ret = rotateImage(El, units, conf, unitsClone);
       unitsClone = ret.unitsClone;
