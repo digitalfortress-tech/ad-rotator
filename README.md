@@ -59,7 +59,7 @@ let items = [
 ```
 
 `img` can be an absolute URL, a relative URL or even a base-64 encoded image.
-- `Object` (optional) - An Object with custom configuration options to override default values. (See all [`configuration options`](#configuration-options))
+- `Object` (optional) - An Object with custom configuration options to override default values. (See all [`configuration options`](#configurationoptions))
 
 ## Usage 
 
@@ -88,7 +88,7 @@ const rotator = new AdRotator(
 // start the rotation
 rotator.start(); 
 ```
-That's it! You should now have Ad-rotation in action! By default, the Ads are rotated in a random fashion. See [`configuration options`](#configuration-options) for more variations. 
+That's it! You should now have Ad-rotation in action! By default, the Ads are rotated in a random fashion. See [`configuration options`](#configurationoptions) for more variations. 
 
 
 _**_NOTE:_**_ By default, `adRotator` is designed to **fail silently** for any configuration error. This means that it will neither pollute the DOM nor will it attach any events if case of an error. It will also not log any console error messages. This can make it difficult to diagnose an error, hence during initial setup/development, it is recommended to turn on the `{debug: true}` config option. 
@@ -96,14 +96,14 @@ _**_NOTE:_**_ By default, `adRotator` is designed to **fail silently** for any c
 ### API
 
 * [`AdRotator.start()`](#adrotatorstart)
-* [`AdRotator.pause()`](#adrotatorpause)
+* [`AdRotator.pause(force = false)`](#adrotatorpause)
 * [`AdRotator.resume()`](#adrotatorresume)
 * [`AdRotator.add()`](#adrotatoradd)
 * [`AdRotator.remove()`](#adrotatorremove)
 * [`AdRotator.destroy()`](#adrotatordestroy)
 
 
-#### AdRotator.`start()`
+#### <a id="adrotatorstart">AdRotator.`start()`</a>
 
 Starts the Ad-Rotation
 
@@ -119,16 +119,20 @@ const rotator = new AdRotator(
 rotator.start(); // starts the rotation
 ```
 
-#### AdRotator.`pause()`
+#### <a id="adrotatorpause">AdRotator.`pause(force = false)`</a>
 
-Pauses the Rotation. 
+Pauses the Rotation. It accepts 1 parameter (`force`) that is set to false by default.
+When called without the `force` parameter, the rotator instance will be paused only until the time the user views the Ad initially.
+i.e. if you the user scrolls away from the Ad and returns to it, rotation will continue. If this is not desired, use `pause(force)` 
+to disable rotation altogether
 ```javascript
 const rotator = new AdRotator( /* options */ )
 rotator.pause();        // pauses the rotation
+rotator.pause(true);    // force-pauses the rotation
 ```
 To resume the rotation, simply call `AdRotatorInstance.resume()`
 
-#### AdRotator.`resume()`
+#### <a id="adrotatorresume">AdRotator.`resume()`</a>
 
 Resumes the Rotation. 
 ```javascript
@@ -139,7 +143,7 @@ rotator.resume();        // resumes the rotation
 Use `AdRotatorInstance.resume()` to resume a paused rotation.
 
 
-#### AdRotator.`add()`
+#### <a id="adrotatoradd">AdRotator.`add()`</a>
 
 Inject a new Advertisement into the AdRotator.
 ```javascript
@@ -153,7 +157,7 @@ rotator.add(
 ```
 The newly injected Advertisement will be displayed in the next rotation cycle
 
-#### AdRotator.`remove()`
+#### <a id="adrotatorremove">AdRotator.`remove()`</a>
 
 Remove an item from the Advertisements array. 
 ```javascript
@@ -168,7 +172,7 @@ rotator.remove(   // remove a specific item
 ```
 The `remove()` method deletes the last item in the advertisements array. To remove a particular advertisement, you can also pass it a parameter (**`rotatorInstance.remove({ img: 'xyz.gif'})`**). The change in the Advertisements array will be reflected in the next rotation cycle
 
-#### AdRotator.`destroy()`
+#### <a id="adrotatordestroy">AdRotator.`destroy()`</a>
 
 Destroys Ad Rotation. Cleans up the DOM and removes all associated events.
 
@@ -179,7 +183,7 @@ rotator.destroy();        // destroys the rotation, DOM and events
 To reactivate AdRotator, simply call `AdRotatorInstance.start()`
 
 
-## Configuration Options
+## <a id="configurationoptions">Configuration Options</a>
 
 ad-rotator.js is instantiated with the default configuration parameters as shown below - 
 ```

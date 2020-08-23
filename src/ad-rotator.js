@@ -14,7 +14,7 @@ const device = window.screen.availWidth >= desktopWidth ? "desktop" : "mobile";
 /**
  * DefaultConfig
  * @param shape
- * @return {{timer: number, random: boolean, shape: string, objectFit: string, width: number, sticky: null, imgClass: string, linkClass: string, height: number}}
+ * @return {{timer: number, random: boolean, shape: string, objectFit: string, width: number, sticky: null, imgClass: string, linkClass: string, height: number, target: string}}
  */
 function getDefaultConfig(shape = "square") {
   let config = {
@@ -143,7 +143,8 @@ export default function (El, units = [], options = {}) {
 
   // Manage events
   const eventManager = {
-    scrollEventRef: null,
+    scrollEvRef: null,
+    obs: null,
     init() {
       this.destroy();
       El.addEventListener("mouseover", () => {
@@ -153,22 +154,44 @@ export default function (El, units = [], options = {}) {
       El.addEventListener("mouseout", () => {
         out.resume();
       });
+      // add observer
+      this.obsSt();
       // make sticky
-      if (conf.sticky && typeof conf.sticky === "object") { this.scrollEventRef = stickyPub(El, conf); }
+      if (conf.sticky && typeof conf.sticky === "object") { this.scrollEvRef = stickyPub(El, conf); }
     },
     destroy() {
       const clone = El.cloneNode(true);
       El.parentNode.replaceChild(clone, El);
       El = clone;
-      if (this.scrollEventRef)  window.removeEventListener("scroll", this.scrollEventRef);
+      if (this.scrollEvRef)  window.removeEventListener("scroll", this.scrollEvRef);
+      this.ubObs();
+    },
+    obsSt() {
+      this.obs = new IntersectionObserver(this.obsCb.bind(out), { threshold: 0.5 });
+      this.obs.observe(El);
+    },
+    obsCb(entries) {
+      entries.forEach(entry => {
+        if (entry.intersectionRatio >= 0.5) {
+          this.resume();
+        } else {
+          this.pause();
+        }
+      });
+    },
+    ubObs() {
+      if (this.obs) {
+        this.obs.unobserve(El);
+      }
     }
   };
 
   // prepare output
   const out = {
     conf,
-    pause() {
+    pause(force = false) {
       if (inter) { clearInterval(inter);}
+      if (force) { eventManager.ubObs();}
     },
     start() {
       if (initErr) return;
