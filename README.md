@@ -13,6 +13,8 @@ A fast, light-weight and highly configurable JS library to rotate advertisements
 - Enables you to display **device specific ads** i.e. ads targeted towards mobile/desktop
 - Responsive/Optimised for mobiles & tablets
 - has built-in support for **_sticky_ advertisements**
+- uses IntersectionObserver API to handle rotation improving performance and reducing browser paints.
+- Supports almost every browser! (*Only IE is unsupported, but you may use a [polyfill](https://github.com/w3c/IntersectionObserver/tree/master/polyfill))
 - is completely free and open source
 
 ---
@@ -96,7 +98,7 @@ _**_NOTE:_**_ By default, `adRotator` is designed to **fail silently** for any c
 ### API
 
 * [`AdRotator.start()`](#adrotatorstart)
-* [`AdRotator.pause(force = false)`](#adrotatorpause)
+* [`AdRotator.pause()`](#adrotatorpause)
 * [`AdRotator.resume()`](#adrotatorresume)
 * [`AdRotator.add()`](#adrotatoradd)
 * [`AdRotator.remove()`](#adrotatorremove)
@@ -119,16 +121,12 @@ const rotator = new AdRotator(
 rotator.start(); // starts the rotation
 ```
 
-#### <a id="adrotatorpause">AdRotator.`pause(force = false)`</a>
+#### <a id="adrotatorpause">AdRotator.`pause()`</a>
 
-Pauses the Rotation. It accepts 1 parameter (`force`) that is set to false by default.
-When called without the `force` parameter, the rotator instance will be paused only until the time the user views the Ad initially.
-i.e. if you the user scrolls away from the Ad and returns to it, rotation will continue. If this is not desired, use `pause(force)` 
-to disable rotation altogether
+Pauses the Rotation. However, if the user scrolls away from the Ad such that it is not visible anymore, but scrolls back to it, rotation will resume automatically. Rotation cannot be paused permanently because that would beat the purpose of this library.
 ```javascript
 const rotator = new AdRotator( /* options */ )
 rotator.pause();        // pauses the rotation
-rotator.pause(true);    // force-pauses the rotation
 ```
 To resume the rotation, simply call `AdRotatorInstance.resume()`
 
@@ -228,7 +226,7 @@ sticky: {
 9. **timer**: (_`Int`_, default - `5000` _ms_). The time after which an advertisement will be rotated
 10. **random**: (_`Bool`_, default - `true`) The advertisements are rotated in a random fashion by default. Set to `false` to have them rotated sequentially
 11. **newTab**: (_`Bool`_, default - `false`) Set to `true` to open the advertisement URL in a new Tab
-12.  **debug**: (_`Bool`_, default - `false`) Set to `true` to see error information in the console. Recommended to turn this on during development.
+12.  **debug**: (_`Bool`_, default - `false`) Set to `true` to see error information in the console. Recommended to turn this on during setup/development.
 
 #### Note
 It is possible to change configuration options after instantiation. 

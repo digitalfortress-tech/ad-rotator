@@ -155,7 +155,8 @@ export default function (El, units = [], options = {}) {
         out.resume();
       });
       // add observer
-      this.obsSt();
+      this.obs = new IntersectionObserver(this.obsCb.bind(out), {threshold: 0.5});
+      this.obs.observe(El);
       // make sticky
       if (conf.sticky && typeof conf.sticky === "object") { this.scrollEvRef = stickyPub(El, conf); }
     },
@@ -164,11 +165,7 @@ export default function (El, units = [], options = {}) {
       El.parentNode.replaceChild(clone, El);
       El = clone;
       if (this.scrollEvRef)  window.removeEventListener("scroll", this.scrollEvRef);
-      this.ubObs();
-    },
-    obsSt() {
-      this.obs = new IntersectionObserver(this.obsCb.bind(out), { threshold: 0.5 });
-      this.obs.observe(El);
+      if (this.obs) this.obs.unobserve(El);
     },
     obsCb(entries) {
       entries.forEach(entry => {
@@ -179,19 +176,13 @@ export default function (El, units = [], options = {}) {
         }
       });
     },
-    ubObs() {
-      if (this.obs) {
-        this.obs.unobserve(El);
-      }
-    }
   };
 
   // prepare output
   const out = {
     conf,
-    pause(force = false) {
+    pause() {
       if (inter) { clearInterval(inter);}
-      if (force) { eventManager.ubObs();}
     },
     start() {
       if (initErr) return;
