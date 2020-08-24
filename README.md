@@ -50,8 +50,8 @@ The library will be available as a global object at `window.adRotator`
 ## Configuration
 
 Ad-rotator.js requires 2 mandatory parameters to be setup. A 3rd optional parameter can be provided to override default values.
-- `DOM element` (required) - A container Element where the Ads should be displayed
-- `Array` (required) - An Array of Advertisements(`[{url: '', img: ''},...]`) to be displayed. Each advertisement is expected to be an object with 2 mandatory keys `img` and `url` -
+- **`DOM element` (required)** - A container Element where the Ads should be displayed
+- **`Array` (required)** - An Array of Advertisements(`[{url: '', img: ''},...]`) to be displayed. Each advertisement is expected to be an object with 2 mandatory keys `img` and `url` -
 ```javascript
 let items = [
   {img: './assets/image.jpg', url: 'https://xyz#1'},                      // ad 1
@@ -61,7 +61,7 @@ let items = [
 ```
 
 `img` can be an absolute URL, a relative URL or even a base-64 encoded image.
-- `Object` (optional) - An Object with custom configuration options to override default values. (See all [`configuration options`](#configurationoptions))
+- **`Object` (optional)** - An Object with custom configuration options to override default values. (See all **[`configuration options`](#configurationoptions)**)
 
 ## Usage 
 
@@ -184,34 +184,39 @@ To reactivate AdRotator, simply call `AdRotatorInstance.start()`
 ## <a id="configurationoptions">Configuration Options</a>
 
 ad-rotator.js is instantiated with the default configuration parameters as shown below - 
-```
+```javascript
 // Default Configuration parameters
 {
     shape: "square",
     height: 300,
     width: 250,
+    timer: 5000,
+    target: "all",
     imgClass: "",
     linkClass: "",
     objectFit: "inherit",
-    sticky: null,
-    target: "all",
-    timer: 5000,
     random: true,
     newTab: false,
-    debug: false
+    debug: false,
+    sticky: null,
 }
 ```
 ---
 
 #### Description - 
 
-1. **Shape** (_`String`_, default - `"square"`) - This is the expected shape of the Ad. It can also be set to `leaderboard` or `sidebar` or `mobile`. When set to **Leaderboard**, the standard horizontal size of height - 90px, width - 728px is used, when shape is set to **Sidebar**, the standard size of height - 600px, width - 300px is used and when the shape is set to **Mobile**, the width is set to the width of the mobile screen & the height is set to 90px. (These default values can be overriden with the following parameters). Setting shape to `mobile` also sets the `target` device to mobile, which means the ads in this instance will only be visible on a mobile device.
+1. **Shape** (_`String`_, default - `"square"`) - This is the expected shape of the Ad. It can also be set to `square`, `leaderboard`, `sidebar` or `mobile`. By default, the shape is set to **square** with a height 300px and width of 250px. When set to **Leaderboard**, the standard horizontal size of height - 90px, width - 728px is used, when shape is set to **Sidebar**, the standard size of height - 600px, width - 300px is used and when the shape is set to **Mobile**, the width is set to the width of the mobile device & the height is set to 90px. (These default values can be overriden). Setting shape to `mobile` also sets the `target` device to mobile, which means the ads in this instance will only be visible on a mobile device.
 2. **Height** (_`Int`_, default - `300` _px_) - The height of the advertisement
 3. **Width** (_`Int`_, default - `250` _px_) - The width of the advertisement
-4. **imgClass** (_`String`_, default - `""`) - Class that should be added to the image Tag
-5. **linkClass** (_`String`_, default - `""`) - Class that should be added to the link Tag
-6. **objectFit**: (_`String`_, default - `"inherit"`) - The `object-fit` property that should be used for the image (`inherit`,`contain`,`cover`, `fill`,...)
-7. **sticky**: (_`Object|null`_, default - `null`) - By default, the advertisement shown is not sticky. To enable sticky advertisements, pass an empty object `sticky: {}`. Alternatively, you can customize sticky advertisements further by providing the following configuration properties -
+4. **timer**: (_`Int`_, default - `5000` _ms_). The time after which an advertisement will be rotated
+5. **target**: (_`String`_, default - `all`). The target device. Can be set to `desktop`, `mobile` or `all`. When set to desktop, ads will be shown only on a desktop device whereas when set to mobile, ads will be displayed on a mobile device alone. By default, ads are shown on all devices.
+6. **imgClass** (_`String`_, default - `""`) - Class that should be added to the image Tag
+7. **linkClass** (_`String`_, default - `""`) - Class that should be added to the link Tag
+8. **objectFit**: (_`String`_, default - `"inherit"`) - The `object-fit` property that should be used for the image (`inherit`,`contain`,`cover`, `fill`,...)
+9. **random**: (_`Bool`_, default - `true`) The advertisements are rotated in a random fashion by default. Set to `false` to have them rotated sequentially
+10. **newTab**: (_`Bool`_, default - `false`) Set to `true` to open the advertisement URL in a new Tab
+11. **debug**: (_`Bool`_, default - `false`) Set to `true` to see error information in the console. Recommended to turn this on during setup/development.
+12. **sticky**: (_`Object|null`_, default - `null`) - By default, the advertisement shown is not sticky. To enable sticky advertisements, pass an empty object `sticky: {}`. Alternatively, you can customize sticky advertisements further by providing the following configuration properties -
 ```javascript
 sticky: {
     beforeEl: document.querySelector('.heading'),
@@ -222,12 +227,6 @@ sticky: {
 // beforeEl => Element after which the ad becomes sticky
 // afterEl => Element after which ad stops being sticky
 ```
-8. **target**: (_`String`_, default - `all`). The target device. Can be set to `desktop`, `mobile` or `all`. When set to desktop, ads will be shown only on a desktop device whereas when set to mobile, ads will be displayed on a mobile device alone. By default, ads are shown on all devices.
-9. **timer**: (_`Int`_, default - `5000` _ms_). The time after which an advertisement will be rotated
-10. **random**: (_`Bool`_, default - `true`) The advertisements are rotated in a random fashion by default. Set to `false` to have them rotated sequentially
-11. **newTab**: (_`Bool`_, default - `false`) Set to `true` to open the advertisement URL in a new Tab
-12.  **debug**: (_`Bool`_, default - `false`) Set to `true` to see error information in the console. Recommended to turn this on during setup/development.
-
 #### Note
 It is possible to change configuration options after instantiation. 
 ```javascript
