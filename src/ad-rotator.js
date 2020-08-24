@@ -10,6 +10,11 @@ const desktopWidth = 992;
  * @type {string}
  */
 const device = window.screen.availWidth >= desktopWidth ? "desktop" : "mobile";
+/**
+ * A no-operation function
+ * @type {function () {}}
+ */
+const noop = () => {};
 
 /**
  * DefaultConfig
@@ -29,6 +34,7 @@ function getDefaultConfig(shape = "square") {
     timer: 5000,
     random: true,
     newTab: false,
+    cb: null,
     debug: false
   };
   switch(shape.toLowerCase()) {
@@ -100,7 +106,7 @@ function rotateImage(El, units, conf, unitsClone, prevItem = {})  {
     }
   } else {                                                                                          // sequential
     unit = unitsClone.shift();
-    if (!unitsClone.length) unitsClone = JSON.parse(JSON.stringify(units));             // reset clone when array length is reached
+    if (!unitsClone.length) unitsClone = JSON.parse(JSON.stringify(units));                         // reset clone when array length is reached
   }
 
   // create link
@@ -119,6 +125,13 @@ function rotateImage(El, units, conf, unitsClone, prevItem = {})  {
   link.appendChild(img);
   // add the link to the El
   El.childNodes[0] ? El.replaceChild(link, El.childNodes[0]) : El.appendChild(link);
+
+  // exec callback
+  try {
+    (conf.cb || noop)(unit, El, conf);
+  } catch (e) {
+    conf.debug && console.error("Callback Error", conf.cb, e);
+  }
 
   return {
     unitsClone,
@@ -193,7 +206,7 @@ export default function (El, units = [], options = {}) {
       ret = rotateImage(El, units, conf, unitsClone);
       unitsClone = ret.unitsClone;
       prevItem = ret.prevItem;
-      this.resume();
+      // this.resume(); // deprecated
     },
     resume() {
       if (initErr) return;

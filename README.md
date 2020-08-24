@@ -123,11 +123,19 @@ rotator.start(); // starts the rotation
 
 #### <a id="adrotatorpause">AdRotator.`pause()`</a>
 
-Pauses the Rotation. However, if the user scrolls away from the Ad such that it is not visible anymore, but scrolls back to it, rotation will resume automatically. Rotation cannot be paused permanently because that would beat the purpose of this library.
+Pauses the Rotation. However, if the user clicks/hovers the Ad or scrolls away from the Ad such that it is not visible anymore & then scrolls back to it, rotation will resume automatically. Rotation cannot be paused permanently because that would beat the purpose of this library.
 ```javascript
 const rotator = new AdRotator( /* options */ )
-rotator.pause();        // pauses the rotation
+rotator.pause();                  // pauses the rotation
+
+/* You can also use "pause" in the cb(callback) config option to 
+ * pause every advertisement after it has been clicked/hovered upon, 
+ * or after it has been scrolled out of view.
+ */
+rotator.conf.cb = rotator.pause;
 ```
+See [cb(callback) config option](#configurationoptions) for further details on its usage.
+
 To resume the rotation, simply call `AdRotatorInstance.resume()`
 
 #### <a id="adrotatorresume">AdRotator.`resume()`</a>
@@ -192,6 +200,7 @@ ad-rotator.js is instantiated with the default configuration parameters as shown
     width: 250,
     timer: 5000,
     target: "all",
+    cb: null,
     imgClass: "",
     linkClass: "",
     objectFit: "inherit",
@@ -210,13 +219,14 @@ ad-rotator.js is instantiated with the default configuration parameters as shown
 3. **Width** (_`Int`_, default - `250` _px_) - The width of the advertisement
 4. **timer**: (_`Int`_, default - `5000` _ms_). The time after which an advertisement will be rotated
 5. **target**: (_`String`_, default - `all`). The target device. Can be set to `desktop`, `mobile` or `all`. When set to desktop, ads will be shown only on a desktop device whereas when set to mobile, ads will be displayed on a mobile device alone. By default, ads are shown on all devices.
-6. **imgClass** (_`String`_, default - `""`) - Class that should be added to the image Tag
-7. **linkClass** (_`String`_, default - `""`) - Class that should be added to the link Tag
-8. **objectFit**: (_`String`_, default - `"inherit"`) - The `object-fit` property that should be used for the image (`inherit`,`contain`,`cover`, `fill`,...)
-9. **random**: (_`Bool`_, default - `true`) The advertisements are rotated in a random fashion by default. Set to `false` to have them rotated sequentially
-10. **newTab**: (_`Bool`_, default - `false`) Set to `true` to open the advertisement URL in a new Tab
-11. **debug**: (_`Bool`_, default - `false`) Set to `true` to see error information in the console. Recommended to turn this on during setup/development.
-12. **sticky**: (_`Object|null`_, default - `null`) - By default, the advertisement shown is not sticky. To enable sticky advertisements, pass an empty object `sticky: {}`. Alternatively, you can customize sticky advertisements further by providing the following configuration properties -
+6. **cb**: (_`function | null`_, default - `null`) - A **callback** that is executed on every image rotation. The callback receives 3 parameters `cb(currentAdUnit, parentElement, configParams)`. This callback can be used for analytics, to programmatically control the rotator instance or for any other purpose.
+7. **imgClass** (_`String`_, default - `""`) - Class that should be added to the image Tag
+8. **linkClass** (_`String`_, default - `""`) - Class that should be added to the link Tag
+9. **objectFit**: (_`String`_, default - `"inherit"`) - The `object-fit` property that should be used for the image (`inherit`,`contain`,`cover`, `fill`,...)
+10. **random**: (_`Bool`_, default - `true`) The advertisements are rotated in a random fashion by default. Set to `false` to have them rotated sequentially
+11. **newTab**: (_`Bool`_, default - `false`) Set to `true` to open the advertisement URL in a new Tab
+12. **debug**: (_`Bool`_, default - `false`) Set to `true` to see error information in the console. Recommended to turn this on during setup/development.
+13. **sticky**: (_`Object|null`_, default - `null`) - By default, the advertisement shown is not sticky. To enable sticky advertisements, pass an empty object `sticky: {}`. Alternatively, you can customize sticky advertisements further by providing the following configuration properties -
 ```javascript
 sticky: {
     beforeEl: document.querySelector('.heading'),
