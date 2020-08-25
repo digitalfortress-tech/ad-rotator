@@ -93,7 +93,7 @@ rotator.start();
 That's it! You should now have Ad-rotation in action! By default, the Ads are rotated in a random fashion. See [`configuration options`](#configurationoptions) for more variations. 
 
 
-_**_NOTE:_**_ By default, `adRotator` is designed to **fail silently** for any configuration error. This means that it will neither pollute the DOM nor will it attach any events if case of an error. It will also not log any console error messages. This can make it difficult to diagnose an error, hence during initial setup/development, it is recommended to turn on the `{debug: true}` config option. 
+_**_NOTE:_**_ By default, `adRotator` is designed to **fail silently** for any configuration error. This means that it will neither pollute the DOM nor will it attach any events in case of an error. It will also not log any console error messages. This can make it difficult to diagnose an error, hence during initial setup/development, it is recommended to turn on the `{debug: true}` config option. 
 
 ### API
 
@@ -214,7 +214,7 @@ ad-rotator.js is instantiated with the default configuration parameters as shown
 
 #### Description - 
 
-1. **Shape** (_`String`_, default - `"square"`) - This is the expected shape of the Ad. It can also be set to `square`, `leaderboard`, `sidebar` or `mobile`. By default, the shape is set to **square** with a height 300px and width of 250px. When set to **Leaderboard**, the standard horizontal size of height - 90px, width - 728px is used, when shape is set to **Sidebar**, the standard size of height - 600px, width - 300px is used and when the shape is set to **Mobile**, the width is set to the width of the mobile device & the height is set to 90px. (These default values can be overriden). Setting shape to `mobile` also sets the `target` device to mobile, which means the ads in this instance will only be visible on a mobile device.
+1. **Shape** (_`String`_, default - `"square"`) - This is the expected shape of the Ad. It can also be set to `square`, `leaderboard`, `sidebar` or `mobile`. By default, the shape is set to **square** with a height of 300px and width of 250px. When set to **Leaderboard**, the standard horizontal size of height - 90px, width - 728px is used, when shape is set to **Sidebar**, the standard size of height - 600px, width - 300px is used and when the shape is set to **Mobile**, the width is set to the width of the mobile device & the height is set to 90px. (These default values can be overriden). Setting shape to `mobile` also sets the `target` device to mobile, which means the ads in this instance will only be visible on a mobile device.
 2. **Height** (_`Int`_, default - `300` _px_) - The height of the advertisement
 3. **Width** (_`Int`_, default - `250` _px_) - The width of the advertisement
 4. **timer**: (_`Int`_, default - `5000` _ms_). The time after which an advertisement will be rotated
