@@ -36,4 +36,26 @@ document.addEventListener("DOMContentLoaded", function () {
   $(function () {
     $('[data-toggle="tooltip"]').tooltip();
   });
+
+  /*****************************************************************************************/
+  /************************************** CUSTOM *******************************************/
+  /*****************************************************************************************/
+
+  var rotatorLeaderboard = new adRotator(
+    document.getElementById("leadboardAdContainer"),
+    [
+      { url: "https://niketpathak.com#1", img: "./assets/img/leaderboard/leaderboard-1.gif" },
+      { url: "https://niketpathak.com#1", img: "./assets/img/leaderboard/leaderboard-2.jpeg" },
+      { url: "https://niketpathak.com#1", img: "./assets/img/leaderboard/leaderboard-3.gif" },
+      { url: "https://niketpathak.com#1", img: "./assets/img/leaderboard/leaderboard-4.gif" },
+      { url: "https://niketpathak.com#1", img: "./assets/img/leaderboard/leaderboard-5.png" },
+    ],
+    {
+      shape: "leaderboard",
+      target: "desktop",
+      debug: true, // optional
+    }
+  );
+  // start the rotation
+  rotatorLeaderboard.start();
 });
