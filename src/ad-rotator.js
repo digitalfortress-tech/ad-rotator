@@ -58,7 +58,7 @@ function getDefaultConfig(shape = "square") {
 }
 
 function stickyPub(El, conf) {
-  let {beforeEl, afterEl, offsetTop, offsetBottom} = conf.sticky;
+  let {beforeEl, afterEl, offsetTop, offsetBottom, zIndex} = conf.sticky;
   let startPos = 0, endPos = 0, scrollPos = 0;
   let ticking = false;
   if (beforeEl && beforeEl instanceof HTMLElement) {
@@ -67,6 +67,7 @@ function stickyPub(El, conf) {
   if (afterEl && afterEl instanceof HTMLElement) {
     endPos = afterEl.offsetTop;
   }
+  El.style.zIndex = ((parseInt(zIndex, 10)) || 1);  // set z-index
 
   const eventHandler = () => {
     if (!ticking) {

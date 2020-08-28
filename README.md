@@ -233,6 +233,7 @@ sticky: {
     afterEl: document.querySelector('.summary'),
     offsetTop: '10',        // or '10px' (defaults to 0px)
     offsetBottom: '150px',  // or '150'  (defaults to 0px)
+    zIndex: 10,             //  (defaults to 1)
 }
 // beforeEl => Element after which the ad becomes sticky
 // afterEl => Element after which ad stops being sticky
