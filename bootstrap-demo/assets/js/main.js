@@ -36,26 +36,42 @@ document.addEventListener("DOMContentLoaded", function () {
   $(function () {
     $('[data-toggle="tooltip"]').tooltip();
   });
-
-  /*****************************************************************************************/
-  /************************************** CUSTOM *******************************************/
-  /*****************************************************************************************/
-
-  var rotatorLeaderboard = new adRotator(
-    document.getElementById("leadboardAdContainer"),
-    [
-      { url: "https://niketpathak.com#1", img: "./assets/img/leaderboard/leaderboard-1.gif" },
-      { url: "https://niketpathak.com#1", img: "./assets/img/leaderboard/leaderboard-2.jpeg" },
-      { url: "https://niketpathak.com#1", img: "./assets/img/leaderboard/leaderboard-3.gif" },
-      { url: "https://niketpathak.com#1", img: "./assets/img/leaderboard/leaderboard-4.gif" },
-      { url: "https://niketpathak.com#1", img: "./assets/img/leaderboard/leaderboard-5.png" },
-    ],
-    {
-      shape: "leaderboard",
-      target: "desktop",
-      debug: true, // optional
-    }
-  );
-  // start the rotation
-  rotatorLeaderboard.start();
 });
+
+/*****************************************************************************************/
+/************************************** CUSTOM *******************************************/
+/*****************************************************************************************/
+
+var rotatorLeaderboard = new adRotator(
+  document.getElementById("leadboardAdContainer"),
+  [
+    { url: "https://niketpathak.com#1", img: "./assets/img/leaderboard/leaderboard-1.gif" },
+    { url: "https://niketpathak.com#1", img: "./assets/img/leaderboard/leaderboard-2.jpeg" },
+    { url: "https://niketpathak.com#1", img: "./assets/img/leaderboard/leaderboard-3.gif" },
+    { url: "https://niketpathak.com#1", img: "./assets/img/leaderboard/leaderboard-4.gif" },
+    { url: "https://niketpathak.com#1", img: "./assets/img/leaderboard/leaderboard-5.png" },
+  ],
+  {
+    shape: "leaderboard",
+    target: "desktop",
+    debug: true, // optional
+  }
+);
+rotatorLeaderboard.start(); // start the rotation
+
+var rotatorMobile = new adRotator(
+  document.querySelector(".mobileAdContainer"),
+  [
+    { url: "https://niketpathak.com#1", img: "./assets/img/leaderboard/leaderboard-1.gif" },
+    { url: "https://niketpathak.com#1", img: "./assets/img/leaderboard/leaderboard-2.jpeg" },
+    { url: "https://niketpathak.com#1", img: "./assets/img/leaderboard/leaderboard-3.gif" },
+    { url: "https://niketpathak.com#1", img: "./assets/img/leaderboard/leaderboard-4.gif" },
+    { url: "https://niketpathak.com#1", img: "./assets/img/leaderboard/leaderboard-5.png" },
+  ],
+  {
+    shape: "mobile",
+    sticky: { beforeEl: document.querySelector(".page-heading > h1"), offsetTop: 0 },
+    debug: true, // optional
+  }
+);
+rotatorMobile.start(); // start the rotation
