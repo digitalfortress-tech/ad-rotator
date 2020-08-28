@@ -63,10 +63,12 @@ function stickyPub(El, conf) {
   let startPos = 0, endPos = 0, scrollPos = 0;
   let ticking = false;
   if (beforeEl && beforeEl instanceof HTMLElement) {
-    startPos = beforeEl.offsetTop;
+    const props = beforeEl.getBoundingClientRect();
+    startPos = window.pageYOffset + props.top + props.height;
   }
   if (afterEl && afterEl instanceof HTMLElement) {
-    endPos = afterEl.offsetTop;
+    endPos = window.pageYOffset + afterEl.getBoundingClientRect().top;
+
   }
 
   const eventHandler = () => {

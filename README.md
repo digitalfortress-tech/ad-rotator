@@ -237,7 +237,7 @@ sticky: {
 // beforeEl => Element after which the ad becomes sticky
 // afterEl => Element after which ad stops being sticky
 ```
-A class **`stickyElx`** is added to the sticky Element's container to allow further fine-tuning such as customizing css properties (like z-index), using media queries and so on.
+A class **`stickyElx`** is added dynamically to the sticky Element's container to allow further fine-tuning such as customizing css properties (like z-index), using media queries and so on.
 
 ---
 
