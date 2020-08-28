@@ -75,3 +75,27 @@ var rotatorMobile = new adRotator(
   }
 );
 rotatorMobile.start(); // start the rotation
+
+var rotatorSidebar = new adRotator(
+  document.querySelector(".sidebarAdContainer"),
+  [
+    { url: "https://niketpathak.com#1", img: "./assets/img/sidebar/sidebar-1.jpg" },
+    { url: "https://niketpathak.com#1", img: "./assets/img/sidebar/sidebar-2.jpg" },
+    { url: "https://niketpathak.com#1", img: "./assets/img/sidebar/sidebar-3.jpg" },
+    { url: "https://niketpathak.com#1", img: "./assets/img/sidebar/sidebar-4.jpg" },
+    { url: "https://niketpathak.com#1", img: "./assets/img/sidebar/sidebar-5.png" },
+    { url: "https://niketpathak.com#1", img: "./assets/img/sidebar/sidebar-6.jpg" },
+    { url: "https://niketpathak.com#1", img: "./assets/img/sidebar/sidebar-7.jpg" },
+  ],
+  {
+    shape: "sidebar",
+    sticky: {
+      offsetTop: 55,
+      offsetBottom: 50,
+      beforeEl: document.querySelector(".sidebar .card"),
+      afterEl: document.querySelector(".subscribe-area"),
+    },
+    debug: true, // optional
+  }
+);
+rotatorSidebar.start(); // start the rotation
