@@ -21,7 +21,7 @@ const noop = () => {};
  * @param shape
  * @return {{timer: number, random: boolean, shape: string, objectFit: string, width: number, sticky: null, imgClass: string, linkClass: string, height: number, target: string}}
  */
-function getDefaultConfig(shape = "square") {
+function getDefaultConfig(El, shape = "square") {
   let config = {
     shape: "square",
     height: 300,
@@ -47,13 +47,14 @@ function getDefaultConfig(shape = "square") {
     config.width = 300;
     break;
   case "mobile":
-    config.width = window.screen.availWidth;
+    config.width = El.clientWidth; // window.screen.availWidth;
     config.height = 90;
     config.target = "mobile";
     break;
   default:
     break;
   }
+
   return config;
 }
 
@@ -142,7 +143,7 @@ function rotateImage(El, units, conf, unitsClone, prevItem = {})  {
 
 export default function (El, units = [], options = {}) {
   let initErr = false;
-  const conf = Object.assign({}, getDefaultConfig(options.shape || ""), options);
+  const conf = Object.assign({}, getDefaultConfig(El, options.shape || ""), options);
   if (!El || !(El instanceof HTMLElement) || !units || !(units instanceof Array) || !units.length || !(units[0] instanceof Object) || !units[0].url || !units[0].img
           || isNaN(conf.timer) || isNaN(conf.height) || isNaN(conf.width)
   ) {
