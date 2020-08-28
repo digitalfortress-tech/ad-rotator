@@ -59,7 +59,7 @@ function getDefaultConfig(El, shape = "square") {
 }
 
 function stickyPub(El, conf) {
-  let {beforeEl, afterEl, offsetTop, offsetBottom, zIndex} = conf.sticky;
+  let {beforeEl, afterEl, offsetTop, offsetBottom} = conf.sticky;
   let startPos = 0, endPos = 0, scrollPos = 0;
   let ticking = false;
   if (beforeEl && beforeEl instanceof HTMLElement) {
@@ -68,23 +68,24 @@ function stickyPub(El, conf) {
   if (afterEl && afterEl instanceof HTMLElement) {
     endPos = afterEl.offsetTop;
   }
-  El.style.zIndex = ((parseInt(zIndex, 10)) || 1);  // set z-index
-  El.style.transition = "all 0.5s";                 // add transition (works for top property)
 
   const eventHandler = () => {
     if (!ticking) {
       scrollPos = window.scrollY;
       window.requestAnimationFrame(() => {
         if (scrollPos > startPos) {
+          El.classList.add("stickyElx");
           El.style.position = "fixed";
           El.style.top = ((parseInt(offsetTop, 10)) || 0) + "px";
         } else {
-          El.style.position = "relative";
           El.style.top = 0;
+          El.style.position = "relative";
+          El.classList.remove("stickyElx");
         }
         if (endPos && scrollPos > (endPos - conf.height - (parseInt(offsetBottom, 10) || 0))) {
-          El.style.position = "relative";
           El.style.top = 0;
+          El.style.position = "relative";
+          El.classList.remove("stickyElx");
         }
         ticking = false;
       });

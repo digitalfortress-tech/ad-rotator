@@ -226,18 +226,21 @@ ad-rotator.js is instantiated with the default configuration parameters as shown
 10. **random**: (_`Bool`_, default - `true`) The advertisements are rotated in a random fashion by default. Set to `false` to have them rotated sequentially
 11. **newTab**: (_`Bool`_, default - `false`) Set to `true` to open the advertisement URL in a new Tab
 12. **debug**: (_`Bool`_, default - `false`) Set to `true` to see error information in the console. Recommended to turn this on during setup/development.
-13. **sticky**: (_`Object|null`_, default - `null`) - By default, the advertisement shown is not sticky. To enable sticky advertisements, pass an empty object `sticky: {}`. Alternatively, you can customize sticky advertisements further by providing the following configuration properties -
+13. **sticky**: (_`Object|null`_, default - `null`) - By default, the advertisement shown is not sticky. To enable sticky advertisements, pass an empty object `sticky: {}`. You can customize sticky advertisements by providing the following configuration properties -
 ```javascript
 sticky: {
     beforeEl: document.querySelector('.heading'),
     afterEl: document.querySelector('.summary'),
     offsetTop: '10',        // or '10px' (defaults to 0px)
     offsetBottom: '150px',  // or '150'  (defaults to 0px)
-    zIndex: 10,             //  (defaults to 1)
 }
 // beforeEl => Element after which the ad becomes sticky
 // afterEl => Element after which ad stops being sticky
 ```
+A class **`stickyElx`** is added to the sticky Element's container to allow further fine-tuning such as customizing css properties (like z-index), using media queries and so on.
+
+---
+
 #### Note
 It is possible to change configuration options after instantiation. 
 ```javascript
