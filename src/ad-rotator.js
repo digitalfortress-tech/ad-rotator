@@ -69,6 +69,7 @@ function stickyPub(El, conf) {
     endPos = afterEl.offsetTop;
   }
   El.style.zIndex = ((parseInt(zIndex, 10)) || 1);  // set z-index
+  El.style.transition = "all 0.5s";                 // add transition (works for top property)
 
   const eventHandler = () => {
     if (!ticking) {
@@ -79,9 +80,11 @@ function stickyPub(El, conf) {
           El.style.top = ((parseInt(offsetTop, 10)) || 0) + "px";
         } else {
           El.style.position = "relative";
+          El.style.top = 0;
         }
         if (endPos && scrollPos > (endPos - conf.height - (parseInt(offsetBottom, 10) || 0))) {
           El.style.position = "relative";
+          El.style.top = 0;
         }
         ticking = false;
       });
