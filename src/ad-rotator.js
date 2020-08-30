@@ -169,11 +169,11 @@ export default function (El, units = [], options = {}) {
     obs: null,
     init() {
       this.destroy();
-      El.addEventListener("mouseover", () => {
+      El.addEventListener("mouseenter", () => {
         out.pause();
       });
 
-      El.addEventListener("mouseout", () => {
+      El.addEventListener("mouseleave", () => {
         out.resume();
       });
       // add observer
