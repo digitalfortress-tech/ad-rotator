@@ -58,7 +58,9 @@ function getDefaultConfig(El, shape = "square") {
   return config;
 }
 
-function stickyPub(El, conf) {
+function stickyEl(El, conf) {
+  if (!El || !conf || !(El instanceof HTMLElement) || !(conf instanceof Object)) return 0;
+
   let {beforeEl, afterEl, offsetTop, offsetBottom} = conf.sticky;
   let startPos = 0, endPos = 0, scrollPos = 0;
   let ticking = false;
@@ -68,7 +70,6 @@ function stickyPub(El, conf) {
   }
   if (afterEl && afterEl instanceof HTMLElement) {
     endPos = window.pageYOffset + afterEl.getBoundingClientRect().top;
-
   }
 
   const eventHandler = () => {
@@ -179,7 +180,7 @@ export default function (El, units = [], options = {}) {
       this.obs = new IntersectionObserver(this.obsCb.bind(out), {threshold: 0.5});
       this.obs.observe(El);
       // make sticky
-      if (conf.sticky && typeof conf.sticky === "object") { this.scrollEvRef = stickyPub(El, conf); }
+      if (conf.sticky && typeof conf.sticky === "object") { this.scrollEvRef = stickyEl(El, conf); }
     },
     destroy() {
       const clone = El.cloneNode(true);
