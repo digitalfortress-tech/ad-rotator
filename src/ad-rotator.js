@@ -35,6 +35,7 @@ function getDefaultConfig(El, shape = "square") {
     random: true,
     newTab: false,
     cb: null,
+    onHover: null,
     debug: false
   };
   switch(shape.toLowerCase()) {
@@ -139,7 +140,7 @@ function rotateImage(El, units, conf, unitsClone, prevItem = {})  {
   try {
     (conf.cb || noop)(unit, El, conf);
   } catch (e) {
-    conf.debug && console.error("Callback Error", conf.cb, e);
+    conf.debug && console.error("Callback Error", e);
   }
 
   return {
@@ -171,6 +172,11 @@ export default function (El, units = [], options = {}) {
       this.destroy();
       El.addEventListener("mouseenter", () => {
         out.pause();
+        try {
+          (conf.onHover || noop)(prevItem, El);
+        } catch (e) {
+          conf.debug && console.error("Callback Error", e);
+        }
       });
 
       El.addEventListener("mouseleave", () => {
