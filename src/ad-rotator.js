@@ -60,10 +60,10 @@ function getDefaultConfig(El, shape = "square") {
   return config;
 }
 
-function stickyEl(El, conf) {
-  if (!El || !conf || !(El instanceof HTMLElement) || !(conf instanceof Object)) return 0;
+function stickyEl(El, stickyConf) {
+  if (!El || !(El instanceof HTMLElement) || typeof stickyConf !== "object") return 0;
 
-  let {beforeEl, afterEl, offsetTop, offsetBottom} = conf.sticky;
+  let { beforeEl, afterEl,  offsetTop, offsetBottom } = stickyConf;
   let startPos = 0, endPos = 0, scrollPos = 0;
   let ticking = false;
   if (beforeEl && beforeEl instanceof HTMLElement) {
@@ -87,7 +87,8 @@ function stickyEl(El, conf) {
           El.style.position = "relative";
           El.classList.remove("stickyElx");
         }
-        if (endPos && scrollPos > (endPos - conf.height - (parseInt(offsetBottom, 10) || 0))) {
+        
+        if (endPos && scrollPos > endPos - El.clientHeight - (parseInt(offsetBottom, 10) || 0)) {
           El.style.top = 0;
           El.style.position = "relative";
           El.classList.remove("stickyElx");
@@ -188,7 +189,7 @@ export default function (El, units = [], options = {}) {
       this.obs = new IntersectionObserver(this.obsCb.bind(out), {threshold: 0.5});
       this.obs.observe(El);
       // make sticky
-      if (conf.sticky && typeof conf.sticky === "object") { this.scrollEvRef = stickyEl(El, conf); }
+      if (conf.sticky) { this.scrollEvRef = stickyEl(El, conf.sticky); }
     },
     destroy() {
       const clone = El.cloneNode(true);

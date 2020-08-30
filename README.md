@@ -10,7 +10,7 @@ A fast, light-weight and highly configurable JS library to rotate advertisements
 - is a light-weight library, only [![](http://img.badgesize.io/https://cdn.jsdelivr.net/npm/ad-rotator?compression=gzip)](https://cdn.jsdelivr.net/npm/ad-rotator) minified and gzipped
 - supports **multiple ads** with different shapes/sizes customizable to the very pixel
 - Enables you to display **device specific ads** i.e. ads targeted towards mobile/desktop
-- uses `IntersectionObserver API` to improve performance & reducing browser paints.
+- uses `IntersectionObserver API` to improve performance & reduce browser paints.
 - Provides **custom callbacks** that can be used for analytics, statistics, logging, etc... 
 - has built-in support for **sticky advertisements**
 - Responsive/Optimised for mobiles & tablets
@@ -240,7 +240,7 @@ sticky: {
 // beforeEl => Element after which the ad becomes sticky
 // afterEl => Element after which ad stops being sticky
 ```
-A class **`stickyElx`** is added dynamically to the sticky Element's container to allow further fine-tuning such as customizing css properties (like z-index), using media queries and so on.
+A css class **`stickyElx`** is added dynamically to the sticky Element's container to allow further fine-tuning such as customizing css properties (like z-index), using media queries and so on.
 
 ---
 
