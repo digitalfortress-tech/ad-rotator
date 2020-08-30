@@ -36,6 +36,7 @@ function getDefaultConfig(El, shape = "square") {
     newTab: false,
     cb: null,
     onHover: null,
+    onClick: null,
     debug: false
   };
   switch(shape.toLowerCase()) {
@@ -125,6 +126,7 @@ function rotateImage(El, units, conf, unitsClone, prevItem = {})  {
   link.setAttribute("rel", "noopener nofollow noreferrer");
   conf.linkClass && link.classList.add(conf.linkClass);
   conf.newTab && link.setAttribute("target", "_blank");
+  if (typeof conf.onClick === "function") link.addEventListener("click", (e) => { conf.onClick(e, unit); });    // add onclick handler
   // create image
   let img = new Image(conf.width, conf.height);
   img.src = unit.img;

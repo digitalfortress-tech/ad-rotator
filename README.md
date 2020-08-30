@@ -222,13 +222,14 @@ ad-rotator.js is instantiated with the default configuration parameters as shown
 5. **target**: (_`String`_, default - `all`). The target device. Can be set to `desktop`, `mobile` or `all`. When set to desktop, ads will be shown only on a desktop device whereas when set to mobile, ads will be displayed on a mobile device alone. By default, ads are shown on all devices.
 6. **cb**: (_`function | null`_, default - `null`) - A **callback** that is executed on every image rotation. The callback receives 3 parameters `cb(currentAdUnit, parentElement, configParams)`. This callback can be used for analytics, to programmatically control the rotator instance or for any other purpose.
 7. **onHover**: (_`function | null`_, default - `null`) - A **callback** that is executed on hovering over an Ad unit. The callback receives 2 parameters `cb(currentAdUnit, parentElement)`.
-8. **imgClass** (_`String`_, default - `""`) - Class that should be added to the image Tag
-9. **linkClass** (_`String`_, default - `""`) - Class that should be added to the link Tag
-10. **objectFit**: (_`String`_, default - `"inherit"`) - The `object-fit` property that should be used for the image (`inherit`,`contain`,`cover`, `fill`,...)
-11. **random**: (_`Bool`_, default - `true`) The advertisements are rotated in a random fashion by default. Set to `false` to have them rotated sequentially
-12. **newTab**: (_`Bool`_, default - `false`) Set to `true` to open the advertisement URL in a new Tab
-13. **debug**: (_`Bool`_, default - `false`) Set to `true` to see error information in the console. Recommended to turn this on during setup/development.
-14. **sticky**: (_`Object|null`_, default - `null`) - By default, the advertisement shown is not sticky. To enable sticky advertisements, pass an empty object `sticky: {}`. You can customize sticky advertisements by providing the following configuration properties -
+8. **onClick**: (_`function | null`_, default - `null`) - A **callback** that is executed on clicking an Ad unit. The callback receives 2 parameters `cb(event, currentAdUnit)`.
+9. **imgClass** (_`String`_, default - `""`) - Class that should be added to the image Tag
+10. **linkClass** (_`String`_, default - `""`) - Class that should be added to the link Tag
+11. **objectFit**: (_`String`_, default - `"inherit"`) - The `object-fit` property that should be used for the image (`inherit`,`contain`,`cover`, `fill`,...)
+12. **random**: (_`Bool`_, default - `true`) The advertisements are rotated in a random fashion by default. Set to `false` to have them rotated sequentially
+13. **newTab**: (_`Bool`_, default - `false`) Set to `true` to open the advertisement URL in a new Tab
+14. **debug**: (_`Bool`_, default - `false`) Set to `true` to see error information in the console. Recommended to turn this on during setup/development.
+15. **sticky**: (_`Object|null`_, default - `null`) - By default, the advertisement shown is not sticky. To enable sticky advertisements, pass an empty object `sticky: {}`. You can customize sticky advertisements by providing the following configuration properties -
 ```javascript
 sticky: {
     beforeEl: document.querySelector('.heading'),
