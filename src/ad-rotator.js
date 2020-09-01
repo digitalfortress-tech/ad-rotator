@@ -78,17 +78,11 @@ function stickyEl(El, stickyConf) {
     if (!ticking) {
       scrollPos = window.scrollY;
       window.requestAnimationFrame(() => {
-        if (scrollPos > startPos) {
+        if (scrollPos > startPos && !(endPos && scrollPos > (endPos - El.clientHeight - (parseInt(offsetBottom, 10) || 0)))) {
           El.classList.add("stickyElx");
           El.style.position = "fixed";
           El.style.top = ((parseInt(offsetTop, 10)) || 0) + "px";
         } else {
-          El.style.top = 0;
-          El.style.position = "relative";
-          El.classList.remove("stickyElx");
-        }
-        
-        if (endPos && scrollPos > endPos - El.clientHeight - (parseInt(offsetBottom, 10) || 0)) {
           El.style.top = 0;
           El.style.position = "relative";
           El.classList.remove("stickyElx");
