@@ -36,7 +36,7 @@
     <link rel="stylesheet" type="text/css" href="https://storage.googleapis.com/app.klipse.tech/css/codemirror.css" />
     <script>
       window.klipse_settings = {
-        selector_eval_js: ".eval-js-1",
+        selector_eval_js: ".eval-js",
       };
     </script>
   </head>
@@ -126,7 +126,7 @@ var rotator = new adRotator(
 rotator.start();</code>
           </pre>
           Here is a live example demonstrating basic Ad Rotation with default Config. (To see the default config, you can uncomment the last line)
-          <div class="eval-js-1">
+          <div class="eval-js">
             var rotatorDefault = new adRotator(
               document.querySelector(".defaultAdContainer"),
               [
@@ -166,8 +166,8 @@ var rotator = new adRotator(
 rotator.start();</code>
           </pre>
 
-          A live example to go along with it. (Note: If you are simulating a mobile device, ensure you refresh the page)
-          <div class="eval-js-1">
+          A live example to go along with it. (Note: If you are simulating a mobile device, ensure you refresh the page for correct results)
+          <div class="eval-js">
             var rotatorLeaderboard = new adRotator(
               document.querySelector(".leaderboardAdContainer"),
               [
@@ -179,7 +179,11 @@ rotator.start();</code>
               ],
               {
                 shape: 'leaderboard',
-                target: 'desktop'
+                target: 'desktop',
+                //width: 500,   // 500px
+                //height: 150,  // 150px
+                //timer: 2000,  // 2 seconds
+                //sticky: {}
               }
             );
             rotatorLeaderboard.start();
@@ -187,7 +191,168 @@ rotator.start();</code>
           <div class="leaderboardAdContainer ex-live-unit mx-auto"></div>
           
           <!-- STEP 3 -->
-          <h2>3. Ad Rotation with custom config: Shape Mobile  (mobile-only)</h2>
+          <h2>3. Ad Rotation on a Mobile device</h2>
+
+          <p>
+            To show Ads specific to mobiles alone, we set the shape as <code>{ shape: "mobile"}</code> which also automatically
+            sets the <code>target: "mobile"</code> meaning that these Ads will only be visible on a mobile device.
+            It also sets the <b>height: 90px</b> and <b>width</b> to the width of the container element.
+          </p>
+          
+          <pre>
+<code class="javascript">// initialise Ad Rotation 
+var rotator = new adRotator(
+  document.querySelector('.className'), 
+  [{ url: 'xyz.com', img: '../xyz.jpg'}],
+  {
+    shape: "mobile",
+  }  
+);
+// start rotation (returns undefined by default)
+rotator.start();</code>
+          </pre>
+          
+          And here's a live example. (Note: If you are simulating a mobile device, ensure you refresh the page for correct results.
+          This example would be hidden on a desktop device by default)
+          <div class="eval-js">
+            var rotatorMobile = new adRotator(
+            document.querySelector(".mobileAdContainer"),
+              [
+                { url: "https://niketpathak.com#1", img: "./assets/img/leaderboard/leaderboard-1.gif" },
+                { url: "https://niketpathak.com#2", img: "./assets/img/leaderboard/leaderboard-2.jpeg" },
+                { url: "https://niketpathak.com#3", img: "./assets/img/leaderboard/leaderboard-3.gif" },
+                { url: "https://niketpathak.com#4", img: "./assets/img/leaderboard/leaderboard-4.gif" },
+                { url: "https://niketpathak.com#5", img: "./assets/img/leaderboard/leaderboard-5.png" },
+              ],
+              {
+                shape: "mobile",
+                //sticky: {},
+              }
+            );
+            rotatorMobile.start();
+          </div>
+          <div class="mobileAdContainer ex-live-unit mx-auto"></div>
+
+
+          <!-- STEP 4 -->
+          <h2>4. Ad Rotation with Sticky Ads</h2>
+          
+          <p>
+            To show sticky Ads, if it sufficient to pass an empty <code>{ sticky: {} }</code> object as the 3rd parameter. 
+            However, we can further customize sticky Ads by passing certain options as shown below
+          </p>
+          
+          <pre>
+<code class="javascript">// initialise Ad Rotation 
+var rotator = new adRotator(
+  document.querySelector('.className'), 
+  [{ url: 'xyz.com', img: '../xyz.jpg'}],
+  {
+    sticky: {
+      beforeEl: document.querySelector('.start'),
+      afterEl: document.querySelector('.end'),
+      offsetTop: '10', // or '10px' (defaults to 0px)
+      offsetBottom: '150px', // or '150' (defaults to 0px)
+      noMobile: true, // disable stickiness on mobile (defaults to false)
+    }
+    // beforeEl => Element after which the Ad becomes sticky
+    // afterEl => Element before which Ad stops being sticky
+  }  
+);
+// start rotation (returns undefined by default)
+rotator.start();</code>
+                    </pre>
+          
+          And here's a live example.
+          <div class="eval-js">
+            var rotatorSticky = new adRotator(
+            document.querySelector(".stickyAdContainer"),
+              [
+                { url: "https://niketpathak.com#1", img: "./assets/img/square/square-1.jpeg" },
+                { url: "https://niketpathak.com#2", img: "./assets/img/square/square-2.jpeg" },
+                { url: "https://niketpathak.com#3", img: "./assets/img/square/square-3.jpeg" },
+                { url: "https://niketpathak.com#4", img: "./assets/img/square/square-4.jpg" },
+              ],
+              {
+                // comment the following block to disable stickiness
+                sticky: {
+                  beforeEl: document.querySelector(".startSticky"),
+                  afterEl: document.querySelector(".endSticky"),
+                  offsetTop: "50px",
+                  offsetBottom:  "60px",
+                  noMobile: true
+                },
+              }
+              );
+            rotatorSticky.start();
+          </div>
+          <div class="stickyAdContainer ex-live-unit mx-auto"></div>
+
+
+
+          <!-- STEP 5 -->
+          <h2 class="startSticky">5. Ad Rotation with Callbacks (shape sidebar)</h2>
+          
+          <p>
+            When we set the <code>{ shape: "sidebar"}</code>, it causes the Ad Unit's height & width to be updated
+            as <b>height: 600px</b> and <b>width: 300px</b>. We can setup 3 types of callbacks =>
+            <ul>
+              <li><code>cb</code> - This callback is executed after each rotation</li>
+              <li><code>onHover</code> - This callback is executed on hovering an Ad item</li>
+              <li><code>onClick</code>- This callback is executed on clicking of an Ad item</li>
+            </ul>
+          </p>
+          
+          <pre>
+<code class="javascript">// initialise Ad Rotation 
+var rotator = new adRotator(
+  document.querySelector('.className'), 
+  [{ url: 'xyz.com', img: '../xyz.jpg'}],
+  {
+    shape: 'sidebar',
+    cb: function() {
+      // do something
+    },
+    onHover: function() {
+      // do something
+    },
+    onClick: function() {
+      // do something
+    },
+  }  
+);
+// start rotation (returns undefined by default)
+rotator.start();</code>
+          </pre>
+          
+          And here's a live example.
+          <div class="eval-js">
+            var rotatorSidebar = new adRotator(
+              document.querySelector(".sidebarAdContainer"),
+              [
+                { url: "https://niketpathak.com#1", img: "./assets/img/sidebar/sidebar-1.jpg" },
+                { url: "https://niketpathak.com#2", img: "./assets/img/sidebar/sidebar-2.jpg" },
+                { url: "https://niketpathak.com#3", img: "./assets/img/sidebar/sidebar-3.jpg" },
+                { url: "https://niketpathak.com#4", img: "./assets/img/sidebar/sidebar-4.jpg" },
+                { url: "https://niketpathak.com#5", img: "./assets/img/sidebar/sidebar-5.png" },
+              ],
+              {
+                shape: 'sidebar',
+                cb: function(item) {
+                  console.log("Mark Ad impression", item);
+                },
+                onHover: function(item, El) {
+                  console.log("You hovered over this Ad =>", item);
+                },
+                onClick: function(e, item) {
+                  alert("You clicked on this Ad. Navigating to " + item.url);
+                }
+              }
+            );
+            rotatorSidebar.start();
+          </div>
+          <div class="endSticky"></div>
+          <div class="sidebarAdContainer ex-live-unit mx-auto"></div>
 
           <blockquote class="blockquote">
             The dreams of yesterday are the hopes of today and the reality of tomorrow. Science has not yet mastered
@@ -206,6 +371,30 @@ rotator.start();</code>
               >&larr; Previous<span class="d-none d-md-inline"> Post</span></a
             >
           </div>
+
+          <section class="subscribe-area pb-50 pt-70">
+            <div class="container">
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="subscribe-text mb-15">
+                    <span>JOIN OUR NEWSLETTER</span>
+                    <h2>Subscribe Newsletter</h2>
+                  </div>
+                </div>
+                <div class="col-md-8">
+                  <div class="subscribe-wrapper subscribe2-wrapper mb-15">
+                    <div class="subscribe-form">
+                      <input placeholder="your email address" type="email" />
+                      <div>
+                        <button>subscribe <i class="fas fa-long-arrow-alt-right"></i></button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
         </div>
       </div>
     </div>

@@ -541,9 +541,17 @@ adapted from a snippet
 .ex-live-unit {
   margin: 15px 0 30px;
 }
+.stickyElx {
+  z-index: 10 !important;
+  margin: 0;
+}
 .ex-live-unit.defaultAdContainer {
   max-height: 300px;
   max-width: 250px;
+}
+.ex-live-unit.sidebarAdContainer {
+  max-height: 600px;
+  max-width: 300px;
 }
 
 /* desktop */
