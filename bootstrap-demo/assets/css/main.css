@@ -518,6 +518,24 @@ adapted from a snippet
 /************************************** CUSTOM *******************************************/
 /*****************************************************************************************/
 
+/* mobile first */
+.mobileAdContainer.stickyElx {
+  left: 0;
+}
+.mobileAdContainer.stickyElx img {
+  width: 100%;
+}
+.sidebarAdContainer {
+  text-align: center;
+}
+.live-examples-wrapper {
+  padding: 25px 0 0;
+}
+.main-info {
+  font-size: 16px;
+  margin-bottom: 0;
+}
+
 /* desktop */
 .sidebarAdContainer {
   margin: 15px 0;
@@ -533,17 +551,7 @@ adapted from a snippet
   header.masthead .site-heading h1 {
     font-size: 60px;
   }
-}
-
-/* mobile */
-@media only screen and (max-width: 768px) {
-  .mobileAdContainer.stickyElx {
-    left: 0;
-  }
-  .mobileAdContainer.stickyElx img {
-    width: 100%;
-  }
   .sidebarAdContainer {
-    text-align: center;
+    text-align: left;
   }
 }
