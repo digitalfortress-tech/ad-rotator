@@ -49,7 +49,7 @@ function getDefaultConfig(El, shape = "square") {
     config.width = 300;
     break;
   case "mobile":
-    config.width = El.clientWidth; // window.screen.availWidth;
+    if (El) config.width = El.clientWidth; // window.screen.availWidth;
     config.height = 90;
     config.target = "mobile";
     break;
