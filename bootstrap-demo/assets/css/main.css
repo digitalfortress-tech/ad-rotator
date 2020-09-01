@@ -529,6 +529,10 @@ adapted from a snippet
   #leadboardAdContainer {
     padding: 50px 0;
   }
+  header.masthead .page-heading h1,
+  header.masthead .site-heading h1 {
+    font-size: 60px;
+  }
 }
 
 /* mobile */

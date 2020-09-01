@@ -94,6 +94,7 @@ var rotatorSidebar = new adRotator(
       offsetBottom: 50,
       beforeEl: document.querySelector(".sidebar .card"),
       afterEl: document.querySelector(".subscribe-area"),
+      noMobile: true,
     },
     debug: true, // optional
   }
