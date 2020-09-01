@@ -54,9 +54,10 @@ Ad-rotator.js requires 2 mandatory parameters to be setup. A 3rd optional parame
 - **`Array` (required)** - An Array of Advertisements(`[{url: '', img: ''},...]`) to be displayed. Each advertisement is expected to be an object with 2 mandatory keys `img` and `url` -
 ```javascript
 let items = [
-  {img: './assets/image.jpg', url: 'https://xyz#1'},                      // ad 1
-  {img: 'https://xyz/image.png', url: 'https://xyz#2'},                   // ad 2
-  {img: 'data:image/jpeg;base64,/9j/4AAQSkZJRg...', url: 'http://xyz#3'}  // ad 3
+  {img: './assets/image.jpg', url: 'https://xyz.com#1'},              // ad 1
+  {img: 'https://xyz.com/image.png', url: 'https://xyz.com#2'},       // ad 2
+  {img: 'https://xyz.com/image.svg', url: 'https://xyz.com#3'},       // ad 3
+  {img: 'data:image/jpeg;base64,/9j/4AAQSkZJRg...', url: 'https...'}  // ad 4
 ]
 ```
 
@@ -202,6 +203,7 @@ ad-rotator.js is instantiated with the default configuration parameters as shown
     target: "all",
     cb: null,
     onHover: null,
+    onClick: null,
     imgClass: "",
     linkClass: "",
     objectFit: "inherit",
@@ -215,7 +217,7 @@ ad-rotator.js is instantiated with the default configuration parameters as shown
 
 #### Description - 
 
-1. **Shape** (_`String`_, default - `"square"`) - This is the expected shape of the Ad. It can also be set to `square`, `leaderboard`, `sidebar` or `mobile`. By default, the shape is set to **square** with a height of 300px and width of 250px. When set to **Leaderboard**, the standard horizontal size of height - 90px, width - 728px is used, when shape is set to **Sidebar**, the standard size of height - 600px, width - 300px is used and when the shape is set to **Mobile**, the width is set to the width of the container Element & the height is set to 90px. (These default values can be overriden). Setting shape to `mobile` also sets the `target` device to mobile, which means the ads in this instance will only be visible on a mobile device.
+1. **Shape** (_`String`_, default - `"square"`) - This is the expected shape of the Ad. It can also be set to `square`, `leaderboard`, `sidebar` or `mobile`. By default, the shape is set to **square** with a height of 300px and width of 250px. When set to **Leaderboard**, the standard horizontal size of height - 90px, width - 728px is used, when shape is set to **Sidebar**, the standard size of height - 600px, width - 300px is used and when the shape is set to **Mobile**, the width is set to the width of the container Element & the height is set to 90px. (These default values can be overriden). Setting shape to `mobile` also sets the `target` device to mobile, which means the ads in this instance will only be visible on a mobile device. You can also set the shape to **custom** in which case you must provide the height/width config options.
 2. **Height** (_`Int`_, default - `300` _px_) - The height of the advertisement
 3. **Width** (_`Int`_, default - `250` _px_) - The width of the advertisement
 4. **timer**: (_`Int`_, default - `5000` _ms_). The time after which an advertisement will be rotated
@@ -236,6 +238,7 @@ sticky: {
     afterEl: document.querySelector('.summary'),
     offsetTop: '10',        // or '10px' (defaults to 0px)
     offsetBottom: '150px',  // or '150'  (defaults to 0px)
+    noMobile: true          // disable stickiness on mobile (defaults to false)
 }
 // beforeEl => Element after which the ad becomes sticky
 // afterEl => Element after which ad stops being sticky

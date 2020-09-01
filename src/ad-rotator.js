@@ -61,7 +61,7 @@ function getDefaultConfig(El, shape = "square") {
 }
 
 function stickyEl(El, stickyConf) {
-  if (!El || !(El instanceof HTMLElement) || typeof stickyConf !== "object") return 0;
+  if (!El || !(El instanceof HTMLElement) || !stickyConf || !(stickyConf instanceof Object)) return 0;
 
   let { beforeEl, afterEl,  offsetTop, offsetBottom } = stickyConf;
   let startPos = 0, endPos = 0, scrollPos = 0;
@@ -189,7 +189,7 @@ export default function (El, units = [], options = {}) {
       this.obs = new IntersectionObserver(this.obsCb.bind(out), {threshold: 0.5});
       this.obs.observe(El);
       // make sticky
-      if (conf.sticky) { this.scrollEvRef = stickyEl(El, conf.sticky); }
+      if (conf.sticky && conf.sticky instanceof Object && (!conf.sticky.noMobile || device !== "mobile")) { this.scrollEvRef = stickyEl(El, conf.sticky); }
     },
     destroy() {
       const clone = El.cloneNode(true);
@@ -224,7 +224,6 @@ export default function (El, units = [], options = {}) {
       ret = rotateImage(El, units, conf, unitsClone);
       unitsClone = ret.unitsClone;
       prevItem = ret.prevItem;
-      // this.resume(); // deprecated
     },
     resume() {
       if (initErr) return;
