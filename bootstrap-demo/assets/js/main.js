@@ -46,10 +46,10 @@ var rotatorLeaderboard = new adRotator(
   document.getElementById("leadboardAdContainer"),
   [
     { url: "https://niketpathak.com#1", img: "./assets/img/leaderboard/leaderboard-1.gif" },
-    { url: "https://niketpathak.com#1", img: "./assets/img/leaderboard/leaderboard-2.jpeg" },
-    { url: "https://niketpathak.com#1", img: "./assets/img/leaderboard/leaderboard-3.gif" },
-    { url: "https://niketpathak.com#1", img: "./assets/img/leaderboard/leaderboard-4.gif" },
-    { url: "https://niketpathak.com#1", img: "./assets/img/leaderboard/leaderboard-5.png" },
+    { url: "https://niketpathak.com#2", img: "./assets/img/leaderboard/leaderboard-2.jpeg" },
+    { url: "https://niketpathak.com#3", img: "./assets/img/leaderboard/leaderboard-3.gif" },
+    { url: "https://niketpathak.com#4", img: "./assets/img/leaderboard/leaderboard-4.gif" },
+    { url: "https://niketpathak.com#5", img: "./assets/img/leaderboard/leaderboard-5.png" },
   ],
   {
     shape: "leaderboard",
@@ -63,14 +63,14 @@ var rotatorMobile = new adRotator(
   document.querySelector(".mobileAdContainer"),
   [
     { url: "https://niketpathak.com#1", img: "./assets/img/leaderboard/leaderboard-1.gif" },
-    { url: "https://niketpathak.com#1", img: "./assets/img/leaderboard/leaderboard-2.jpeg" },
-    { url: "https://niketpathak.com#1", img: "./assets/img/leaderboard/leaderboard-3.gif" },
-    { url: "https://niketpathak.com#1", img: "./assets/img/leaderboard/leaderboard-4.gif" },
-    { url: "https://niketpathak.com#1", img: "./assets/img/leaderboard/leaderboard-5.png" },
+    { url: "https://niketpathak.com#2", img: "./assets/img/leaderboard/leaderboard-2.jpeg" },
+    { url: "https://niketpathak.com#3", img: "./assets/img/leaderboard/leaderboard-3.gif" },
+    { url: "https://niketpathak.com#4", img: "./assets/img/leaderboard/leaderboard-4.gif" },
+    { url: "https://niketpathak.com#5", img: "./assets/img/leaderboard/leaderboard-5.png" },
   ],
   {
     shape: "mobile",
-    sticky: { beforeEl: document.querySelector(".page-heading > h1"), offsetTop: 0 },
+    sticky: { beforeEl: document.querySelector(".page-heading > h1") },
     debug: true, // optional
   }
 );
@@ -80,12 +80,12 @@ var rotatorSidebar = new adRotator(
   document.querySelector(".sidebarAdContainer"),
   [
     { url: "https://niketpathak.com#1", img: "./assets/img/sidebar/sidebar-1.jpg" },
-    { url: "https://niketpathak.com#1", img: "./assets/img/sidebar/sidebar-2.jpg" },
-    { url: "https://niketpathak.com#1", img: "./assets/img/sidebar/sidebar-3.jpg" },
-    { url: "https://niketpathak.com#1", img: "./assets/img/sidebar/sidebar-4.jpg" },
-    { url: "https://niketpathak.com#1", img: "./assets/img/sidebar/sidebar-5.png" },
-    { url: "https://niketpathak.com#1", img: "./assets/img/sidebar/sidebar-6.jpg" },
-    { url: "https://niketpathak.com#1", img: "./assets/img/sidebar/sidebar-7.jpg" },
+    { url: "https://niketpathak.com#2", img: "./assets/img/sidebar/sidebar-2.jpg" },
+    { url: "https://niketpathak.com#3", img: "./assets/img/sidebar/sidebar-3.jpg" },
+    { url: "https://niketpathak.com#4", img: "./assets/img/sidebar/sidebar-4.jpg" },
+    { url: "https://niketpathak.com#5", img: "./assets/img/sidebar/sidebar-5.png" },
+    { url: "https://niketpathak.com#6", img: "./assets/img/sidebar/sidebar-6.jpg" },
+    { url: "https://niketpathak.com#7", img: "./assets/img/sidebar/sidebar-7.jpg" },
   ],
   {
     shape: "sidebar",

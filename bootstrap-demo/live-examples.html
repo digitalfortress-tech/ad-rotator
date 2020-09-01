@@ -32,6 +32,13 @@
     />
     <link rel="stylesheet" href="./assets/css/main.css" />
     <link rel="canonical" href="https://adrotator.niketpathak.com/live-examples.html" />
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/styles/default.min.css">
+    <link rel="stylesheet" type="text/css" href="https://storage.googleapis.com/app.klipse.tech/css/codemirror.css" />
+    <script>
+      window.klipse_settings = {
+        selector_eval_js: ".eval-js-1",
+      };
+    </script>
   </head>
 
   <body>
@@ -82,15 +89,10 @@
         <div class="row">
           <div class="col-lg-8 col-md-10 mx-auto">
             <div class="post-heading">
-              <h1>Man must explore, and this is exploration at its greatest</h1>
-
-              <h2 class="subheading">Problems look mighty small from 150 miles up</h2>
-
+              <h1>Live Examples</h1>
               <span class="meta"
-                >Posted by
-                <a href="#">Ian</a>
-                on January 31, 2020 &middot; <span class="reading-time" title="Estimated read time"> 4 mins read </span>
-              </span>
+                >The following code snippets are live examples which you can edit and see the result immediately</span
+              >
             </div>
           </div>
         </div>
@@ -100,83 +102,97 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
+          <!-- STEP 1 -->
+          <h2>1. Basic Ad Rotation (default config)</h2>
+          To initialize <code>adRotator</code>, you only need 2 parameters -
+          <ul>
+            <li>The Element where the ad should be displayed</li>
+            <li>The Ads.</li>
+          </ul>
+          The ads are provided in an array with the following format <br />
+          <code>[{url: '...', img: '...'}]</code>
           <p>
-            Never in all their history have men been able truly to conceive of the world as one: a single sphere, a
-            globe, having the qualities of a globe, a round earth in which all the directions eventually meet, in which
-            there is no center because every point, or none, is center — an equal earth which all men occupy as equals.
-            The airman's earth, if free men make it, will be truly round: a globe in practice, not in theory.
-          </p>
+            AdRotator also accepts a 3rd, yet <b>completely optional parameter <code>config</code></b>
+            which you can use to customize your Ads and its behaviour.
+          </p> 
+          <p>Then you can initialize and start adRotation as shown below</p>
+          <pre>
+<code class="javascript">// initialise Ad Rotation 
+var rotator = new adRotator(
+  document.querySelector('.className'), 
+  [{ url: 'xyz.com', img: '../xyz.jpg'}]  
+);
+// start rotation (returns undefined by default)
+rotator.start();</code>
+          </pre>
+          Here is a live example demonstrating basic Ad Rotation with default Config. (To see the default config, you can uncomment the last line)
+          <div class="eval-js-1">
+            var rotatorDefault = new adRotator(
+              document.querySelector(".defaultAdContainer"),
+              [
+                { url: "https://niketpathak.com#0", img: "https://i.imgur.com/GsNCBNJ_d.webp?maxwidth=728&fidelity=grand" },
+                { url: "https://niketpathak.com#1", img: "./assets/img/square/square-1.jpeg" },
+                { url: "https://niketpathak.com#2", img: "./assets/img/square/square-2.jpeg" },
+                { url: "https://niketpathak.com#3", img: "./assets/img/square/square-3.jpeg" },
+                { url: "https://niketpathak.com#4", img: "./assets/img/square/square-4.jpg" },
+              ]
+            );
+            rotatorDefault.start();
+            //rotatorDefault.conf;
+          </div>
+          <div class="defaultAdContainer ex-live-unit mx-auto"></div>
+          
+          
+          <!-- STEP 2 -->
+          <h2>2. Ad Rotation with custom config: Shape Leaderboard / Desktop-only</h2>
 
           <p>
-            Science cuts two ways, of course; its products can be used for both good and evil. But there's no turning
-            back from science. The early warnings about technological dangers also come from science.
+            We pass a 3rd parameter <b>config</b> with the value <code>{ shape: "leaderboard"}</code> to set the shape of the Ad as leaderboard.
+            Doing this sets the <b>height: 90px</b> and <b>width: 728px</b>. Since this ad would be cut-off on a mobile device given its long width, we will also
+            set the <code>target: "desktop"</code> so that this Ad would be visible on a desktop but hidden on a mobile device. 
           </p>
 
-          <p>
-            What was most significant about the lunar voyage was not that man set foot on the Moon but that they set eye
-            on the earth.
-          </p>
+          <pre>
+<code class="javascript">// initialise Ad Rotation 
+var rotator = new adRotator(
+  document.querySelector('.className'), 
+  [{ url: 'xyz.com', img: '../xyz.jpg'}],
+  {
+    shape: "leaderboard",
+    target: "desktop"
+  }  
+);
+// start rotation (returns undefined by default)
+rotator.start();</code>
+          </pre>
 
-          <p>
-            A Chinese tale tells of some men sent to harm a young girl who, upon seeing her beauty, become her
-            protectors rather than her violators. That's how I felt seeing the Earth for the first time. I could not
-            help but love and cherish her.
-          </p>
-
-          <p>
-            For those who have seen the Earth from space, and for the hundreds and perhaps thousands more who will, the
-            experience most certainly changes your perspective. The things that we share in our world are far more
-            valuable than those which divide us.
-          </p>
-
-          <h2 class="section-heading">The Final Frontier</h2>
-
-          <p>
-            There can be no thought of finishing for ‘aiming for the stars.’ Both figuratively and literally, it is a
-            task to occupy the generations. And no matter how much progress one makes, there is always the thrill of
-            just beginning.
-          </p>
-
-          <p>
-            There can be no thought of finishing for ‘aiming for the stars.’ Both figuratively and literally, it is a
-            task to occupy the generations. And no matter how much progress one makes, there is always the thrill of
-            just beginning.
-          </p>
+          A live example to go along with it. (Note: If you are simulating a mobile device, ensure you refresh the page)
+          <div class="eval-js-1">
+            var rotatorLeaderboard = new adRotator(
+              document.querySelector(".leaderboardAdContainer"),
+              [
+                { url: "https://niketpathak.com#1", img: "./assets/img/leaderboard/leaderboard-1.gif" },
+                { url: "https://niketpathak.com#2", img: "./assets/img/leaderboard/leaderboard-2.jpeg" },
+                { url: "https://niketpathak.com#3", img: "./assets/img/leaderboard/leaderboard-3.gif" },
+                { url: "https://niketpathak.com#4", img: "./assets/img/leaderboard/leaderboard-4.gif" },
+                { url: "https://niketpathak.com#5", img: "./assets/img/leaderboard/leaderboard-5.png" },
+              ],
+              {
+                shape: 'leaderboard',
+                target: 'desktop'
+              }
+            );
+            rotatorLeaderboard.start();
+          </div>
+          <div class="leaderboardAdContainer ex-live-unit mx-auto"></div>
+          
+          <!-- STEP 3 -->
+          <h2>3. Ad Rotation with custom config: Shape Mobile  (mobile-only)</h2>
 
           <blockquote class="blockquote">
             The dreams of yesterday are the hopes of today and the reality of tomorrow. Science has not yet mastered
             prophecy. We predict too much for the next year and yet far too little for the next ten.
           </blockquote>
-
-          <p>
-            Spaceflights cannot be stopped. This is not the work of any one man or even a group of men. It is a
-            historical process which mankind is carrying out in accordance with the natural laws of human development.
-          </p>
-
-          <h2 class="section-heading">Reaching for the Stars</h2>
-
-          <p>
-            As we got further and further away, it [the Earth] diminished in size. Finally it shrank to the size of a
-            marble, the most beautiful you can imagine. That beautiful, warm, living object looked so fragile, so
-            delicate, that if you touched it with a finger it would crumble and fall apart. Seeing this has to change a
-            man.
-          </p>
-
-          <img class="img-fluid" src="https://source.unsplash.com/Mn9Fa_wQH-M/800x450" alt="Demo Image" />
-          <span class="caption text-muted"
-            >To go places and do things that have never been done before – that’s what living is all about.</span
-          >
-
-          <p>
-            Space, the final frontier. These are the voyages of the Starship Enterprise. Its five-year mission: to
-            explore strange new worlds, to seek out new life and new civilizations, to boldly go where no man has gone
-            before.
-          </p>
-
-          <p>
-            As I stand out here in the wonders of the unknown at Hadley, I sort of realize there’s a fundamental truth
-            to our nature, Man must explore, and this is exploration at its greatest.
-          </p>
 
           <hr />
 
@@ -251,7 +267,9 @@
       crossorigin="anonymous"
     ></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/highlight.min.js"></script>
+    <script src="https://storage.googleapis.com/app.klipse.tech/plugin_prod/js/klipse_plugin.min.js"></script>
     <script src="./../dist/ad-rotator.js"></script>
-    <script src="./assets/js/main.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
   </body>
 </html>
