@@ -61,7 +61,7 @@ function getDefaultConfig(El, shape = "square") {
 }
 
 function stickyEl(El, stickyConf) {
-  if (!El || !(El instanceof HTMLElement) || !stickyConf || !(stickyConf instanceof Object)) return 0;
+  if (!El || !(El instanceof HTMLElement) || !stickyConf || stickyConf.constructor !== Object) return 0;
 
   let { beforeEl, afterEl,  offsetTop, offsetBottom } = stickyConf;
   let startPos = 0, endPos = 0, scrollPos = 0;
@@ -183,14 +183,20 @@ export default function (El, units = [], options = {}) {
       this.obs = new IntersectionObserver(this.obsCb.bind(out), {threshold: 0.5});
       this.obs.observe(El);
       // make sticky
-      if (conf.sticky && conf.sticky instanceof Object && (!conf.sticky.noMobile || device !== "mobile")) { this.scrollEvRef = stickyEl(El, conf.sticky); }
+      if (conf.sticky && conf.sticky.constructor === Object && (!conf.sticky.noMobile || device !== "mobile")) { this.scrollEvRef = stickyEl(El, conf.sticky); }
     },
     destroy() {
+      if (this.obs) this.obs.unobserve(El);
       const clone = El.cloneNode(true);
       El.parentNode.replaceChild(clone, El);
       El = clone;
-      if (this.scrollEvRef)  window.removeEventListener("scroll", this.scrollEvRef);
-      if (this.obs) this.obs.unobserve(El);
+      // remove stickiness
+      if (!conf.sticky) {
+        this.scrollEvRef && window.removeEventListener("scroll", this.scrollEvRef);
+        this.scrollEvRef = null;
+        El.style.position === "fixed" && (El.style.position = "relative");
+        El.classList.remove("stickyElx");
+      } 
     },
     obsCb(entries) {
       entries.forEach(entry => {
