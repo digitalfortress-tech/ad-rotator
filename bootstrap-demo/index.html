@@ -340,8 +340,15 @@
       crossorigin="anonymous"
     ></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/ad-rotator"></script>
-    <!-- <script src="./../dist/ad-rotator.js"></script> -->
+    <script>
+      const urlParams = new URLSearchParams(window.location.search);
+      const mode = urlParams.get('mode');
+      if (typeof mode === "string" && mode.toLowerCase() === 'dev') {
+        document.write('<script src="./../dist/ad-rotator.js"><\/script>');
+      } else {
+        document.write('<script src="https://cdn.jsdelivr.net/npm/ad-rotator"><\/script>');
+      }
+    </script>
     <script src="./assets/js/main.js"></script>
   </body>
 </html>
