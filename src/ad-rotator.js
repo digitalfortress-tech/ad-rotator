@@ -192,10 +192,10 @@ export default function (El, units = [], options = {}) {
       El = clone;
       // remove stickiness
       if (!conf.sticky) {
-        this.scrollEvRef && window.removeEventListener("scroll", this.scrollEvRef);
+        window.removeEventListener("scroll", this.scrollEvRef);
         this.scrollEvRef = null;
-        El.style.position === "fixed" && (El.style.position = "relative");
         El.classList.remove("stickyElx");
+        El.style.position === "fixed" && (El.style.position = "relative");
       } 
     },
     obsCb(entries) {
