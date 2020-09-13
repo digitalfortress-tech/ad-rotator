@@ -6,14 +6,11 @@ A fast, light-weight and highly configurable JS library to rotate advertisements
 - is a vastly performant library in pure Javascript
 - has **NO DEPENDENCIES** :D 
 - allows you to **display native advertisements to adblock users** as well
-- enables custom dynamic advertisements to be injected 
 - is a light-weight library, only [![](http://img.badgesize.io/https://cdn.jsdelivr.net/npm/ad-rotator?compression=gzip)](https://cdn.jsdelivr.net/npm/ad-rotator) minified and gzipped
 - supports **multiple ads** with different shapes/sizes customizable to the very pixel
 - Enables you to display **device specific ads** i.e. ads targeted towards mobile/desktop
-- uses `IntersectionObserver API` to improve performance & reduce browser paints.
 - Provides **custom callbacks** that can be used for analytics, statistics, logging, etc... 
 - has built-in support for **sticky advertisements**
-- Responsive/Optimised for mobiles & tablets
 - supports almost every browser! (*Only IE is unsupported, but you may use a [polyfill](https://github.com/w3c/IntersectionObserver/tree/master/polyfill))
 - is completely free and open source
 

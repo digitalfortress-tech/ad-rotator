@@ -61,13 +61,13 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <a class="nav-link" href="#">Home</a>
+              <a class="nav-link" href="./">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#about">About</a>
+              <a class="nav-link" href="https://www.npmjs.com/package/ad-rotator" target="_blank" rel="noopener">Docs</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#posts">Posts</a>
+              <a class="nav-link" href="#tutorial">Tutorial</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#contact">Contact</a>
@@ -91,7 +91,7 @@
             <div class="post-heading">
               <h1>Live Examples</h1>
               <span class="meta"
-                >The following code snippets are live examples which you can edit and see the result immediately</span
+                >The following code snippets are live examples which can be edited with the corresponding results being visible immediately</span
               >
             </div>
           </div>
@@ -213,7 +213,7 @@ rotator.start();</code>
           </pre>
           
           And here's a live example. (Note: If you are simulating a mobile device, ensure you refresh the page for correct results.
-          This example would be hidden on a desktop device by default)
+          This result of this live example would be hidden on a desktop device by default)
           <div class="eval-js">
             var rotatorMobile = new adRotator(
             document.querySelector(".mobileAdContainer"),
@@ -263,7 +263,9 @@ var rotator = new adRotator(
 rotator.start();</code>
                     </pre>
           
-          And here's a live example.
+          And here's a live example. Try scrolling until the <b>next</b> live example to see it in action. To remove stickiness,
+          set <code>sticky: null</code>. <b>Note</b> that we have set <code>noMobile: true</code> which means
+          that this Ad will not be sticky on a mobile device.
           <div class="eval-js">
             var rotatorSticky = new adRotator(
             document.querySelector(".stickyAdContainer"),
@@ -274,7 +276,6 @@ rotator.start();</code>
                 { url: "https://niketpathak.com#4", img: "./assets/img/square/square-4.jpg" },
               ],
               {
-                // comment the following block to disable stickiness
                 sticky: {
                   beforeEl: document.querySelector(".startSticky"),
                   afterEl: document.querySelector(".endSticky"),
@@ -282,9 +283,11 @@ rotator.start();</code>
                   offsetBottom:  "60px",
                   noMobile: true
                 },
+                // sticky: null, // uncomment to disable StickyAd.
               }
               );
             rotatorSticky.start();
+            // rotatorSticky.destroy(); // removes Ad completely
           </div>
           <div class="stickyAdContainer ex-live-unit mx-auto"></div>
 
@@ -325,7 +328,10 @@ var rotator = new adRotator(
 rotator.start();</code>
           </pre>
           
-          And here's a live example.
+          And now lets get to the live example. You should see logs below when you hover, click and also when each Ad
+          gets rotated. <b>Note</b> that sometimes it is possible that you do not see the logs due to a known issue
+          with the live editor. (It has nothing to do with the Adrotator library). To fix the logs, 
+          you can comment & then uncomment  the last line <code>rotatorSidebar.start();</code>
           <div class="eval-js">
             var rotatorSidebar = new adRotator(
               document.querySelector(".sidebarAdContainer"),
@@ -364,12 +370,13 @@ rotator.start();</code>
           <div class="clearfix">
             <a
               class="btn btn-primary float-left"
-              href="/#/2020/01/31/heartbeats.html"
+              href="./"
               data-toggle="tooltip"
               data-placement="top"
               title="I believe every human has a finite number of heartbeats. I don't intend to waste any of mine."
               >&larr; Previous<span class="d-none d-md-inline"> Post</span></a
             >
+            <br>
           </div>
 
           <section class="subscribe-area pb-50 pt-70">

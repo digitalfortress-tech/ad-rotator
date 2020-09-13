@@ -440,6 +440,7 @@ adapted from a snippet
 
 .subscribe-area {
   background-image: linear-gradient(to top, #0085a1 0%, #000 100%);
+  margin: 20px 0;
 }
 
 .pb-50 {
