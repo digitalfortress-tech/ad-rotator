@@ -15,6 +15,11 @@ A fast, light-weight and highly configurable JS library to rotate advertisements
 - is completely free and open source
 
 ---
+### Demo
+
+Here is a **[Live Demo](https://rotator.niketpathak.com/)** of Ad-rotation in action. You will find **live examples** that can tinkered with to get a clearer picture about what you could expect from this library.
+
+---
 ## Install
 ```shell script
 # you can install ad-rotator with npm
