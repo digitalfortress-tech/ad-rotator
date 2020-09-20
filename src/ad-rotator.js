@@ -17,6 +17,12 @@ const device = window.screen.availWidth >= desktopWidth ? "desktop" : "mobile";
 const noop = () => {};
 
 /**
+ * A function to delay execution
+ * @param {Number} ms Timeout in ms 
+ */
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+/**
  * DefaultConfig
  * @param shape
  * @return {{timer: number, random: boolean, shape: string, objectFit: string, width: number, sticky: null, imgClass: string, linkClass: string, height: number, target: string}}
@@ -97,7 +103,7 @@ function stickyEl(El, stickyConf) {
   return eventHandler;
 }
 
-function rotateImage(El, units, conf, unitsClone, prevItem = {})  {
+async function rotateImage(El, units, conf, unitsClone, prevItem = {})  {
   let unit;
   if (conf.random) {                                                                                // get random unit
     let index = unitsClone.length === 1 ? 0 : Math.floor(Math.random() * unitsClone.length );
@@ -128,6 +134,8 @@ function rotateImage(El, units, conf, unitsClone, prevItem = {})  {
   img.classList.add("fadeIn");
   conf.imgClass && img.classList.add(conf.imgClass);
   img.style.objectFit = conf.objectFit;
+  // allow time to preload images
+  await (delay(750));
   // attach an image to the link
   link.appendChild(img);
   // add the link to the El
@@ -150,7 +158,7 @@ export default function (El, units = [], options = {}) {
   let initErr = false;
   const conf = Object.assign({}, getDefaultConfig(El, options.shape || ""), options);
   if (!El || !(El instanceof HTMLElement) || !units || !(units instanceof Array) || !units.length || !(units[0] instanceof Object) || !units[0].url || !units[0].img
-          || isNaN(conf.timer) || isNaN(conf.height) || isNaN(conf.width)
+          || isNaN(conf.timer) || conf.timer < 1000 || isNaN(conf.height) || isNaN(conf.width)
   ) {
     conf.debug && console.error("Missing/malformed parameters - El, Units, Config", El, units, conf);
     initErr = true;
@@ -215,13 +223,13 @@ export default function (El, units = [], options = {}) {
     pause() {
       if (inter) { clearInterval(inter);}
     },
-    start() {
+    async start() {
       if (initErr) return;
       if (conf.target === "mobile" && device !== "mobile"
         || conf.target === "desktop" && device !== "desktop"  
       ) return;
       eventManager.init();
-      ret = rotateImage(El, units, conf, unitsClone);
+      ret = await rotateImage(El, units, conf, unitsClone);
       unitsClone = ret.unitsClone;
       prevItem = ret.prevItem;
     },
@@ -230,11 +238,11 @@ export default function (El, units = [], options = {}) {
       this.pause();
       // rotate only if multiple units are present
       if (units.length > 1)
-        inter = window.setInterval(function () {
-          ret = rotateImage(El, units, conf, unitsClone, prevItem);
+        inter = window.setInterval(async function () {
+          ret = await rotateImage(El, units, conf, unitsClone, prevItem);
           unitsClone = ret.unitsClone;
           prevItem = ret.prevItem;
-        }, conf.timer);
+        }, conf.timer - 750);
     },
     destroy() {
       if (initErr) return;
