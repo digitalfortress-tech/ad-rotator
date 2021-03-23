@@ -3,7 +3,7 @@ const path = require('path');
 
 module.exports = {
   mode: 'production',
-  entry: './src/ad-rotator.js',
+  entry: './src/ad-rotator.ts',
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'ad-rotator.js',
@@ -16,26 +16,23 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
+      {
         enforce: 'pre',
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: 'eslint-loader',
       },
       {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env'],
-            plugins: ['@babel/plugin-transform-runtime'],
-          },
-        },
-      },
-      {
         test: /\.less$/,
         use: ['style-loader', 'css-loader', 'less-loader'],
       },
     ],
+  },
+  resolve: {
+    extensions: ['.tsx', '.ts', '.js'],
   },
 };

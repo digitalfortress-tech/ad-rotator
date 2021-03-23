@@ -1,4 +1,5 @@
 import './style.less';
+import type { AdConfig, StickyConfig, AdUnit, EventManager } from './types';
 
 /**
  * Minimum screen width to consider as desktop
@@ -14,22 +15,21 @@ const device = window.screen.availWidth >= desktopWidth ? 'desktop' : 'mobile';
  * A no-operation function
  * @type {function () {}}
  */
-// eslint-disable-next-line @typescript-eslint/no-empty-function
-const noop = () => {};
+const noop = (...args: unknown[]): unknown => undefined;
 
 /**
  * A function to delay execution
  * @param {Number} ms Timeout in ms
  */
-const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 /**
  * DefaultConfig
  * @param shape
  * @return {{timer: number, random: boolean, shape: string, objectFit: string, width: number, sticky: null, imgClass: string, linkClass: string, height: number, target: string}}
  */
-function getDefaultConfig(El, shape = 'square') {
-  let config = {
+function getDefaultConfig(El: HTMLElement, shape = 'square') {
+  const config = {
     shape: 'square',
     height: 300,
     width: 250,
@@ -67,10 +67,10 @@ function getDefaultConfig(El, shape = 'square') {
   return config;
 }
 
-function stickyEl(El, stickyConf) {
-  if (!El || !(El instanceof HTMLElement) || !stickyConf || stickyConf.constructor !== Object) return 0;
+function stickyEl(El: HTMLElement, stickyConf: StickyConfig) {
+  if (!El || !(El instanceof HTMLElement) || !stickyConf || stickyConf.constructor !== Object) return null;
 
-  let { beforeEl, afterEl, offsetTop, offsetBottom } = stickyConf;
+  const { beforeEl, afterEl, offsetTop, offsetBottom } = stickyConf;
   let startPos = 0,
     endPos = 0,
     scrollPos = 0;
@@ -89,13 +89,13 @@ function stickyEl(El, stickyConf) {
       window.requestAnimationFrame(() => {
         if (
           scrollPos > startPos &&
-          !(endPos && scrollPos > endPos - El.clientHeight - (parseInt(offsetBottom, 10) || 0))
+          !(endPos && scrollPos > endPos - El.clientHeight - (parseInt(offsetBottom as string, 10) || 0))
         ) {
           El.classList.add('stickyElx');
           El.style.position = 'fixed';
-          El.style.top = (parseInt(offsetTop, 10) || 0) + 'px';
+          El.style.top = (parseInt(offsetTop as string, 10) || 0) + 'px';
         } else {
-          El.style.top = 0;
+          El.style.top = '0';
           El.style.position = 'relative';
           El.classList.remove('stickyElx');
         }
@@ -109,8 +109,14 @@ function stickyEl(El, stickyConf) {
   return eventHandler;
 }
 
-async function rotateImage(El, units, conf, unitsClone, prevItem = {}) {
-  let unit;
+async function rotateImage(
+  El: HTMLElement,
+  units: AdUnit[],
+  conf: AdConfig,
+  unitsClone: AdUnit[],
+  prevItem: AdUnit = {} as AdUnit
+) {
+  let unit: AdUnit | undefined;
   if (conf.random) {
     // get random unit
     let index = unitsClone.length === 1 ? 0 : Math.floor(Math.random() * unitsClone.length);
@@ -131,21 +137,21 @@ async function rotateImage(El, units, conf, unitsClone, prevItem = {}) {
   }
 
   // create link
-  let link = document.createElement('a');
-  link.href = unit.url || '';
+  const link = document.createElement('a');
+  link.href = (unit as AdUnit).url || '';
   link.setAttribute('rel', 'noopener nofollow noreferrer');
   conf.linkClass && link.classList.add(conf.linkClass);
   conf.newTab && link.setAttribute('target', '_blank');
   if (typeof conf.onClick === 'function')
     link.addEventListener('click', (e) => {
-      conf.onClick(e, unit);
+      conf.onClick && conf.onClick(e, unit as AdUnit);
     }); // add onclick handler
   // create image
-  let img = new Image(conf.width, conf.height);
-  img.src = unit.img;
+  const img = new Image(conf.width, conf.height);
+  img.src = (unit as AdUnit).img;
   img.classList.add('fadeIn');
   conf.imgClass && img.classList.add(conf.imgClass);
-  img.style.objectFit = conf.objectFit;
+  img.style.objectFit = conf.objectFit as string;
   // allow time to preload images
   await delay(750);
   // attach an image to the link
@@ -155,7 +161,7 @@ async function rotateImage(El, units, conf, unitsClone, prevItem = {}) {
 
   // exec callback
   try {
-    (conf.cb || noop)(unit, El, conf);
+    (conf.cb || noop)(unit as AdUnit, El, conf);
   } catch (e) {
     conf.debug && console.error('Callback Error', e);
   }
@@ -166,7 +172,7 @@ async function rotateImage(El, units, conf, unitsClone, prevItem = {}) {
   };
 }
 
-export default function (El, units = [], options = {}) {
+export default function (El: HTMLElement, units: AdUnit[] = [], options: AdConfig = {}) {
   let initErr = false;
   const conf = Object.assign({}, getDefaultConfig(El, options.shape || ''), options);
   if (
@@ -187,13 +193,13 @@ export default function (El, units = [], options = {}) {
     initErr = true;
   }
 
-  let inter; // reference to interval
+  let inter: number | undefined; // reference to interval
   let ret; // reference to return value of `rotateImage`
-  let prevItem = null;
+  let prevItem: AdUnit | null = null;
   let unitsClone = JSON.parse(JSON.stringify(units)); // clone units
 
   // Manage events
-  const eventManager = {
+  const eventManager: EventManager = {
     scrollEvRef: null,
     obs: null,
     init() {
@@ -214,18 +220,22 @@ export default function (El, units = [], options = {}) {
       this.obs = new IntersectionObserver(this.obsCb.bind(out), { threshold: 0.5 });
       this.obs.observe(El);
       // make sticky
-      if (conf.sticky && conf.sticky.constructor === Object && (!conf.sticky.noMobile || device !== 'mobile')) {
-        this.scrollEvRef = stickyEl(El, conf.sticky);
+      if (
+        conf.sticky &&
+        ((conf.sticky as unknown) as Record<string, unknown>).constructor === Object &&
+        (!((conf.sticky as unknown) as Record<string, unknown>).noMobile || device !== 'mobile')
+      ) {
+        this.scrollEvRef = stickyEl(El, (conf.sticky as unknown) as Record<string, unknown>);
       }
     },
     destroy() {
       if (this.obs) this.obs.unobserve(El);
       const clone = El.cloneNode(true);
-      El.parentNode.replaceChild(clone, El);
-      El = clone;
+      (El.parentNode as HTMLElement).replaceChild(clone, El);
+      El = clone as HTMLElement;
       // remove stickiness
       if (!conf.sticky) {
-        window.removeEventListener('scroll', this.scrollEvRef);
+        window.removeEventListener('scroll', this.scrollEvRef as (this: Window, event: Event) => void);
         this.scrollEvRef = null;
         El.classList.remove('stickyElx');
         El.style.position === 'fixed' && (El.style.position = 'relative');
@@ -233,10 +243,10 @@ export default function (El, units = [], options = {}) {
     },
     obsCb(entries) {
       entries.forEach((entry) => {
-        if (entry.intersectionRatio >= 0.5) {
-          this.resume();
+        if ((entry.intersectionRatio as number) >= 0.5) {
+          out.resume();
         } else {
-          this.pause();
+          out.pause();
         }
       });
     },
@@ -257,7 +267,7 @@ export default function (El, units = [], options = {}) {
       eventManager.init();
       ret = await rotateImage(El, units, conf, unitsClone);
       unitsClone = ret.unitsClone;
-      prevItem = ret.prevItem;
+      prevItem = ret.prevItem as AdUnit;
     },
     resume() {
       if (initErr) return;
@@ -265,9 +275,9 @@ export default function (El, units = [], options = {}) {
       // rotate only if multiple units are present
       if (units.length > 1)
         inter = window.setInterval(async function () {
-          ret = await rotateImage(El, units, conf, unitsClone, prevItem);
+          ret = await rotateImage(El, units, conf, unitsClone, prevItem as AdUnit);
           unitsClone = ret.unitsClone;
-          prevItem = ret.prevItem;
+          prevItem = ret.prevItem as AdUnit;
         }, conf.timer - 750);
     },
     destroy() {
@@ -278,19 +288,24 @@ export default function (El, units = [], options = {}) {
       }
       eventManager.destroy();
     },
-    add(item) {
+    add(item: AdUnit) {
       if (initErr) return;
       if (item && item instanceof Object && item.url && item.img) {
         units.push(item);
       }
     },
-    remove(ob) {
+    remove(item: AdUnit) {
       if (initErr) return;
-      if (!ob) units.pop();
-      else units = units.filter((item) => item.img !== ob.img);
+      if (!item) units.pop();
+      else units = units.filter((i) => i.img !== item.img);
       if (units.length <= 1) this.pause();
     },
   };
 
   return out;
 }
+
+//  @todo: export only rotator instead of default fn
+// export const rotator = {
+//   conf,
+// };
