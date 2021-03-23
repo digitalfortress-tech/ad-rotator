@@ -1,46 +1,41 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const path = require('path');
 
 module.exports = {
-  "mode": "production",
-  "entry": "./src/ad-rotator.js",
-  "output": {
-    "path": path.resolve(__dirname, "dist"),
-    "filename": "ad-rotator.js",
-    "library": "adRotator",
-    "libraryExport": "default" ,   // to export only the default fn
-    "libraryTarget": "umd",
-    "globalObject": "this"
+  mode: 'production',
+  entry: './src/ad-rotator.js',
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'ad-rotator.js',
+    library: 'adRotator',
+    libraryExport: 'default', // to export only the default fn
+    libraryTarget: 'umd',
+    globalObject: 'this',
   },
-  "devtool": "source-map",
-  "module": {
-    "rules": [
+  devtool: 'source-map',
+  module: {
+    rules: [
       {
-        "enforce": "pre",
-        "test": /\.(js|jsx)$/,
-        "exclude": /node_modules/,
-        "use": "eslint-loader"
+        enforce: 'pre',
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: 'eslint-loader',
       },
       {
-        "test": /\.js$/,
-        "exclude": /node_modules/,
-        "use": {
-          "loader": "babel-loader",
-          "options": {
-            "presets": [
-              "@babel/preset-env"
-            ],
-            plugins: ["@babel/plugin-transform-runtime"],
-          }
-        }
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env'],
+            plugins: ['@babel/plugin-transform-runtime'],
+          },
+        },
       },
       {
-        "test": /\.less$/,
-        "use": [
-          "style-loader",
-          "css-loader",
-          "less-loader"
-        ]
-      }
-    ]
-  }
-}
+        test: /\.less$/,
+        use: ['style-loader', 'css-loader', 'less-loader'],
+      },
+    ],
+  },
+};
