@@ -11,8 +11,15 @@
     "watch": "npm run dev -- --watch",
     "server": "webpack",
     "tag": "npm version minor --no-git-tag-version && npm run prod && PACKAGE_VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]') && git commit -am \"$PACKAGE_VERSION release\" && git tag v$PACKAGE_VERSION",
-    "test": "echo 'Tests coming soon' && exit 0",
+    "test": "jest --verbose",
     "lint": "eslint --fix ./src"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.(js|jsx)$": "babel-jest",
+      "^.+\\.(ts|tsx)?$": "ts-jest",
+      "^.+\\.(css|less)$": "<rootDir>/styleMock.js"
+    }
   },
   "author": {
     "name": "Niket Pathak",
