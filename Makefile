@@ -11,8 +11,8 @@ lint:		## Lint all files
 	@npm run lint
 
 tests:		## Run all tests (unit + e2e)
-	@npm run test-unit
-	@npm run test-e2e
+	@make test-unit
+	@make test-e2e
 
 test-unit:		## Run unit tests (JEST)
 	@npm run test-unit

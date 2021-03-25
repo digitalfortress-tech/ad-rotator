@@ -17,5 +17,6 @@ cache:
 script:
   - rm -rf node_modules
   - npm ci
-  - npm run test
   - npm run prod
+  - npm run test-unit
+  - npm run test-e2e

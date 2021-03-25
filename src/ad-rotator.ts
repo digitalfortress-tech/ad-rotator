@@ -1,5 +1,5 @@
 import './style.less';
-import type { AdConfig, StickyConfig, AdUnit, EventManager } from './types';
+import type { AdConfig, StickyConfig, AdUnit, EventManager, AdRotatorInstance } from './types';
 
 /**
  * Minimum screen width to consider as desktop
@@ -25,11 +25,9 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 /**
  * DefaultConfig
- * @param shape
- * @return {{timer: number, random: boolean, shape: string, objectFit: string, width: number, sticky: null, imgClass: string, linkClass: string, height: number, target: string}}
  */
-function getDefaultConfig(El: HTMLElement, shape = 'square') {
-  const config = {
+const getDefaultConfig = (El: HTMLElement, shape = 'square') => {
+  const config: AdConfig = {
     shape: 'square',
     height: 300,
     width: 250,
@@ -65,9 +63,9 @@ function getDefaultConfig(El: HTMLElement, shape = 'square') {
   }
 
   return config;
-}
+};
 
-function stickyEl(El: HTMLElement, stickyConf: StickyConfig) {
+const stickyEl = (El: HTMLElement, stickyConf: StickyConfig) => {
   if (!El || !(El instanceof HTMLElement) || !stickyConf || stickyConf.constructor !== Object) return null;
 
   const { beforeEl, afterEl, offsetTop, offsetBottom } = stickyConf;
@@ -107,15 +105,15 @@ function stickyEl(El: HTMLElement, stickyConf: StickyConfig) {
 
   window.addEventListener('scroll', eventHandler);
   return eventHandler;
-}
+};
 
-async function rotateImage(
+const rotateImage = async (
   El: HTMLElement,
   units: AdUnit[],
   conf: AdConfig,
   unitsClone: AdUnit[],
   prevItem: AdUnit = {} as AdUnit
-) {
+) => {
   let unit: AdUnit | undefined;
   if (conf.random) {
     // get random unit
@@ -170,9 +168,9 @@ async function rotateImage(
     unitsClone,
     prevItem: unit,
   };
-}
+};
 
-export default function (El: HTMLElement, units: AdUnit[] = [], options: AdConfig = {}) {
+export const rotator = (El: HTMLElement, units: AdUnit[] = [], options: AdConfig = {}): AdRotatorInstance => {
   let initErr = false;
   const conf = Object.assign({}, getDefaultConfig(El, options.shape || ''), options);
   if (
@@ -184,10 +182,10 @@ export default function (El: HTMLElement, units: AdUnit[] = [], options: AdConfi
     !(units[0] instanceof Object) ||
     !units[0].url ||
     !units[0].img ||
-    isNaN(conf.timer) ||
-    conf.timer < 1000 ||
-    isNaN(conf.height) ||
-    isNaN(conf.width)
+    isNaN(conf.timer as number) ||
+    (conf.timer as number) < 1000 ||
+    isNaN(conf.height as number) ||
+    isNaN(conf.width as number)
   ) {
     conf.debug && console.error('Missing/malformed parameters - El, Units, Config', El, units, conf);
     initErr = true;
@@ -253,7 +251,7 @@ export default function (El: HTMLElement, units: AdUnit[] = [], options: AdConfi
   };
 
   // prepare output
-  const out = {
+  const out: AdRotatorInstance = {
     conf,
     pause() {
       if (inter) {
@@ -278,7 +276,7 @@ export default function (El: HTMLElement, units: AdUnit[] = [], options: AdConfi
           ret = await rotateImage(El, units, conf, unitsClone, prevItem as AdUnit);
           unitsClone = ret.unitsClone;
           prevItem = ret.prevItem as AdUnit;
-        }, conf.timer - 750);
+        }, (conf.timer as number) - 750);
     },
     destroy() {
       if (initErr) return;
@@ -303,9 +301,4 @@ export default function (El: HTMLElement, units: AdUnit[] = [], options: AdConfi
   };
 
   return out;
-}
-
-//  @todo: export only rotator instead of default fn
-// export const rotator = {
-//   conf,
-// };
+};

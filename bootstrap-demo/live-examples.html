@@ -136,7 +136,7 @@ rotator.start();</code>
           </pre>
           Here is a live example demonstrating basic Ad Rotation with default Config. (To see the default config, you can uncomment the last line)
           <div class="eval-js">
-            var rotatorDefault = new adRotator(
+            var rotatorDefault = rotator(
               document.querySelector(".defaultAdContainer"),
               [
                 { url: "https://niketpathak.com#0", img: "https://i.imgur.com/GsNCBNJ_d.webp?maxwidth=728&fidelity=grand" },
@@ -177,7 +177,7 @@ rotator.start();</code>
 
           A live example to go along with it. (Note: If you are simulating a mobile device, ensure you refresh the page for correct results)
           <div class="eval-js">
-            var rotatorLeaderboard = new adRotator(
+            var rotatorLeaderboard = rotator(
               document.querySelector(".leaderboardAdContainer"),
               [
                 { url: "https://niketpathak.com#1", img: "./assets/img/leaderboard/leaderboard-1.gif" },
@@ -224,7 +224,7 @@ rotator.start();</code>
           And here's a live example. (Note: If you are simulating a mobile device, ensure you refresh the page for correct results.
           This result of this live example would be hidden on a desktop device by default)
           <div class="eval-js">
-            var rotatorMobile = new adRotator(
+            var rotatorMobile = rotator(
             document.querySelector(".mobileAdContainer"),
               [
                 { url: "https://niketpathak.com#1", img: "./assets/img/leaderboard/leaderboard-1.gif" },
@@ -253,7 +253,7 @@ rotator.start();</code>
           
           <pre>
 <code class="javascript">// initialise Ad Rotation 
-var rotator = new adRotator(
+var rotator = rotator(
   document.querySelector('.className'), 
   [{ url: 'xyz.com', img: '../xyz.jpg'}],
   {
@@ -276,7 +276,7 @@ rotator.start();</code>
           set <code>sticky: null</code>. <b>Note</b> that we have set <code>noMobile: true</code> which means
           that this Ad will not be sticky on a mobile device.
           <div class="eval-js">
-            var rotatorSticky = new adRotator(
+            var rotatorSticky = rotator(
             document.querySelector(".stickyAdContainer"),
               [
                 { url: "https://niketpathak.com#1", img: "./assets/img/square/square-1.jpeg" },
@@ -317,7 +317,7 @@ rotator.start();</code>
           
           <pre>
 <code class="javascript">// initialise Ad Rotation 
-var rotator = new adRotator(
+var rotatorInstance = rotator(
   document.querySelector('.className'), 
   [{ url: 'xyz.com', img: '../xyz.jpg'}],
   {
@@ -334,7 +334,7 @@ var rotator = new adRotator(
   }  
 );
 // start rotation (returns undefined by default)
-rotator.start();</code>
+rotatorInstance.start();</code>
           </pre>
           
           And now lets get to the live example. You should see logs below when you hover, click and also when each Ad
@@ -342,7 +342,7 @@ rotator.start();</code>
           with the live editor. (It has nothing to do with the Adrotator library). To fix the logs, 
           you can comment & then uncomment  the last line <code>rotatorSidebar.start();</code>
           <div class="eval-js">
-            var rotatorSidebar = new adRotator(
+            var rotatorSidebar = rotator(
               document.querySelector(".sidebarAdContainer"),
               [
                 { url: "https://niketpathak.com#1", img: "./assets/img/sidebar/sidebar-1.jpg" },

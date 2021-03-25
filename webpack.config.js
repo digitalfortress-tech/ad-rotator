@@ -7,8 +7,8 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'ad-rotator.js',
-    library: 'adRotator',
-    libraryExport: 'default', // to export only the default fn
+    library: 'rotator',
+    libraryExport: 'rotator', // to export only the default fn
     libraryTarget: 'umd',
     globalObject: 'this',
   },

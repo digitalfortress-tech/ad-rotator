@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
 /************************************** CUSTOM *******************************************/
 /*****************************************************************************************/
 
-var rotatorLeaderboard = new adRotator(
+var rotatorLeaderboard = rotator(
   document.getElementById('leadboardAdContainer'),
   [
     { url: 'https://niketpathak.com#1', img: './assets/img/leaderboard/leaderboard-1.gif' },
@@ -59,7 +59,7 @@ var rotatorLeaderboard = new adRotator(
 );
 rotatorLeaderboard.start(); // start the rotation
 
-var rotatorMobile = new adRotator(
+var rotatorMobile = rotator(
   document.querySelector('.mobileAdContainer'),
   [
     { url: 'https://niketpathak.com#1', img: './assets/img/leaderboard/leaderboard-1.gif' },
@@ -76,7 +76,7 @@ var rotatorMobile = new adRotator(
 );
 rotatorMobile.start(); // start the rotation
 
-var rotatorSidebar = new adRotator(
+var rotatorSidebar = rotator(
   document.querySelector('.sidebarAdContainer'),
   [
     { url: 'https://niketpathak.com#1', img: './assets/img/sidebar/sidebar-1.jpg' },

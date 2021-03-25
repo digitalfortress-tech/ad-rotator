@@ -1,4 +1,4 @@
-# Ad-rotator [![npm version](https://badge.fury.io/js/ad-rotator.svg)](https://badge.fury.io/js/ad-rotator) [![Build Status](https://travis-ci.org/niketpathak/adRotator.svg?branch=master)](https://travis-ci.org/niketpathak/adRotator) ![Downloads](https://img.shields.io/npm/dt/ad-rotator) ![maintained](https://img.shields.io/maintenance/yes/2020) [![License](https://img.shields.io/github/license/mashape/apistatus.svg)](https://opensource.org/licenses/MIT)
+# Ad-rotator [![npm version](https://badge.fury.io/js/ad-rotator.svg)](https://badge.fury.io/js/ad-rotator) [![Build Status](https://travis-ci.org/niketpathak/adRotator.svg?branch=master)](https://travis-ci.org/niketpathak/adRotator) ![Downloads](https://img.shields.io/npm/dt/ad-rotator) ![maintained](https://img.shields.io/maintenance/yes/2021) [![License](https://img.shields.io/github/license/mashape/apistatus.svg)](https://opensource.org/licenses/MIT)
 
 A fast, light-weight and highly configurable JS library to rotate advertisements.
 
@@ -33,10 +33,10 @@ Then include the library in your App/Page.
 **As a module,** 
 ```javascript
 // using ES6 modules
-import adRotator from 'ad-rotator'
+import { rotator } from 'ad-rotator';
 
 // using CommonJS modules
-var adRotator = require("ad-rotator")
+var rotator = require('ad-rotator');
 ```
 
 **In the browser context,**
@@ -49,7 +49,7 @@ var adRotator = require("ad-rotator")
 <!-- or with unpkg.com -->
 <script src="https://unpkg.com/ad-rotator@3.9.0/dist/ad-rotator.js"></script>
 ```
-The library will be available as a global object at `window.adRotator`
+The library will be available as a global object at `window.rotator`
 
 ## Configuration
 
@@ -87,13 +87,13 @@ let items = [
 Then Initialize **adRotator** by passing the `DOM Element` and the `Array` of advertisements as parameters
 ```javascript
 // initialize adRotator
-const rotator = new adRotator(
+const instance = rotator(
   document.getElementById('containerElement'),
   items,
   { debug: true }       // optional
 );
 // start the rotation
-rotator.start(); 
+instance.start(); 
 ```
 That's it! You should now have Ad-rotation in action! By default, the Ads are rotated in a random fashion. See [`configuration options`](#configurationoptions) for more variations. 
 
@@ -115,7 +115,7 @@ _**_NOTE:_**_ By default, `adRotator` is designed to **fail silently** for any c
 Starts the Ad-Rotation
 
 ```javascript
-const rotator = new adRotator(
+const instance = rotator(
     document.getElementById('containerElement'),
     [
         { url: 'https://gospelmusic.io#1', img: 'https://niketpathak.com/images/works/gkm_pic_sq.jpg'},
@@ -123,21 +123,20 @@ const rotator = new adRotator(
     ],
     {shape: "sidebar"}    // configuration options
 );
-rotator.start(); // starts the rotation
+instance.start();         // starts the rotation
 ```
 
 #### <a id="adrotatorpause">adRotator.`pause()`</a>
 
 Pauses the Rotation. However, if the user clicks/hovers the Ad or scrolls away from the Ad such that it is not visible anymore & then scrolls back to it, rotation will resume automatically. Rotation cannot be paused permanently because that would beat the purpose of this library.
 ```javascript
-const rotator = new adRotator( /* options */ )
-rotator.pause();                  // pauses the rotation
+const instance = rotator( /* options */ )
+instance.pause();                  // pauses the rotation
 
 /* You can also use "pause" in the cb(callback) config option to 
- * pause every advertisement after it has been clicked/hovered upon, 
- * or after it has been scrolled out of view.
+ * pause every advertisement after it has been clicked/hovered upon
  */
-rotator.conf.cb = rotator.pause;
+instance.conf.cb = instance.pause;
 ```
 See [cb(callback) config option](#configurationoptions) for further details on its usage.
 
@@ -147,9 +146,9 @@ To resume the rotation, simply call `adRotatorInstance.resume()`
 
 Resumes the Rotation. 
 ```javascript
-const rotator = new adRotator( /* options */ )
-rotator.pause();
-rotator.resume();        // resumes the rotation
+const instance = rotator( /* options */ )
+instance.pause();
+instance.resume();        // resumes the rotation
 ```
 Use `adRotatorInstance.resume()` to resume a paused rotation.
 
@@ -158,8 +157,8 @@ Use `adRotatorInstance.resume()` to resume a paused rotation.
 
 Inject a new Advertisement into the adRotator.
 ```javascript
-const rotator = new adRotator( /* options */ )
-rotator.add(
+const instance = rotator( /* options */ )
+instance.add(
   {
     url: 'https://gospelmusic.io',
     img: './path-to-img'
@@ -172,9 +171,9 @@ The newly injected Advertisement will be displayed in the next rotation cycle
 
 Remove an item from the Advertisements array. 
 ```javascript
-const rotator = new adRotator( /* options */ )
-rotator.remove(); // remove the last item
-rotator.remove(   // remove a specific item
+const instance = rotator( /* options */ )
+instance.remove(); // remove the last item
+instance.remove(   // remove a specific item
   {
     url: 'https://digitalfortress.tech', // url is optional
     img: './path-to-img'
@@ -188,8 +187,8 @@ The `remove()` method deletes the last item in the advertisements array. To remo
 Destroys Ad Rotation. Cleans up the DOM and removes all associated events.
 
 ```javascript
-const rotator = new adRotator( /* options */ )
-rotator.destroy();        // destroys the rotation, DOM and events
+const instance = rotator( /* options */ )
+instance.destroy();        // destroys the rotation, DOM and events
 ```
 To reactivate adRotator, simply call `adRotatorInstance.start()`
 

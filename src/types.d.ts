@@ -23,10 +23,10 @@ export interface AdConfig {
   sticky?: StickyConfig | null;
   target?: 'all' | 'desktop' | 'mobile';
   timer?: number;
-  random?: HTMLElement;
+  random?: boolean;
   newTab?: boolean;
   cb?: ((unit: AdUnit, El: HTMLElement, conf: AdConfig) => unknown) | null;
-  onHover?: unknown | null;
+  onHover?: ((prevItem: AdUnit | null, El: HTMLElement) => unknown) | null;
   onClick?: ((e: MouseEvent, unit: AdUnit) => unknown) | null;
   debug?: boolean;
 }
@@ -37,4 +37,14 @@ export interface EventManager {
   init: () => void;
   destroy: () => void;
   obsCb: IntersectionObserverCallback;
+}
+
+export interface AdRotatorInstance {
+  conf: AdConfig;
+  start: () => void;
+  pause: () => void;
+  resume: () => void;
+  destroy: () => void;
+  add: (item: AdUnit) => void;
+  remove: (item: AdUnit) => void;
 }
