@@ -1,7 +1,7 @@
 /* eslint-disable cypress/no-unnecessary-waiting */
 describe('AdRotator', () => {
   beforeEach(() => {
-    cy.viewport(1200, 1200);
+    cy.viewport(1280, 1080);
   });
   it('should rotate Ad correctly (sequentially)', () => {
     cy.visit('/demo/index.html');
@@ -34,5 +34,22 @@ describe('AdRotator', () => {
     cy.viewport(400, 400);
     cy.reload(true);
     cy.get('#hz-placement-1').find('a').should('not.exist');
+  });
+
+  it('should be visible only on mobile', () => {
+    cy.viewport(400, 400);
+    cy.visit('/demo/index.html');
+    cy.get('#mobile-placement-4').find('a').should('not.exist');
+  });
+
+  it('should be sticky', () => {
+    cy.visit('/demo/index.html');
+    cy.get('.default-shape-square').scrollIntoView();
+    cy.get('#sq-placement-1').as('stickyAd').should('have.attr', 'class', 'stickyElx');
+    cy.get('@stickyAd').should('have.css', 'position', 'fixed');
+    cy.get('@stickyAd').should('have.css', 'top', '0px');
+    cy.scrollTo(0);
+    cy.get('@stickyAd').should('not.have.attr', 'class', 'stickyElx');
+    cy.get('@stickyAd').should('not.have.css', 'position', 'fixed');
   });
 });
