@@ -27,6 +27,6 @@ prod:		## Build for Production environment
 	@npm run prod
 
 publish:	## Publish to NPM
-	@make tests
 	@make prod
+	@make tests
 	@npm publish
