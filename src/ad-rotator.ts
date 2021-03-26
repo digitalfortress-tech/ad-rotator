@@ -65,7 +65,7 @@ const getDefaultConfig = (El: HTMLElement, shape = 'square') => {
   return config;
 };
 
-const stickyEl = (El: HTMLElement, stickyConf: StickyConfig) => {
+export const stickyEl = (El: HTMLElement, stickyConf: StickyConfig): null | (() => void) => {
   if (!El || !(El instanceof HTMLElement) || !stickyConf || stickyConf.constructor !== Object) return null;
 
   const { beforeEl, afterEl, offsetTop, offsetBottom } = stickyConf;
