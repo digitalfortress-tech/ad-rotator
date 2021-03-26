@@ -47,7 +47,7 @@ var rotator = require('ad-rotator');
 <!-- Alternatively, you can use a CDN -->
 <script src="https://cdn.jsdelivr.net/npm/ad-rotator"></script>
 <!-- or with unpkg.com -->
-<script src="https://unpkg.com/ad-rotator@3.9.0/dist/ad-rotator.js"></script>
+<script src="https://unpkg.com/ad-rotator@4.0.0/dist/ad-rotator.js"></script>
 ```
 The library will be available as a global object at `window.rotator`
 
@@ -121,7 +121,7 @@ const instance = rotator(
         { url: 'https://gospelmusic.io#1', img: 'https://niketpathak.com/images/works/gkm_pic_sq.jpg'},
         { url: 'https://digitalfortress.tech#2', img: 'https://niketpathak.com/images/works/maestrobits_sq.jpg'}
     ],
-    {shape: "sidebar"}    // configuration options
+    { shape: "sidebar" }    // configuration options
 );
 instance.start();         // starts the rotation
 ```
@@ -254,9 +254,9 @@ A css class **`stickyElx`** is added dynamically to the sticky Element's contain
 It is possible to change configuration options after instantiation. 
 ```javascript
 // init adRotator with default options
-const rotator = new adRotator( /* options */ )
+const instance = rotator( /* options */ )
 // update config after instantiation to change to sequential rotation
-rotator.conf.random = false; 
+instance.conf.random = false; 
 ```
 The only 2 exceptions are: 
 - Updating the `shape` config option will not automatically update the `height` & `width` config options as it does during instantiation. 
