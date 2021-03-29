@@ -151,7 +151,7 @@ const rotateImage = async (
   conf.imgClass && img.classList.add(conf.imgClass);
   img.style.objectFit = conf.objectFit as string;
   // allow time to preload images
-  await delay(750);
+  await delay(1e3);
   // attach an image to the link
   link.appendChild(img);
   // add the link to the El
@@ -276,7 +276,7 @@ export const rotator = (El: HTMLElement, units: AdUnit[] = [], options: AdConfig
           ret = await rotateImage(El, units, conf, unitsClone, prevItem as AdUnit);
           unitsClone = ret.unitsClone;
           prevItem = ret.prevItem as AdUnit;
-        }, ((conf.timer as number) > 2 ? (conf.timer as number) : 2) * 1e3 - 750);
+        }, ((conf.timer as number) > 2 ? (conf.timer as number) : 2) * 1e3 - 1e3);
     },
     destroy() {
       if (initErr) return;
