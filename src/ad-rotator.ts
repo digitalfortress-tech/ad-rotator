@@ -1,27 +1,13 @@
-import './style.less';
 import type { AdConfig, StickyConfig, AdUnit, EventManager, AdRotatorInstance } from './types';
+import { NOOP, delay } from './helpers';
+import './style.less';
 
-/**
- * Minimum screen width to consider as desktop
- * @type {number}
- */
+// Minimum screen width to consider as desktop
 const desktopWidth = 992;
-/**
- * Detected device
- * @type {string}
- */
+// Detected device
 const device = window.screen.availWidth >= desktopWidth ? 'desktop' : 'mobile';
-/**
- * A no-operation function
- * @type {function () {}}
- */
-const noop = (...args: unknown[]): unknown => undefined;
-
-/**
- * A function to delay execution
- * @param {Number} ms Timeout in ms
- */
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+// default Rotation Time
+const defaultInterval = 5; // 5 seconds
 
 /**
  * DefaultConfig
@@ -36,7 +22,7 @@ const getDefaultConfig = (El: HTMLElement, shape = 'square') => {
     objectFit: 'inherit',
     sticky: null,
     target: 'all',
-    timer: 5,
+    timer: defaultInterval,
     random: true,
     newTab: false,
     cb: null,
@@ -137,7 +123,7 @@ const rotateImage = async (
   // create link
   const link = document.createElement('a');
   link.href = (unit as AdUnit).url || '';
-  link.setAttribute('rel', 'noopener nofollow noreferrer');
+  link.setAttribute('rel', 'NOOPener nofollow noreferrer');
   conf.linkClass && link.classList.add(conf.linkClass);
   conf.newTab && link.setAttribute('target', '_blank');
   if (typeof conf.onClick === 'function')
@@ -151,7 +137,7 @@ const rotateImage = async (
   conf.imgClass && img.classList.add(conf.imgClass);
   img.style.objectFit = conf.objectFit as string;
   // allow time to preload images
-  await delay(1e3);
+  await delay(900);
   // attach an image to the link
   link.appendChild(img);
   // add the link to the El
@@ -159,7 +145,7 @@ const rotateImage = async (
 
   // exec callback
   try {
-    (conf.cb || noop)(unit as AdUnit, El, conf);
+    (conf.cb || NOOP)(unit as AdUnit, El, conf);
   } catch (e) {
     conf.debug && console.error('Callback Error', e);
   }
@@ -183,7 +169,6 @@ export const rotator = (El: HTMLElement, units: AdUnit[] = [], options: AdConfig
     !units[0].url ||
     !units[0].img ||
     isNaN(conf.timer as number) ||
-    (conf.timer as number) < 2 ||
     isNaN(conf.height as number) ||
     isNaN(conf.width as number)
   ) {
@@ -205,7 +190,7 @@ export const rotator = (El: HTMLElement, units: AdUnit[] = [], options: AdConfig
       El.addEventListener('mouseenter', () => {
         out.pause();
         try {
-          (conf.onHover || noop)(prevItem, El);
+          (conf.onHover || NOOP)(prevItem, El);
         } catch (e) {
           conf.debug && console.error('Callback Error', e);
         }
@@ -271,12 +256,14 @@ export const rotator = (El: HTMLElement, units: AdUnit[] = [], options: AdConfig
       if (initErr) return;
       this.pause();
       // rotate only if multiple units are present
-      if (units.length > 1)
+      if (units.length > 1) {
+        const rotationTime = (conf.timer as number) >= 2 ? conf.timer : defaultInterval;
         inter = window.setInterval(async function () {
           ret = await rotateImage(El, units, conf, unitsClone, prevItem as AdUnit);
           unitsClone = ret.unitsClone;
           prevItem = ret.prevItem as AdUnit;
-        }, ((conf.timer as number) > 2 ? (conf.timer as number) : 2) * 1e3 - 1e3);
+        }, (rotationTime as number) * 1e3 - 900);
+      }
     },
     destroy() {
       if (initErr) return;

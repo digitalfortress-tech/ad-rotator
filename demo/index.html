@@ -263,12 +263,12 @@
             },
 
         ];
-            var instance1 = rotator(document.getElementById("sidebar-placement-1"), units, { shape: 'sidebar', timer: '2.5', random: false, debug: true, cb: function (current) { console.log('currentItem -->', current.url) } });
+                        var instance1 = rotator(document.getElementById("sidebar-placement-1"), units, { shape: 'sidebar', timer: '1', random: true, debug: true, cb: function (current) { console.log('currentItem -->', current.url) } });
         instance1.start();
         // console.debug('***instance1', instance1);
         
             var instance2 = rotator(document.getElementById("hz-placement-1"), units2, { shape: 'leaderboard', target: "desktop", objectFit: 'cover', timer: 3, debug: true });
-        instance2.start();
+        // instance2.start();
         // console.debug('***instance2', instance2);
         
         var instance3 = rotator(document.getElementById("sq-placement-1"), units3, {
@@ -280,7 +280,7 @@
             },
             debug: true
         });
-        instance3.start();
+        // instance3.start();
         // console.debug('***instance3', instance3);
         
                 var instance4 = rotator(document.getElementById("mobile-placement-4"), units3, {
@@ -292,7 +292,7 @@
             },
             debug: true
         });
-        instance4.start();
+        // instance4.start();
         // console.debug('***instance4', instance4);
     </script>
 </body>
