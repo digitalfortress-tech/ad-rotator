@@ -14,7 +14,7 @@ export interface StickyConfig {
 }
 
 export interface AdConfig {
-  shape?: 'square' | 'leaderboard' | 'mobile' | 'sidebar';
+  shape?: 'square' | 'leaderboard' | 'mobile' | 'sidebar' | 'custom';
   height?: number;
   width?: number;
   imgClass?: string;

@@ -14,10 +14,10 @@ npm ci
 npm run prod
 
 # Copy the demo directory to the target
-# deleting
-echo -e "Deleting Current Demo Site Assets => rm -Rf $TARGET"
+# deleting previous site first
+echo -e "Deleting Current Demo Site Assets and copying new assets => rm -Rf $TARGET && cp -R $SOURCE $TARGET"
 rm -Rf $TARGET
 
-echo -e "Copying Assets => cp -R $SOURCE $TARGET"
+# copy assets
 cp -R $SOURCE $TARGET
 

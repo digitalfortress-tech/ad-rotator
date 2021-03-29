@@ -3,7 +3,7 @@
   "title": "ad-rotator.js",
   "description": "A light-weight JS library to rotate advertisements.",
   "version": "4.0.0",
-  "homepage": "https://github.com/digitalfortress-tech/adRotator",
+  "homepage": "https://github.com/digitalfortress-tech/ad-rotator",
   "license": "MIT",
   "scripts": {
     "dev": "npm run server -- --mode development --progress",
@@ -34,15 +34,15 @@
   "main": "dist/ad-rotator.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/digitalfortress-tech/adRotator.git"
+    "url": "https://github.com/digitalfortress-tech/ad-rotator.git"
   },
   "bugs": {
-    "url": "https://github.com/digitalfortress-tech/adRotator/issues"
+    "url": "https://github.com/digitalfortress-tech/ad-rotator/issues"
   },
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/digitalfortress-tech/adRotator/blob/master/LICENSE"
+      "url": "https://github.com/digitalfortress-tech/ad-rotator/blob/master/LICENSE"
     }
   ],
   "files": [

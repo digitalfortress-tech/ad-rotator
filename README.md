@@ -1,4 +1,10 @@
-# Ad-rotator [![npm version](https://badge.fury.io/js/ad-rotator.svg)](https://badge.fury.io/js/ad-rotator) [![Build Status](https://travis-ci.org/niketpathak/adRotator.svg?branch=master)](https://travis-ci.org/niketpathak/adRotator) ![Downloads](https://img.shields.io/npm/dt/ad-rotator) ![maintained](https://img.shields.io/maintenance/yes/2021) [![License](https://img.shields.io/github/license/mashape/apistatus.svg)](https://opensource.org/licenses/MIT)
+# Ad-rotator 
+[![npm version](https://img.shields.io/npm/v/ad-rotator.svg)](https://www.npmjs.com/package/ad-rotator)
+[![Build Status](https://travis-ci.org/niketpathak/adRotator.svg?branch=master)](https://travis-ci.org/niketpathak/adRotator)
+[![code style](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier) 
+![Downloads](https://img.shields.io/npm/dt/ad-rotator)
+![maintained](https://img.shields.io/badge/maintained-yes-blueviolet)
+[![License](https://img.shields.io/badge/license-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 A fast, light-weight and highly configurable JS library to rotate advertisements.
 
@@ -100,7 +106,60 @@ That's it! You should now have Ad-rotation in action! By default, the Ads are ro
 
 _**_NOTE:_**_ By default, `adRotator` is designed to **fail silently** for any configuration error. This means that it will neither pollute the DOM nor will it attach any events in case of an error. It will also not log any console error messages. This can make it difficult to diagnose an error, hence during initial setup/development, it is recommended to turn on the `{debug: true}` config option. 
 
-### API
+---
+
+## <a id="configurationoptions">Configuration Options</a>
+
+Ad-rotator accepts the following configuration options and all of them are **Optional**.
+
+| Parameter | Description | Default |
+| --------- | ----------- | ------- |
+|`shape?: string` |This is the expected shape of the Ad. It can also be set to `square`, `leaderboard`, `sidebar`,`mobile` or `custom`. By default, the shape is set to **square** with a height of 300px and width of 250px. When set to **Leaderboard**, the standard horizontal size of height - 90px, width - 728px is used, when shape is set to **Sidebar**, the standard size of height - 600px, width - 300px is used and when the shape is set to **Mobile**, the width is set to the width of the container Element & the height is set to 90px. (These default values can be overriden). Setting shape to `mobile` also sets the `target` device to mobile, which means the ads in this instance will only be visible on a mobile device. When you set shape to **custom**, you must provide the height/width config options yourself.|`"square"`|
+| `height? : number` | The height of the advertisement in pixels | `300` (_px_)|
+| `width? : number` | The width of the advertisement in pixels | `250` (_px_)|
+| `timer? : number` | The time after which an advertisement will be rotated in milliseconds. (Value should be >= 1000ms) | `5000` (_ms_)|
+| `target? : string` | The target device. Can be set to `desktop`, `mobile` or `all`. When set to desktop, ads will be shown only on a desktop device whereas when set to mobile, ads will be displayed on a mobile device alone. By default, ads are shown on all devices. | `"all"` |
+| `cb?: (unit: AdUnit, El: HTMLElement, conf: AdConfig) \| null` | A **callback** that is executed on every image rotation. The callback receives 3 parameters `cb(currentAdUnit, parentElement, configParams)`. This callback can be used for analytics, to programmatically control the rotator instance or for any other purpose. | `null` |
+| `onHover?: (item: AdUnit, El: HTMLElement) \| null` | A **callback** that is executed on hovering over an Ad unit. The callback receives 2 parameters `cb(currentAdUnit, parentElement)`. | `null` |
+| `onClick?: (e: MouseEvent, unit: AdUnit) \| null` | A **callback** that is executed on clicking an Ad unit. The callback receives 2 parameters `(event, currentAdUnit)` | `null` |
+| `imgClass? : string` | Class that should be added to the image Tag | `""`|
+| `linkClass? : string` | Class that should be added to the link Tag | `""`|
+| `objectFit? : string` | The `object-fit` property that should be used for the image (`inherit`,`contain`,`cover`, `fill`,... | `"inherit"`|
+| `random? : boolean` | The advertisements are rotated in a random fashion by default. Set to `false` to have them rotated sequentially | `true`|
+| `newTab? : boolean` |  Set to `true` to open the advertisement URL in a new Tab | `false`|
+| `debug? : boolean` | Set to `true` to see error information in the console. Recommended to turn this on during setup/development. | `false`|
+| `sticky? : {} \| null` | By default, the advertisement shown is not sticky. To enable sticky advertisements, pass an empty object `sticky: {}`. You can customize sticky advertisements by providing the further configuration properties shown below| `null`|
+
+```javascript
+sticky: {
+    beforeEl: document.querySelector('.start'),
+    afterEl: document.querySelector('.end'),
+    offsetTop: '10',        // or '10px' (defaults to 0px)
+    offsetBottom: '150px',  // or '150'  (defaults to 0px)
+    noMobile: true          // disable stickiness on mobile (defaults to false)
+}
+// beforeEl => Element after which the Ad becomes sticky
+// afterEl => Element before which Ad stops being sticky
+```
+A css class **`stickyElx`** is added dynamically to the sticky Element's container to allow further fine-tuning such as customizing css properties (like z-index), using media queries and so on.
+
+---
+
+### Note
+It is possible to change configuration options after instantiation. 
+```javascript
+// init adRotator with default options
+const instance = rotator( /* options */ )
+// update config after instantiation to change to sequential rotation
+instance.conf.random = false; 
+```
+The only 2 exceptions are: 
+- Updating the `shape` config option will not automatically update the `height` & `width` config options as it does during instantiation. 
+- Updating the `shape` to `mobile` will not automatically set the `target` device to mobile as it does during instantiation.
+---
+
+
+## API
 
 * [`adRotator.start()`](#adrotatorstart)
 * [`adRotator.pause()`](#adrotatorpause)
@@ -192,76 +251,6 @@ instance.destroy();        // destroys the rotation, DOM and events
 ```
 To reactivate adRotator, simply call `adRotatorInstance.start()`
 
-
-## <a id="configurationoptions">Configuration Options</a>
-
-ad-rotator.js is instantiated with the default configuration parameters as shown below - 
-```javascript
-// Default Configuration parameters
-{
-    shape: "square",
-    height: 300,
-    width: 250,
-    timer: 5000,
-    target: "all",
-    cb: null,
-    onHover: null,
-    onClick: null,
-    imgClass: "",
-    linkClass: "",
-    objectFit: "inherit",
-    random: true,
-    newTab: false,
-    debug: false,
-    sticky: null,
-}
-```
----
-
-#### Description - 
-
-1. **Shape** (_`String`_, default - `"square"`) - This is the expected shape of the Ad. It can also be set to `square`, `leaderboard`, `sidebar` or `mobile`. By default, the shape is set to **square** with a height of 300px and width of 250px. When set to **Leaderboard**, the standard horizontal size of height - 90px, width - 728px is used, when shape is set to **Sidebar**, the standard size of height - 600px, width - 300px is used and when the shape is set to **Mobile**, the width is set to the width of the container Element & the height is set to 90px. (These default values can be overriden). Setting shape to `mobile` also sets the `target` device to mobile, which means the ads in this instance will only be visible on a mobile device. You can also set the shape to **custom** in which case you must provide the height/width config options.
-2. **Height** (_`Int`_, default - `300` _px_) - The height of the advertisement
-3. **Width** (_`Int`_, default - `250` _px_) - The width of the advertisement
-4. **timer**: (_`Int`_, default - `5000` _ms_). The time after which an advertisement will be rotated. (Value should be >= 1000ms)
-5. **target**: (_`String`_, default - `all`). The target device. Can be set to `desktop`, `mobile` or `all`. When set to desktop, ads will be shown only on a desktop device whereas when set to mobile, ads will be displayed on a mobile device alone. By default, ads are shown on all devices.
-6. **cb**: (_`function | null`_, default - `null`) - A **callback** that is executed on every image rotation. The callback receives 3 parameters `cb(currentAdUnit, parentElement, configParams)`. This callback can be used for analytics, to programmatically control the rotator instance or for any other purpose.
-7. **onHover**: (_`function | null`_, default - `null`) - A **callback** that is executed on hovering over an Ad unit. The callback receives 2 parameters `cb(currentAdUnit, parentElement)`.
-8. **onClick**: (_`function | null`_, default - `null`) - A **callback** that is executed on clicking an Ad unit. The callback receives 2 parameters `cb(event, currentAdUnit)`.
-9. **imgClass** (_`String`_, default - `""`) - Class that should be added to the image Tag
-10. **linkClass** (_`String`_, default - `""`) - Class that should be added to the link Tag
-11. **objectFit**: (_`String`_, default - `"inherit"`) - The `object-fit` property that should be used for the image (`inherit`,`contain`,`cover`, `fill`,...)
-12. **random**: (_`Bool`_, default - `true`) The advertisements are rotated in a random fashion by default. Set to `false` to have them rotated sequentially
-13. **newTab**: (_`Bool`_, default - `false`) Set to `true` to open the advertisement URL in a new Tab
-14. **debug**: (_`Bool`_, default - `false`) Set to `true` to see error information in the console. Recommended to turn this on during setup/development.
-15. **sticky**: (_`Object|null`_, default - `null`) - By default, the advertisement shown is not sticky. To enable sticky advertisements, pass an empty object `sticky: {}`. You can customize sticky advertisements by providing the following configuration properties -
-```javascript
-sticky: {
-    beforeEl: document.querySelector('.start'),
-    afterEl: document.querySelector('.end'),
-    offsetTop: '10',        // or '10px' (defaults to 0px)
-    offsetBottom: '150px',  // or '150'  (defaults to 0px)
-    noMobile: true          // disable stickiness on mobile (defaults to false)
-}
-// beforeEl => Element after which the Ad becomes sticky
-// afterEl => Element before which Ad stops being sticky
-```
-A css class **`stickyElx`** is added dynamically to the sticky Element's container to allow further fine-tuning such as customizing css properties (like z-index), using media queries and so on.
-
----
-
-#### Note
-It is possible to change configuration options after instantiation. 
-```javascript
-// init adRotator with default options
-const instance = rotator( /* options */ )
-// update config after instantiation to change to sequential rotation
-instance.conf.random = false; 
-```
-The only 2 exceptions are: 
-- Updating the `shape` config option will not automatically update the `height` & `width` config options as it does during instantiation. 
-- Updating the `shape` to `mobile` will not automatically set the `target` device to mobile as it does during instantiation.
----
 
 ### Contribute
 
