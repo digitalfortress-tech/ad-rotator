@@ -36,7 +36,7 @@ const getDefaultConfig = (El: HTMLElement, shape = 'square') => {
     objectFit: 'inherit',
     sticky: null,
     target: 'all',
-    timer: 5000,
+    timer: 5,
     random: true,
     newTab: false,
     cb: null,
@@ -183,7 +183,7 @@ export const rotator = (El: HTMLElement, units: AdUnit[] = [], options: AdConfig
     !units[0].url ||
     !units[0].img ||
     isNaN(conf.timer as number) ||
-    (conf.timer as number) < 1000 ||
+    (conf.timer as number) < 2 ||
     isNaN(conf.height as number) ||
     isNaN(conf.width as number)
   ) {
@@ -276,7 +276,7 @@ export const rotator = (El: HTMLElement, units: AdUnit[] = [], options: AdConfig
           ret = await rotateImage(El, units, conf, unitsClone, prevItem as AdUnit);
           unitsClone = ret.unitsClone;
           prevItem = ret.prevItem as AdUnit;
-        }, (conf.timer as number) - 750);
+        }, ((conf.timer as number) > 2 ? (conf.timer as number) : 2) * 1e3 - 750);
     },
     destroy() {
       if (initErr) return;
