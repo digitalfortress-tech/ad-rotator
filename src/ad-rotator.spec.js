@@ -42,13 +42,13 @@ describe('Ad-rotator', () => {
       random: false,
       newTab: true,
       onClick: mockOnClick,
-      timer: 1000,
+      timer: 2,
       objectFit: 'cover',
     });
     instance.start();
 
     // verify first image
-    await new Promise((res) => setTimeout(res, 800));
+    await new Promise((res) => setTimeout(res, 1800));
     const link = document.querySelector('a.test-link');
     const img = document.querySelector('img.test-image');
     expect(img.getAttribute('src')).toEqual('./assets/image.jpg');

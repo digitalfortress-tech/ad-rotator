@@ -7,10 +7,10 @@ describe('AdRotator', () => {
     cy.visit('/demo/index.html');
     cy.get('#sidebar-placement-1').as('sidebarAd').find('a').should('have.attr', 'href', 'https://niketpathak.com#1');
     cy.get('@sidebarAd').find('img').should('have.attr', 'src', './assets/images/square/1.jpg');
-    cy.wait(1000);
+    cy.wait(2000);
     cy.get('@sidebarAd').find('a').should('have.attr', 'href', 'https://digitalfortress.tech#2');
     cy.get('@sidebarAd').find('img').should('have.attr', 'src', './assets/images/square/2.jpg');
-    cy.wait(1000);
+    cy.wait(2000);
     cy.get('@sidebarAd').find('a').should('have.attr', 'href', 'https://digitalfortress.tech#3');
     cy.get('@sidebarAd').find('img').should('have.attr', 'src', './assets/images/square/3.jpg');
   });
