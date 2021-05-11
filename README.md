@@ -1,7 +1,7 @@
-# Ad-rotator 
+# Ad-rotator
 [![npm version](https://img.shields.io/npm/v/ad-rotator.svg)](https://www.npmjs.com/package/ad-rotator)
 [![Build Status](https://travis-ci.org/niketpathak/adRotator.svg?branch=master)](https://travis-ci.org/niketpathak/adRotator)
-[![code style](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier) 
+[![code style](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 ![Downloads](https://img.shields.io/npm/dt/ad-rotator)
 ![maintained](https://img.shields.io/badge/maintained-yes-blueviolet)
 [![License](https://img.shields.io/badge/license-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -10,12 +10,12 @@ A fast, light-weight and highly configurable JS library to rotate advertisements
 
 **Ad-rotator.js**
 - is a vastly performant library in pure Javascript
-- has **NO DEPENDENCIES** :D 
+- has **NO DEPENDENCIES** :D
 - allows you to **display native advertisements to adblock users** as well
 - is a light-weight library, only [![](http://img.badgesize.io/https://cdn.jsdelivr.net/npm/ad-rotator?compression=gzip)](https://cdn.jsdelivr.net/npm/ad-rotator) minified and gzipped
 - supports **multiple ads** with different shapes/sizes customizable to the very pixel
 - Enables you to display **device specific ads** i.e. ads targeted towards mobile/desktop
-- Provides **custom callbacks** that can be used for analytics, statistics, logging, etc... 
+- Provides **custom callbacks** that can be used for analytics, statistics, logging, etc...
 - has built-in support for **sticky advertisements**
 - supports almost every browser! (*Only IE is unsupported, but you may use a [polyfill](https://github.com/w3c/IntersectionObserver/tree/master/polyfill))
 - is completely free and open source
@@ -36,10 +36,10 @@ $ yarn add ad-rotator
 ```
 Then include the library in your App/Page.
 
-**As a module,** 
+**As a module,**
 ```javascript
 // using ES6 modules
-import { rotator } from 'ad-rotator';
+import rotator from 'ad-rotator';
 
 // using CommonJS modules
 var rotator = require('ad-rotator');
@@ -74,7 +74,7 @@ let items = [
 `img` can be an absolute URL, a relative URL or even a base-64 encoded image.
 - **`Object` (optional)** - An Object with custom configuration options to override default values. (See all **[`configuration options`](#configurationoptions)**)
 
-## Usage 
+## Usage
 
 In Html, add a container Element.
 ```html
@@ -99,12 +99,12 @@ const instance = rotator(
   { debug: true }       // optional
 );
 // start the rotation
-instance.start(); 
+instance.start();
 ```
-That's it! You should now have Ad-rotation in action! By default, the Ads are rotated in a random fashion. See [`configuration options`](#configurationoptions) for more variations. 
+That's it! You should now have Ad-rotation in action! By default, the Ads are rotated in a random fashion. See [`configuration options`](#configurationoptions) for more variations.
 
 
-_**_NOTE:_**_ By default, `adRotator` is designed to **fail silently** for any configuration error. This means that it will neither pollute the DOM nor will it attach any events in case of an error. It will also not log any console error messages. This can make it difficult to diagnose an error, hence during initial setup/development, it is recommended to turn on the `{debug: true}` config option. 
+_**_NOTE:_**_ By default, `adRotator` is designed to **fail silently** for any configuration error. This means that it will neither pollute the DOM nor will it attach any events in case of an error. It will also not log any console error messages. This can make it difficult to diagnose an error, hence during initial setup/development, it is recommended to turn on the `{debug: true}` config option.
 
 ---
 
@@ -146,15 +146,15 @@ A css class **`stickyElx`** is added dynamically to the sticky Element's contain
 ---
 
 ### Note
-It is possible to change configuration options after instantiation. 
+It is possible to change configuration options after instantiation.
 ```javascript
 // init adRotator with default options
 const instance = rotator( /* options */ )
 // update config after instantiation to change to sequential rotation
-instance.conf.random = false; 
+instance.conf.random = false;
 ```
-The only 2 exceptions are: 
-- Updating the `shape` config option will not automatically update the `height` & `width` config options as it does during instantiation. 
+The only 2 exceptions are:
+- Updating the `shape` config option will not automatically update the `height` & `width` config options as it does during instantiation.
 - Updating the `shape` to `mobile` will not automatically set the `target` device to mobile as it does during instantiation.
 ---
 
@@ -192,7 +192,7 @@ Pauses the Rotation. However, if the user clicks/hovers the Ad or scrolls away f
 const instance = rotator( /* options */ )
 instance.pause();                  // pauses the rotation
 
-/* You can also use "pause" in the cb(callback) config option to 
+/* You can also use "pause" in the cb(callback) config option to
  * pause every advertisement after it has been clicked/hovered upon
  */
 instance.conf.cb = instance.pause;
@@ -203,7 +203,7 @@ To resume the rotation, simply call `adRotatorInstance.resume()`
 
 #### <a id="adrotatorresume">adRotator.`resume()`</a>
 
-Resumes the Rotation. 
+Resumes the Rotation.
 ```javascript
 const instance = rotator( /* options */ )
 instance.pause();
@@ -221,14 +221,14 @@ instance.add(
   {
     url: 'https://gospelmusic.io',
     img: './path-to-img'
-  } 
-);        
+  }
+);
 ```
 The newly injected Advertisement will be displayed in the next rotation cycle
 
 #### <a id="adrotatorremove">adRotator.`remove()`</a>
 
-Remove an item from the Advertisements array. 
+Remove an item from the Advertisements array.
 ```javascript
 const instance = rotator( /* options */ )
 instance.remove(); // remove the last item
@@ -236,8 +236,8 @@ instance.remove(   // remove a specific item
   {
     url: 'https://digitalfortress.tech', // url is optional
     img: './path-to-img'
-  } 
-);        
+  }
+);
 ```
 The `remove()` method deletes the last item in the advertisements array. To remove a particular advertisement, you can also pass it a parameter (**`rotatorInstance.remove({ img: 'xyz.gif'})`**). The change in the Advertisements array will be reflected in the next rotation cycle
 
