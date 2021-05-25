@@ -1,1 +1,1 @@
-This entire directory is uploaded at adrotator.niketpathak.com
+This entire directory is uploaded at adrotator.digitalfortress.tech

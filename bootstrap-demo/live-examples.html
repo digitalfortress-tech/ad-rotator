@@ -40,7 +40,7 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="./assets/css/main.css" />
-    <link rel="canonical" href="https://adrotator.niketpathak.com/live-examples.html" />
+    <link rel="canonical" href="https://adrotator.digitalfortress.tech/live-examples.html" />
     <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.2/build/styles/default.min.css">
     <link rel="stylesheet" type="text/css" href="https://storage.googleapis.com/app.klipse.tech/css/codemirror.css" />
     <script>
@@ -123,13 +123,13 @@
           <p>
             AdRotator also accepts a 3rd, yet <b>completely optional parameter <code>config</code></b>
             which you can use to customize your Ads and its behaviour.
-          </p> 
+          </p>
           <p>Then you can initialize and start adRotation as shown below</p>
           <pre>
-<code class="javascript">// initialise Ad Rotation 
+<code class="javascript">// initialise Ad Rotation
 var rotator = new adRotator(
-  document.querySelector('.className'), 
-  [{ url: 'xyz.com', img: '../xyz.jpg'}]  
+  document.querySelector('.className'),
+  [{ url: 'xyz.com', img: '../xyz.jpg'}]
 );
 // start rotation (returns undefined by default)
 rotator.start();</code>
@@ -150,26 +150,26 @@ rotator.start();</code>
             //rotatorDefault.conf;
           </div>
           <div class="defaultAdContainer ex-live-unit mx-auto"></div>
-          
-          
+
+
           <!-- STEP 2 -->
           <h2>2. Ad Rotation with custom config: Shape Leaderboard / Desktop-only</h2>
 
           <p>
             We pass a 3rd parameter <b>config</b> with the value <code>{ shape: "leaderboard"}</code> to set the shape of the Ad as leaderboard.
             Doing this sets the <b>height: 90px</b> and <b>width: 728px</b>. Since this ad would be cut-off on a mobile device given its long width, we will also
-            set the <code>target: "desktop"</code> so that this Ad would be visible on a desktop but hidden on a mobile device. 
+            set the <code>target: "desktop"</code> so that this Ad would be visible on a desktop but hidden on a mobile device.
           </p>
 
           <pre>
-<code class="javascript">// initialise Ad Rotation 
+<code class="javascript">// initialise Ad Rotation
 var rotator = new adRotator(
-  document.querySelector('.className'), 
+  document.querySelector('.className'),
   [{ url: 'xyz.com', img: '../xyz.jpg'}],
   {
     shape: "leaderboard",
     target: "desktop"
-  }  
+  }
 );
 // start rotation (returns undefined by default)
 rotator.start();</code>
@@ -198,7 +198,7 @@ rotator.start();</code>
             rotatorLeaderboard.start();
           </div>
           <div class="leaderboardAdContainer ex-live-unit mx-auto"></div>
-          
+
           <!-- STEP 3 -->
           <h2>3. Ad Rotation on a Mobile device</h2>
 
@@ -207,20 +207,20 @@ rotator.start();</code>
             sets the <code>target: "mobile"</code> meaning that these Ads will only be visible on a mobile device.
             It also sets the <b>height: 90px</b> and <b>width</b> to the width of the container element.
           </p>
-          
+
           <pre>
-<code class="javascript">// initialise Ad Rotation 
+<code class="javascript">// initialise Ad Rotation
 var rotator = new adRotator(
-  document.querySelector('.className'), 
+  document.querySelector('.className'),
   [{ url: 'xyz.com', img: '../xyz.jpg'}],
   {
     shape: "mobile",
-  }  
+  }
 );
 // start rotation (returns undefined by default)
 rotator.start();</code>
           </pre>
-          
+
           And here's a live example. (Note: If you are simulating a mobile device, ensure you refresh the page for correct results.
           This result of this live example would be hidden on a desktop device by default)
           <div class="eval-js">
@@ -245,16 +245,16 @@ rotator.start();</code>
 
           <!-- STEP 4 -->
           <h2>4. Ad Rotation with Sticky Ads</h2>
-          
+
           <p>
-            To show sticky Ads, if it sufficient to pass an empty <code>{ sticky: {} }</code> object as the 3rd parameter. 
+            To show sticky Ads, if it sufficient to pass an empty <code>{ sticky: {} }</code> object as the 3rd parameter.
             However, we can further customize sticky Ads by passing certain options as shown below
           </p>
-          
+
           <pre>
-<code class="javascript">// initialise Ad Rotation 
+<code class="javascript">// initialise Ad Rotation
 var rotator = rotator(
-  document.querySelector('.className'), 
+  document.querySelector('.className'),
   [{ url: 'xyz.com', img: '../xyz.jpg'}],
   {
     sticky: {
@@ -266,12 +266,12 @@ var rotator = rotator(
     }
     // beforeEl => Element after which the Ad becomes sticky
     // afterEl => Element before which Ad stops being sticky
-  }  
+  }
 );
 // start rotation (returns undefined by default)
 rotator.start();</code>
                     </pre>
-          
+
           And here's a live example. Try scrolling until the <b>next</b> live example to see it in action. To remove stickiness,
           set <code>sticky: null</code>. <b>Note</b> that we have set <code>noMobile: true</code> which means
           that this Ad will not be sticky on a mobile device.
@@ -304,7 +304,7 @@ rotator.start();</code>
 
           <!-- STEP 5 -->
           <h2 class="startSticky">5. Ad Rotation with Callbacks (shape sidebar)</h2>
-          
+
           <p>
             When we set the <code>{ shape: "sidebar"}</code>, it causes the Ad Unit's height & width to be updated
             as <b>height: 600px</b> and <b>width: 300px</b>. We can setup 3 types of callbacks =>
@@ -314,11 +314,11 @@ rotator.start();</code>
               <li><code>onClick</code>- This callback is executed on clicking of an Ad item</li>
             </ul>
           </p>
-          
+
           <pre>
-<code class="javascript">// initialise Ad Rotation 
+<code class="javascript">// initialise Ad Rotation
 var rotatorInstance = rotator(
-  document.querySelector('.className'), 
+  document.querySelector('.className'),
   [{ url: 'xyz.com', img: '../xyz.jpg'}],
   {
     shape: 'sidebar',
@@ -331,15 +331,15 @@ var rotatorInstance = rotator(
     onClick: function() {
       // do something
     },
-  }  
+  }
 );
 // start rotation (returns undefined by default)
 rotatorInstance.start();</code>
           </pre>
-          
+
           And now lets get to the live example. You should see logs below when you hover, click and also when each Ad
           gets rotated. <b>Note</b> that sometimes it is possible that you do not see the logs due to a known issue
-          with the live editor. (It has nothing to do with the Adrotator library). To fix the logs, 
+          with the live editor. (It has nothing to do with the Adrotator library). To fix the logs,
           you can comment & then uncomment  the last line <code>rotatorSidebar.start();</code>
           <div class="eval-js">
             var rotatorSidebar = rotator(

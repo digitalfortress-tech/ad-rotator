@@ -23,7 +23,7 @@ A fast, light-weight and highly configurable JS library to rotate advertisements
 ---
 ### Demo
 
-Here is a **[Live Demo](https://rotator.niketpathak.com/)** of Ad-rotation in action. You will find **live examples** that can tinkered with to get a clearer picture about what you could expect from this library.
+Here is a **[Live Demo](https://rotator.digitalfortress.tech/)** of Ad-rotation in action. You will find **live examples** that can tinkered with to get a clearer picture about what you could expect from this library.
 
 ---
 ## Install

@@ -7,7 +7,7 @@ set -e
 SOURCE="/home/niketpathak/code/adRotator/bootstrap-demo"
 
 # The production directory
-TARGET="/var/www/html/rotator.niketpathak.com"
+TARGET="/var/www/html/rotator.digitalfortress.tech"
 
 # Install and build App
 npm ci
