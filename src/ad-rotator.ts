@@ -2,12 +2,10 @@ import type { AdConfig, StickyConfig, AdUnit, EventManager, AdRotatorInstance } 
 import { NOOP, delay } from './helpers';
 import './style.less';
 
-// Minimum screen width to consider as desktop
-const desktopWidth = 992;
-// Detected device
-const device = window.screen.availWidth >= desktopWidth ? 'desktop' : 'mobile';
+// Detected device ( 992 => min width to consider as desktop)
+const device = window.screen.availWidth >= 992 ? 'desktop' : 'mobile';
 // default Rotation Time
-const defaultInterval = 5; // 5 seconds
+const interval = 5; // 5 seconds
 
 /**
  * DefaultConfig
@@ -22,7 +20,7 @@ const getDefaultConfig = (El: HTMLElement, shape = 'square') => {
     objectFit: 'inherit',
     sticky: null,
     target: 'all',
-    timer: defaultInterval,
+    timer: interval,
     random: true,
     newTab: false,
     cb: null,
@@ -143,12 +141,8 @@ const rotateImage = async (
   // add the link to the El
   El.childNodes[0] ? El.replaceChild(link, El.childNodes[0]) : El.appendChild(link);
 
-  // exec callback
-  try {
-    (conf.cb || NOOP)(unit as AdUnit, El, conf);
-  } catch (e) {
-    conf.debug && console.error('Callback Error', e);
-  }
+  // exec callback on every rotation
+  (conf.cb || NOOP)(unit as AdUnit, El, conf);
 
   return {
     unitsClone,
@@ -158,7 +152,7 @@ const rotateImage = async (
 
 export const rotator = (El: HTMLElement, units: AdUnit[] = [], options: AdConfig = {}): AdRotatorInstance => {
   let initErr = false;
-  const conf = Object.assign({}, getDefaultConfig(El, options.shape || ''), options);
+  const conf = { ...getDefaultConfig(El, options.shape || ''), ...options };
   if (
     !El ||
     !(El instanceof HTMLElement) ||
@@ -189,11 +183,8 @@ export const rotator = (El: HTMLElement, units: AdUnit[] = [], options: AdConfig
       this.destroy();
       El.addEventListener('mouseenter', () => {
         out.pause();
-        try {
-          (conf.onHover || NOOP)(prevItem, El);
-        } catch (e) {
-          conf.debug && console.error('Callback Error', e);
-        }
+        // on hover callback
+        (conf.onHover || NOOP)(prevItem, El);
       });
 
       El.addEventListener('mouseleave', () => {
@@ -257,7 +248,7 @@ export const rotator = (El: HTMLElement, units: AdUnit[] = [], options: AdConfig
       this.pause();
       // rotate only if multiple units are present
       if (units.length > 1) {
-        const rotationTime = (conf.timer as number) >= 2 ? conf.timer : defaultInterval;
+        const rotationTime = (conf.timer as number) >= 2 ? conf.timer : interval;
         inter = window.setInterval(async function () {
           ret = await rotateImage(El, units, conf, unitsClone, prevItem as AdUnit);
           unitsClone = ret.unitsClone;
