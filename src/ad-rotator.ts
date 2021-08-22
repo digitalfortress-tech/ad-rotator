@@ -274,9 +274,10 @@ export const rotator = (El: HTMLElement, units: AdUnit[] = [], options: AdConfig
     },
     remove(item: AdUnit) {
       if (initErr) return;
+      if (units.length <= 1) return this.pause();
+
       if (!item) units.pop();
       else units = units.filter((i) => i.img !== item.img);
-      if (units.length <= 1) this.pause();
     },
   };
 
