@@ -2,8 +2,12 @@ import type { AdConfig, StickyConfig, AdUnit, EventManager, AdRotatorInstance } 
 import { NOOP, delay } from './helpers';
 import './style.less';
 
+// init constants
+const mobile = 'mobile';
+const desktop = 'desktop';
+
 // Detected device ( 992 => min width to consider as desktop)
-const device = window.screen.availWidth >= 992 ? 'desktop' : 'mobile';
+const device = window.screen.availWidth >= 992 ? desktop : mobile;
 // default Rotation Time
 const interval = 5; // 5 seconds
 
@@ -36,10 +40,10 @@ const getDefaultConfig = (El: HTMLElement, shape = 'square') => {
       config.height = 600;
       config.width = 300;
       break;
-    case 'mobile':
+    case mobile:
       if (El) config.width = El.clientWidth; // window.screen.availWidth;
       config.height = 90;
-      config.target = 'mobile';
+      config.target = mobile;
       break;
     default:
       break;
@@ -120,13 +124,13 @@ const rotateImage = async (
   // create link
   const link = document.createElement('a');
   link.href = (unit as AdUnit).url || '';
-  link.setAttribute('rel', 'NOOPener nofollow noreferrer');
+  link.setAttribute('rel', 'noopener nofollow noreferrer');
   conf.linkClass && link.classList.add(conf.linkClass);
   conf.newTab && link.setAttribute('target', '_blank');
-  if (typeof conf.onClick === 'function')
-    link.addEventListener('click', (e) => {
-      conf.onClick && conf.onClick(e, unit as AdUnit);
-    }); // add onclick handler
+  // add onclick handler
+  link.addEventListener('click', (e) => {
+    (conf.onClick || NOOP)(e, unit as AdUnit);
+  });
   // create image
   const img = new Image(conf.width, conf.height);
   img.src = (unit as AdUnit).img;
@@ -196,7 +200,7 @@ export const rotator = (El: HTMLElement, units: AdUnit[] = [], options: AdConfig
       if (
         conf.sticky &&
         ((conf.sticky as unknown) as Record<string, unknown>).constructor === Object &&
-        (!((conf.sticky as unknown) as Record<string, unknown>).noMobile || device !== 'mobile')
+        (!((conf.sticky as unknown) as Record<string, unknown>).noMobile || device !== mobile)
       ) {
         this.scrollEvRef = stickyEl(El, (conf.sticky as unknown) as Record<string, unknown>);
       }
@@ -235,8 +239,7 @@ export const rotator = (El: HTMLElement, units: AdUnit[] = [], options: AdConfig
     },
     async start() {
       if (initErr) return;
-      if ((conf.target === 'mobile' && device !== 'mobile') || (conf.target === 'desktop' && device !== 'desktop'))
-        return;
+      if ((conf.target === mobile && device !== mobile) || (conf.target === desktop && device !== desktop)) return;
       eventManager.init();
       ret = await rotateImage(El, units, conf, unitsClone);
       unitsClone = ret.unitsClone;
