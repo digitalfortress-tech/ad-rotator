@@ -104,7 +104,7 @@ instance.start();
 That's it! You should now have Ad-rotation in action! By default, the Ads are rotated in a random fashion. See [`configuration options`](#configurationoptions) for more variations.
 
 
-_**_NOTE:_**_ By default, `adRotator` is designed to **fail silently** for any configuration error. This means that it will neither pollute the DOM nor will it attach any events in case of an error. It will also not log any console error messages. This can make it difficult to diagnose an error, hence during initial setup/development, it is recommended to turn on the `{debug: true}` config option.
+_**_NOTE:_**_ By default, `adRotator` is designed to **fail silently** for any configuration error. This means that it will neither pollute the DOM nor will it attach any events in case of an error. It will only log a console error to help you further diagnose any configuration errors.
 
 ---
 
@@ -127,7 +127,6 @@ Ad-rotator accepts the following configuration options and all of them are **Opt
 | `objectFit? : string` | The `object-fit` property that should be used for the image (`inherit`,`contain`,`cover`, `fill`,... | `"inherit"`|
 | `random? : boolean` | The advertisements are rotated in a random fashion by default. Set to `false` to have them rotated sequentially | `true`|
 | `newTab? : boolean` |  Set to `true` to open the advertisement URL in a new Tab | `false`|
-| `debug? : boolean` | Set to `true` to see error information in the console. Recommended to turn this on during setup/development. | `false`|
 | `sticky? : {} \| null` | By default, the advertisement shown is not sticky. To enable sticky advertisements, pass an empty object `sticky: {}`. You can customize sticky advertisements by providing the further configuration properties shown below| `null`|
 
 ```javascript

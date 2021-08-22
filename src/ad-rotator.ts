@@ -26,7 +26,6 @@ const getDefaultConfig = (El: HTMLElement, shape = 'square') => {
     cb: null,
     onHover: null,
     onClick: null,
-    debug: false,
   };
   switch (shape.toLowerCase()) {
     case 'leaderboard':
@@ -166,8 +165,8 @@ export const rotator = (El: HTMLElement, units: AdUnit[] = [], options: AdConfig
     isNaN(conf.height as number) ||
     isNaN(conf.width as number)
   ) {
-    conf.debug && console.error('Missing/malformed parameters - El, Units, Config', El, units, conf);
     initErr = true;
+    console.error('Missing/malformed parameters - El, Units, Config', El, units, conf);
   }
 
   let inter: number | undefined; // reference to interval

@@ -52,7 +52,7 @@
                     <h3>Shape - Leaderboard</h3>
                 </div>
                 <div id="hz-placement-1">
-                
+
 
                 </div>
                 <p>
@@ -266,11 +266,11 @@
         var instance1 = rotator(document.getElementById("sidebar-placement-1"), units, { shape: 'sidebar', timer: '2', random: true, debug: true, cb: function (current) { console.log('currentItem -->', current.url) } });
         instance1.start();
         // console.debug('***instance1', instance1);
-        
+
         var instance2 = rotator(document.getElementById("hz-placement-1"), units2, { shape: 'leaderboard', target: "desktop", objectFit: 'cover', timer: 3, debug: true });
             instance2.start();
         // console.debug('***instance2', instance2);
-        
+
         var instance3 = rotator(document.getElementById("sq-placement-1"), units3, {
             timer: 3.5,
             sticky: {
@@ -282,7 +282,7 @@
         });
         instance3.start();
         // console.debug('***instance3', instance3);
-        
+
         var instance4 = rotator(document.getElementById("mobile-placement-4"), units3, {
             shape: 'mobile',
             objectFit: 'cover',
