@@ -25,6 +25,7 @@ test-e2e-gui:		## Run e2e tests (Cypress GUI)
 
 prod:		## Build for Production environment
 	@npm run prod
+	@npm run copy-typescript-definitions
 
 publish:	## Publish to NPM
 	@make prod
