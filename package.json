@@ -31,7 +31,7 @@
     "email": "contact@niketpathak.com",
     "url": "https://niketpathak.com"
   },
-  "browser": "dist/ad-rotator.min.js",
+  "browser": "dist/ad-rotator.js",
   "main": "dist/ad-rotator.js",
   "types": "dist/ad-rotator.d.ts",
   "repository": {
