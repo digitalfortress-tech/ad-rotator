@@ -57,20 +57,20 @@ export const stickyEl = (El: HTMLElement, stickyConf: StickyConfig): null | (() 
 
   const { beforeEl, afterEl, offsetTop, offsetBottom } = stickyConf;
   let startPos = 0,
-    endPos = 0,
-    scrollPos = 0;
+    endPos = 0;
   let ticking = false;
-  if (beforeEl && beforeEl instanceof HTMLElement) {
-    const props = beforeEl.getBoundingClientRect();
-    startPos = window.pageYOffset + props.top + props.height;
-  }
-  if (afterEl && afterEl instanceof HTMLElement) {
-    endPos = window.pageYOffset + afterEl.getBoundingClientRect().top;
-  }
 
   const eventHandler = () => {
     if (!ticking) {
-      scrollPos = window.scrollY;
+      const scrollPos = window.scrollY;
+      if (beforeEl && beforeEl instanceof HTMLElement) {
+        const props = beforeEl.getBoundingClientRect();
+        startPos = scrollPos + props.top + props.height;
+      }
+      if (afterEl && afterEl instanceof HTMLElement) {
+        endPos = scrollPos + afterEl.getBoundingClientRect().top;
+      }
+
       window.requestAnimationFrame(() => {
         if (
           scrollPos > startPos &&
