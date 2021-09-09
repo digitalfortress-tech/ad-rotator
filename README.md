@@ -53,7 +53,7 @@ var rotator = require('ad-rotator');
 <!-- Alternatively, you can use a CDN -->
 <script src="https://cdn.jsdelivr.net/npm/ad-rotator"></script>
 <!-- or with unpkg.com -->
-<script src="https://unpkg.com/ad-rotator@4.2.0/dist/ad-rotator.js"></script>
+<script src="https://unpkg.com/ad-rotator@4.3.0/dist/ad-rotator.js"></script>
 ```
 The library will be available as a global object at `window.rotator`
 
