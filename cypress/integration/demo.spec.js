@@ -42,9 +42,9 @@ describe('AdRotator', () => {
     cy.get('#mobile-placement-4').find('a').should('not.exist');
   });
 
-  it('should be sticky', () => {
+  it.only('should be sticky', () => {
     cy.visit('/demo/index.html');
-    cy.get('.default-shape-square').scrollIntoView();
+    cy.get('.scrollTarget').scrollIntoView();
     cy.get('#sq-placement-1').as('stickyAd').should('have.attr', 'class', 'stickyElx');
     cy.get('@stickyAd').should('have.css', 'position', 'fixed');
     cy.get('@stickyAd').should('have.css', 'top', '0px');
