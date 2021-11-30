@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function () {
 /*****************************************************************************************/
 
 var rotatorLeaderboard = rotator(
-  document.getElementById('leadboardAdContainer'),
+  document.getElementById('ldboardContainer'),
   [
     { url: 'https://niketpathak.com#1', img: './assets/img/leaderboard/leaderboard-1.gif' },
     { url: 'https://niketpathak.com#2', img: './assets/img/leaderboard/leaderboard-2.jpeg' },
@@ -60,7 +60,7 @@ var rotatorLeaderboard = rotator(
 rotatorLeaderboard.start(); // start the rotation
 
 var rotatorMobile = rotator(
-  document.querySelector('.mobileAdContainer'),
+  document.querySelector('.mobileContainer'),
   [
     { url: 'https://niketpathak.com#1', img: './assets/img/leaderboard/leaderboard-1.gif' },
     { url: 'https://niketpathak.com#2', img: './assets/img/leaderboard/leaderboard-2.jpeg' },
@@ -77,7 +77,7 @@ var rotatorMobile = rotator(
 rotatorMobile.start(); // start the rotation
 
 var rotatorSidebar = rotator(
-  document.querySelector('.sidebarAdContainer'),
+  document.querySelector('.sidebarContainer'),
   [
     { url: 'https://niketpathak.com#1', img: './assets/img/sidebar/sidebar-1.jpg' },
     { url: 'https://niketpathak.com#2', img: './assets/img/sidebar/sidebar-2.jpg' },

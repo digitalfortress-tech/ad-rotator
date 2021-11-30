@@ -137,7 +137,7 @@ rotator.start();</code>
           Here is a live example demonstrating basic Ad Rotation with default Config. (To see the default config, you can uncomment the last line)
           <div class="eval-js">
             var rotatorDefault = rotator(
-              document.querySelector(".defaultAdContainer"),
+              document.querySelector(".defaultContainer"),
               [
                 { url: "https://niketpathak.com#0", img: "https://i.imgur.com/GsNCBNJ_d.webp?maxwidth=728&fidelity=grand" },
                 { url: "https://niketpathak.com#1", img: "./assets/img/square/square-1.jpeg" },
@@ -149,7 +149,7 @@ rotator.start();</code>
             rotatorDefault.start();
             //rotatorDefault.conf;
           </div>
-          <div class="defaultAdContainer ex-live-unit mx-auto"></div>
+          <div class="defaultContainer ex-live-unit mx-auto"></div>
 
 
           <!-- STEP 2 -->
@@ -178,7 +178,7 @@ rotator.start();</code>
           A live example to go along with it. (Note: If you are simulating a mobile device, ensure you refresh the page for correct results)
           <div class="eval-js">
             var rotatorLeaderboard = rotator(
-              document.querySelector(".leaderboardAdContainer"),
+              document.querySelector(".ldboardContainer"),
               [
                 { url: "https://niketpathak.com#1", img: "./assets/img/leaderboard/leaderboard-1.gif" },
                 { url: "https://niketpathak.com#2", img: "./assets/img/leaderboard/leaderboard-2.jpeg" },
@@ -197,7 +197,7 @@ rotator.start();</code>
             );
             rotatorLeaderboard.start();
           </div>
-          <div class="leaderboardAdContainer ex-live-unit mx-auto"></div>
+          <div class="ldboardContainer ex-live-unit mx-auto"></div>
 
           <!-- STEP 3 -->
           <h2>3. Ad Rotation on a Mobile device</h2>
@@ -225,7 +225,7 @@ rotator.start();</code>
           This result of this live example would be hidden on a desktop device by default)
           <div class="eval-js">
             var rotatorMobile = rotator(
-            document.querySelector(".mobileAdContainer"),
+            document.querySelector(".mobileContainer"),
               [
                 { url: "https://niketpathak.com#1", img: "./assets/img/leaderboard/leaderboard-1.gif" },
                 { url: "https://niketpathak.com#2", img: "./assets/img/leaderboard/leaderboard-2.jpeg" },
@@ -240,7 +240,7 @@ rotator.start();</code>
             );
             rotatorMobile.start();
           </div>
-          <div class="mobileAdContainer ex-live-unit mx-auto"></div>
+          <div class="mobileContainer ex-live-unit mx-auto"></div>
 
 
           <!-- STEP 4 -->
@@ -277,7 +277,7 @@ rotator.start();</code>
           that this Ad will not be sticky on a mobile device.
           <div class="eval-js">
             var rotatorSticky = rotator(
-            document.querySelector(".stickyAdContainer"),
+            document.querySelector(".stickyContainer"),
               [
                 { url: "https://niketpathak.com#1", img: "./assets/img/square/square-1.jpeg" },
                 { url: "https://niketpathak.com#2", img: "./assets/img/square/square-2.jpeg" },
@@ -289,7 +289,7 @@ rotator.start();</code>
                   beforeEl: document.querySelector(".startSticky"),
                   afterEl: document.querySelector(".endSticky"),
                   offsetTop: "50px",
-                  offsetBottom:  "60px",
+                  offsetBottom: "70px",
                   noMobile: true
                 },
                 // sticky: null, // uncomment to disable StickyAd.
@@ -298,9 +298,7 @@ rotator.start();</code>
             rotatorSticky.start();
             // rotatorSticky.destroy(); // removes Ad completely
           </div>
-          <div class="stickyAdContainer ex-live-unit mx-auto"></div>
-
-
+          <div class="stickyContainer ex-live-unit mx-auto"></div>
 
           <!-- STEP 5 -->
           <h2 class="startSticky">5. Ad Rotation with Callbacks (shape sidebar)</h2>
@@ -341,9 +339,11 @@ rotatorInstance.start();</code>
           gets rotated. <b>Note</b> that sometimes it is possible that you do not see the logs due to a known issue
           with the live editor. (It has nothing to do with the Adrotator library). To fix the logs,
           you can comment & then uncomment  the last line <code>rotatorSidebar.start();</code>
+          <div class="endSticky"></div>
+          <br>
           <div class="eval-js">
             var rotatorSidebar = rotator(
-              document.querySelector(".sidebarAdContainer"),
+              document.querySelector(".sidebarContainer"),
               [
                 { url: "https://niketpathak.com#1", img: "./assets/img/sidebar/sidebar-1.jpg" },
                 { url: "https://niketpathak.com#2", img: "./assets/img/sidebar/sidebar-2.jpg" },
@@ -366,8 +366,7 @@ rotatorInstance.start();</code>
             );
             rotatorSidebar.start();
           </div>
-          <div class="endSticky"></div>
-          <div class="sidebarAdContainer ex-live-unit mx-auto"></div>
+          <div class="sidebarContainer ex-live-unit mx-auto"></div>
 
           <blockquote class="blockquote">
             The dreams of yesterday are the hopes of today and the reality of tomorrow. Science has not yet mastered
