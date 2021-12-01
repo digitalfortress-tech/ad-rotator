@@ -42,7 +42,7 @@ describe('AdRotator', () => {
     cy.get('#mobile-placement-4').find('a').should('not.exist');
   });
 
-  it.only('should be sticky', () => {
+  it('should be sticky', () => {
     cy.visit('/demo/index.html');
     cy.get('.scrollTarget').scrollIntoView();
     cy.get('#sq-placement-1').as('stickyAd').should('have.attr', 'class', 'stickyElx');
@@ -51,5 +51,10 @@ describe('AdRotator', () => {
     cy.scrollTo(0);
     cy.get('@stickyAd').should('not.have.attr', 'class', 'stickyElx');
     cy.get('@stickyAd').should('not.have.css', 'position', 'fixed');
+  });
+
+  it('should be disabled in fallback mode', () => {
+    cy.visit('/demo/index.html');
+    cy.get('#fallbackMode-placement').should('be.empty');
   });
 });

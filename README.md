@@ -127,6 +127,7 @@ Ad-rotator accepts the following configuration options and all of them are **Opt
 | `objectFit? : string` | The `object-fit` property that should be used for the image (`inherit`,`contain`,`cover`, `fill`,... | `"inherit"`|
 | `random? : boolean` | The advertisements are rotated in a random fashion by default. Set to `false` to have them rotated sequentially | `true`|
 | `newTab? : boolean` |  Set to `true` to open the advertisement URL in a new Tab | `false`|
+| `mode? : 'default' | 'fallback'` |  Sets the working mode of the library. If it is set to `fallback`, then the library will only be used as a fallback i.e. if an adblocker is used. If an adblocker is not used, then the library will do nothing | `default`|
 | `sticky? : {} \| null` | By default, the advertisement shown is not sticky. To enable sticky advertisements, pass an empty object `sticky: {}`. You can customize sticky advertisements by providing the further configuration properties shown below| `null`|
 
 ```javascript

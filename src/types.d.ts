@@ -28,7 +28,7 @@ export interface AdConfig {
   cb?: ((unit: AdUnit, El: HTMLElement, conf: AdConfig) => unknown) | null;
   onHover?: ((prevItem: AdUnit | null, El: HTMLElement) => unknown) | null;
   onClick?: ((e: MouseEvent, unit: AdUnit) => unknown) | null;
-  debug?: boolean;
+  mode?: 'default' | 'fallback';
 }
 
 export interface EventManager {
@@ -37,6 +37,10 @@ export interface EventManager {
   init: () => void;
   destroy: () => void;
   obsCb: IntersectionObserverCallback;
+}
+
+export interface INav extends Navigator {
+  brave: string;
 }
 
 export interface AdRotatorInstance {

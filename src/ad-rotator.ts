@@ -1,4 +1,4 @@
-import type { AdConfig, StickyConfig, AdUnit, EventManager, AdRotatorInstance } from './types';
+import type { AdConfig, StickyConfig, AdUnit, EventManager, AdRotatorInstance, INav } from './types';
 import { NOOP, delay } from './helpers';
 import './style.less';
 
@@ -10,6 +10,8 @@ const desktop = 'desktop';
 const device = window.screen.availWidth >= 992 ? desktop : mobile;
 // default Rotation Time
 const interval = 5; // 5 seconds
+
+let hasBlk = false; // flag to detect AdBlockers
 
 /**
  * DefaultConfig
@@ -30,6 +32,7 @@ const getDefaultConfig = (El: HTMLElement, shape = 'square') => {
     cb: null,
     onHover: null,
     onClick: null,
+    mode: 'default',
   };
   switch (shape.toLowerCase()) {
     case 'leaderboard':
@@ -51,6 +54,36 @@ const getDefaultConfig = (El: HTMLElement, shape = 'square') => {
 
   return config;
 };
+
+async function detectBlock() {
+  // for Brave browser, we assume that shields are up given that its the default setting
+  if ((navigator as INav).brave) {
+    return (hasBlk = true);
+  }
+
+  // test with baitElement
+  const testDiv = document.createElement('div');
+  const Eid = 'b3El';
+  testDiv.id = Eid;
+  testDiv.className = window.atob(
+    'YWRzIGFkIGFkc2JveCBkb3VibGVjbGljayBhZC1wbGFjZW1lbnQgY2FyYm9uLWFkcyBwcmViaWQgYWQtdW5pdA=='
+  );
+  document.body.appendChild(testDiv);
+  hasBlk = getComputedStyle(testDiv)['display'] == 'none' ? true : false;
+
+  /*
+  try {
+    await fetch(window.atob('aHR0cHM6Ly9wYWdlYWQyLmdvb2dsZXN5bmRpY2F0aW9uLmNvbS9wYWdlYWQvanMvYWRzYnlnb29nbGUuanM='), {
+      method: 'HEAD',
+      mode: 'no-cors',
+    });
+  } catch (e) {
+    hasBlk = true;
+  }
+  */
+  console.log('hasBlk inner :>> ', hasBlk);
+}
+detectBlock();
 
 export const stickyEl = (El: HTMLElement, stickyConf: StickyConfig): null | (() => void) => {
   if (!El || !(El instanceof HTMLElement) || !stickyConf || stickyConf.constructor !== Object) return null;
@@ -154,7 +187,7 @@ const rotateImage = async (
 };
 
 export const rotator = (El: HTMLElement, units: AdUnit[] = [], options: AdConfig = {}): AdRotatorInstance => {
-  let initErr = false;
+  let hasErr = false;
   const conf = { ...getDefaultConfig(El, options.shape || ''), ...options };
   if (
     !El ||
@@ -169,8 +202,12 @@ export const rotator = (El: HTMLElement, units: AdUnit[] = [], options: AdConfig
     isNaN(conf.height as number) ||
     isNaN(conf.width as number)
   ) {
-    initErr = true;
+    hasErr = true;
     console.error('Missing/malformed parameters - El, Units, Config', El, units, conf);
+  }
+
+  if (conf.mode === 'fallback' && !hasBlk) {
+    hasErr = true; // Force Error to bypass exposed API if intended usage is only as a fallback
   }
 
   let inter: number | undefined; // reference to interval
@@ -238,7 +275,7 @@ export const rotator = (El: HTMLElement, units: AdUnit[] = [], options: AdConfig
       }
     },
     async start() {
-      if (initErr) return;
+      if (hasErr) return;
       if ((conf.target === mobile && device !== mobile) || (conf.target === desktop && device !== desktop)) return;
       eventManager.init();
       ret = await rotateImage(El, units, conf, unitsClone);
@@ -246,7 +283,7 @@ export const rotator = (El: HTMLElement, units: AdUnit[] = [], options: AdConfig
       prevItem = ret.prevItem as AdUnit;
     },
     resume() {
-      if (initErr) return;
+      if (hasErr) return;
       this.pause();
       // rotate only if multiple units are present
       if (units.length > 1) {
@@ -259,7 +296,7 @@ export const rotator = (El: HTMLElement, units: AdUnit[] = [], options: AdConfig
       }
     },
     destroy() {
-      if (initErr) return;
+      if (hasErr) return;
       this.pause();
       while (El.firstChild) {
         El.firstChild.remove();
@@ -267,13 +304,13 @@ export const rotator = (El: HTMLElement, units: AdUnit[] = [], options: AdConfig
       eventManager.destroy();
     },
     add(item: AdUnit) {
-      if (initErr) return;
+      if (hasErr) return;
       if (item && item instanceof Object && item.url && item.img) {
         units.push(item);
       }
     },
     remove(item: AdUnit) {
-      if (initErr) return;
+      if (hasErr) return;
       if (units.length <= 1) return this.pause();
 
       if (!item) units.pop();

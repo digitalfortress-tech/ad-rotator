@@ -219,6 +219,8 @@
 
     <div id="mobile-placement-4"></div>
 
+    <div id="fallbackMode-placement"></div>
+
     <script src="../dist/ad-rotator.js"></script>
     <script type="text/javascript">
         //
@@ -302,6 +304,13 @@
         });
         instance4.start();
         // console.debug('***instance4', instance4);
+
+        var instance5 = rotator(document.getElementById("fallbackMode-placement"), units, {
+            shape: 'sidebar',
+            mode: 'fallback',
+        });
+        instance5.start();
+        // console.debug('***instance5', instance5);
     </script>
 </body>
 

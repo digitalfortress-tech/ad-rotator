@@ -54,7 +54,6 @@ var rotatorLeaderboard = rotator(
   {
     shape: 'leaderboard',
     target: 'desktop',
-    debug: true, // optional
   }
 );
 rotatorLeaderboard.start(); // start the rotation
@@ -71,7 +70,6 @@ var rotatorMobile = rotator(
   {
     shape: 'mobile',
     sticky: { beforeEl: document.querySelector('.page-heading > h1') },
-    debug: true, // optional
   }
 );
 rotatorMobile.start(); // start the rotation
@@ -96,7 +94,20 @@ var rotatorSidebar = rotator(
       afterEl: document.querySelector('.subscribe-area'),
       noMobile: true,
     },
-    debug: true, // optional
   }
 );
 rotatorSidebar.start(); // start the rotation
+
+var rotatorFbackMode = rotator(
+  document.querySelector('.blockFallback'),
+  [
+    { url: 'https://niketpathak.com#1', img: './assets/img/square/square-1.jpeg' },
+    { url: 'https://niketpathak.com#2', img: './assets/img/square/square-2.jpeg' },
+    { url: 'https://niketpathak.com#3', img: './assets/img/square/square-3.jpeg' },
+    { url: 'https://niketpathak.com#4', img: './assets/img/square/square-4.jpg' },
+  ],
+  {
+    mode: 'fallback',
+  }
+);
+rotatorFbackMode.start(); // start the rotation
