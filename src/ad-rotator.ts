@@ -57,9 +57,9 @@ const getDefaultConfig = (El: HTMLElement, shape = 'square') => {
 
 async function detectBlock() {
   // for Brave browser, we assume that shields are up given that its the default setting
-  if ((navigator as INav).brave) {
-    return (hasBlk = true);
-  }
+  //if ((navigator as INav).brave) {
+  //  return (hasBlk = true);
+  //}
 
   // test with baitElement
   const testDiv = document.createElement('div');
