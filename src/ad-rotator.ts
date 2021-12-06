@@ -55,16 +55,14 @@ const getDefaultConfig = (El: HTMLElement, shape = 'square') => {
   return config;
 };
 
-async function detectBlock() {
+const detectBlock = () => {
   // for Brave browser, we assume that shields are up given that its the default setting
-  //if ((navigator as INav).brave) {
-  //  return (hasBlk = true);
-  //}
+  if ((navigator as INav).brave) {
+    return (hasBlk = true);
+  }
 
   // test with baitElement
   const testDiv = document.createElement('div');
-  const Eid = 'b3El';
-  testDiv.id = Eid;
   testDiv.className = window.atob(
     'YWRzIGFkIGFkc2JveCBkb3VibGVjbGljayBhZC1wbGFjZW1lbnQgY2FyYm9uLWFkcyBwcmViaWQgYWQtdW5pdA=='
   );
@@ -81,8 +79,8 @@ async function detectBlock() {
     hasBlk = true;
   }
   */
-  console.log('hasBlk inner :>> ', hasBlk);
-}
+  console.log('hasBlk sync', hasBlk);
+};
 detectBlock();
 
 export const stickyEl = (El: HTMLElement, stickyConf: StickyConfig): null | (() => void) => {
