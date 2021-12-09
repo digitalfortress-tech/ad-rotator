@@ -11,7 +11,7 @@ const device = window.screen.availWidth >= 992 ? desktop : mobile;
 // default Rotation Time
 const interval = 5; // 5 seconds
 
-let hasBlk = false; // flag to detect AdBlockers
+let hasBlk: boolean; // flag to detect AdBlockers
 
 /**
  * DefaultConfig
@@ -55,10 +55,9 @@ const getDefaultConfig = (El: HTMLElement, shape = 'square') => {
   return config;
 };
 
-const detectBlock = () => {
-  // for Brave browser, we assume that shields are up given that its the default setting
-  if ((navigator as INav).brave) {
-    return (hasBlk = true);
+const detectBlock = async () => {
+  if (hasBlk !== undefined) {
+    return hasBlk;
   }
 
   // test with baitElement
@@ -67,21 +66,26 @@ const detectBlock = () => {
     'YWRzIGFkIGFkc2JveCBkb3VibGVjbGljayBhZC1wbGFjZW1lbnQgY2FyYm9uLWFkcyBwcmViaWQgYWQtdW5pdA=='
   );
   document.body.appendChild(testDiv);
-  hasBlk = getComputedStyle(testDiv)['display'] == 'none' ? true : false;
+  if (getComputedStyle(testDiv)['display'] == 'none') {
+    return (hasBlk = true);
+  }
 
-  /*
   try {
     await fetch(window.atob('aHR0cHM6Ly9wYWdlYWQyLmdvb2dsZXN5bmRpY2F0aW9uLmNvbS9wYWdlYWQvanMvYWRzYnlnb29nbGUuanM='), {
       method: 'HEAD',
       mode: 'no-cors',
     });
   } catch (e) {
-    hasBlk = true;
+    return (hasBlk = true);
   }
-  */
-  console.log('hasBlk sync', hasBlk);
+
+  // for Brave browser, we assume that shields are up given that its the default setting
+  if ((navigator as INav).brave) {
+    return (hasBlk = true);
+  }
+
+  hasBlk = false;
 };
-detectBlock();
 
 export const stickyEl = (El: HTMLElement, stickyConf: StickyConfig): null | (() => void) => {
   if (!El || !(El instanceof HTMLElement) || !stickyConf || stickyConf.constructor !== Object) return null;
@@ -204,10 +208,6 @@ export const rotator = (El: HTMLElement, units: AdUnit[] = [], options: AdConfig
     console.error('Missing/malformed parameters - El, Units, Config', El, units, conf);
   }
 
-  if (conf.mode === 'fallback' && !hasBlk) {
-    hasErr = true; // Force Error to bypass exposed API if intended usage is only as a fallback
-  }
-
   let inter: number | undefined; // reference to interval
   let ret; // reference to return value of `rotateImage`
   let prevItem: AdUnit | null = null;
@@ -273,6 +273,13 @@ export const rotator = (El: HTMLElement, units: AdUnit[] = [], options: AdConfig
       }
     },
     async start() {
+      if (conf.mode === 'fallback') {
+        await detectBlock();
+        console.log('Running fallback mode. Detection result :>> ', hasBlk);
+        if (hasBlk === false) {
+          hasErr = true; // Force Error to bypass exposed API if intended usage is only as a fallback
+        }
+      }
       if (hasErr) return;
       if ((conf.target === mobile && device !== mobile) || (conf.target === desktop && device !== desktop)) return;
       eventManager.init();
