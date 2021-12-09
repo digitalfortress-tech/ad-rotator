@@ -95,16 +95,15 @@ Then Initialize **adRotator** by passing the `DOM Element` and the `Array` of ad
 // initialize adRotator
 const instance = rotator(
   document.getElementById('containerElement'),
-  items,
-  { debug: true }       // optional
+  items
 );
 // start the rotation
 instance.start();
 ```
-That's it! You should now have Ad-rotation in action! By default, the Ads are rotated in a random fashion. See [`configuration options`](#configurationoptions) for more variations.
+That's it! You should now have Ad-rotation in action! The library sets sensible defaults on initialization. For example, Ads are rotated in a random fashion by default. You can provide a 3rd *optional* configuration parameter to override this and fine tune the settings of your adrotator. See [`configuration options`](#configurationoptions) for available variations.
 
 
-_**_NOTE:_**_ By default, `adRotator` is designed to **fail silently** for any configuration error. This means that it will neither pollute the DOM nor will it attach any events in case of an error. It will only log a console error to help you further diagnose any configuration errors.
+_**_NOTE:_**_ By default, `adRotator` is designed to **fail silently** for any configuration error. This means that it will neither pollute the DOM nor will it attach any events in case of an error. It will only log a console error to help you diagnose any configuration errors.
 
 ---
 
@@ -114,21 +113,21 @@ Ad-rotator accepts the following configuration options and all of them are **Opt
 
 | Parameter | Description | Default |
 | --------- | ----------- | ------- |
-|`shape?: string` |This is the expected shape of the Ad. It can also be set to `square`, `leaderboard`, `sidebar`,`mobile` or `custom`. By default, the shape is set to **square** with a height of 300px and width of 250px. When set to **Leaderboard**, the standard horizontal size of height - 90px, width - 728px is used, when shape is set to **Sidebar**, the standard size of height - 600px, width - 300px is used and when the shape is set to **Mobile**, the width is set to the width of the container Element & the height is set to 90px. (These default values can be overriden). Setting shape to `mobile` also sets the `target` device to mobile, which means the ads in this instance will only be visible on a mobile device. When you set shape to **custom**, you must provide the height/width config options yourself.|`"square"`|
+|`shape?: string` |This is the expected shape of the Ad. It can also be set to `square`, `leaderboard`, `sidebar`, `mobile` or `custom`. By default, the shape is set to **square** with a height of 300px and width of 250px. When set to **Leaderboard**, the standard horizontal size of height - 90px, width - 728px is used, when shape is set to **Sidebar**, the standard size of height - 600px, width - 300px is used and when the shape is set to **Mobile**, the width is set to the width of the container Element & the height is set to 90px. (These default values can be overriden). Setting shape to `mobile` also sets the `target` device to mobile, which means the ads in this instance will only be visible on a mobile device. When you set shape to **custom**, you must provide the height/width config options yourself.|`"square"`|
 | `height? : number` | The height of the advertisement in pixels | `300` (_px_)|
 | `width? : number` | The width of the advertisement in pixels | `250` (_px_)|
 | `timer? : number` | The time after which an advertisement will be rotated in seconds. Lowest accepted value is 2s | `5` (_seconds_)|
 | `target? : string` | The target device. Can be set to `desktop`, `mobile` or `all`. When set to desktop, ads will be shown only on a desktop device whereas when set to mobile, ads will be displayed on a mobile device alone. By default, ads are shown on all devices. | `"all"` |
-| `cb?: (unit: AdUnit, El: HTMLElement, conf: AdConfig) \| null` | A **callback** that is executed on every image rotation. The callback receives 3 parameters `cb(currentAdUnit, parentElement, configParams)`. This callback can be used for analytics, to programmatically control the rotator instance or for any other purpose. | `null` |
-| `onHover?: (item: AdUnit, El: HTMLElement) \| null` | A **callback** that is executed on hovering over an Ad unit. The callback receives 2 parameters `cb(currentAdUnit, parentElement)`. | `null` |
-| `onClick?: (e: MouseEvent, unit: AdUnit) \| null` | A **callback** that is executed on clicking an Ad unit. The callback receives 2 parameters `(event, currentAdUnit)` | `null` |
+| `cb?: (unit: AdUnit, El: HTMLElement, conf: AdConfig)` | A **callback** that is executed on every image rotation. The callback receives 3 parameters `cb(currentAdUnit, parentElement, configParams)`. This callback can be used for analytics, to programmatically control the rotator instance or for any other purpose. | `undefined` |
+| `onHover?: (item: AdUnit, El: HTMLElement)` | A **callback** that is executed on hovering over an Ad unit. The callback receives 2 parameters `cb(currentAdUnit, parentElement)`. | `undefined` |
+| `onClick?: (e: MouseEvent, unit: AdUnit)` | A **callback** that is executed on clicking an Ad unit. The callback receives 2 parameters `(event, currentAdUnit)` | `undefined` |
 | `imgClass? : string` | Class that should be added to the image Tag | `""`|
 | `linkClass? : string` | Class that should be added to the link Tag | `""`|
 | `objectFit? : string` | The `object-fit` property that should be used for the image (`inherit`,`contain`,`cover`, `fill`,... | `"inherit"`|
 | `random? : boolean` | The advertisements are rotated in a random fashion by default. Set to `false` to have them rotated sequentially | `true`|
 | `newTab? : boolean` |  Set to `true` to open the advertisement URL in a new Tab | `false`|
-| `mode? : 'default' \| 'fallback'` |  Sets the working mode of the library. When set to `fallback`, the library will be used only if it detects an Adblocker, otherwise it does nothing | `default`|
-| `sticky? : {} \| null` | By default, the advertisement shown is not sticky. To enable sticky advertisements, pass an empty object `sticky: {}`. You can customize sticky advertisements by providing the further configuration properties shown below| `null`|
+| `fallbackMode? : boolean` |  Sets the working mode of the library. When set to `true`, the library will be used only if it detects an Adblocker, otherwise it does nothing | `false`|
+| `sticky? : {}` | By default, the advertisement shown is not sticky. To enable sticky advertisements, pass an empty object `sticky: {}`. You can customize sticky advertisements by providing further Sticky config properties shown below| `undefined`|
 
 ```javascript
 sticky: {

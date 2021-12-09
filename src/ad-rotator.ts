@@ -24,15 +24,11 @@ const getDefaultConfig = (El: HTMLElement, shape = 'square') => {
     imgClass: '',
     linkClass: '',
     objectFit: 'inherit',
-    sticky: null,
     target: 'all',
     timer: interval,
     random: true,
     newTab: false,
-    cb: null,
-    onHover: null,
-    onClick: null,
-    mode: 'default',
+    fallbackMode: false,
   };
   switch (shape.toLowerCase()) {
     case 'leaderboard':
@@ -273,13 +269,14 @@ export const rotator = (El: HTMLElement, units: AdUnit[] = [], options: AdConfig
       }
     },
     async start() {
-      if (conf.mode === 'fallback') {
+      if (conf.fallbackMode) {
         await detectBlock();
-        console.log('Running fallback mode. Detection result :>> ', hasBlk);
+        console.log('Running in fallback mode. Detection result :>> ', hasBlk);
         if (hasBlk === false) {
           hasErr = true; // Force Error to bypass exposed API if intended usage is only as a fallback
         }
       }
+
       if (hasErr) return;
       if ((conf.target === mobile && device !== mobile) || (conf.target === desktop && device !== desktop)) return;
       eventManager.init();

@@ -20,15 +20,15 @@ export interface AdConfig {
   imgClass?: string;
   linkClass?: string;
   objectFit?: 'inherit' | 'contain' | 'cover' | 'none' | 'fill' | 'inital' | 'revert' | 'scale-down' | 'unset';
-  sticky?: StickyConfig | null;
+  sticky?: StickyConfig;
   target?: 'all' | 'desktop' | 'mobile';
   timer?: number;
   random?: boolean;
   newTab?: boolean;
-  cb?: ((unit: AdUnit, El: HTMLElement, conf: AdConfig) => unknown) | null;
-  onHover?: ((prevItem: AdUnit | null, El: HTMLElement) => unknown) | null;
-  onClick?: ((e: MouseEvent, unit: AdUnit) => unknown) | null;
-  mode?: 'default' | 'fallback';
+  cb?: (unit: AdUnit, El: HTMLElement, conf: AdConfig) => unknown;
+  onHover?: (prevItem: AdUnit | null, El: HTMLElement) => unknown;
+  onClick?: (e: MouseEvent, unit: AdUnit) => unknown;
+  fallbackMode?: boolean;
 }
 
 export interface EventManager {
