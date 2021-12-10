@@ -76,9 +76,9 @@ const detectBlock = async () => {
   }
 
   // for Brave browser, we assume that shields are up given that its the default setting
-  if ((navigator as INav).brave) {
-    return (hasBlk = true);
-  }
+  // if ((navigator as INav).brave) {
+  //   return (hasBlk = true);
+  // }
 
   hasBlk = false;
 };
