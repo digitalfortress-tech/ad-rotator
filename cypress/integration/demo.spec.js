@@ -55,6 +55,7 @@ describe('AdRotator', () => {
 
   it('should be disabled in fallback mode', () => {
     cy.visit('/demo/index.html');
+    cy.wait(1000);
     cy.get('#fallbackMode-placement').should('be.empty');
   });
 });

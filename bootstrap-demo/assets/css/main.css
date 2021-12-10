@@ -520,13 +520,13 @@ adapted from a snippet
 /*****************************************************************************************/
 
 /* mobile first */
-.mobileAdContainer.stickyElx {
+.mobileContainer.stickyElx {
   left: 0;
 }
-.mobileAdContainer.stickyElx img {
+.mobileContainer.stickyElx img {
   width: 100%;
 }
-.sidebarAdContainer {
+.sidebarContainer {
   text-align: center;
 }
 .live-examples-wrapper {
@@ -550,27 +550,32 @@ adapted from a snippet
   max-height: 300px;
   max-width: 250px;
 }
-.ex-live-unit.sidebarAdContainer {
+.ex-live-unit.sidebarContainer {
   max-height: 600px;
   max-width: 300px;
 }
 
 /* desktop */
-.sidebarAdContainer {
+.sidebarContainer {
   margin: 15px 0;
 }
 @media only screen and (min-width: 768px) {
   header.masthead .page-heading {
     padding: 200px 0 50px 0;
   }
-  #leadboardAdContainer {
+  #ldboardContainer {
     padding: 50px 0;
   }
   header.masthead .page-heading h1,
   header.masthead .site-heading h1 {
     font-size: 60px;
   }
-  .sidebarAdContainer {
+  .sidebarContainer {
     text-align: left;
   }
+}
+
+/* fallbackMode block */
+.blockFallback {
+  color: #8f0404;
 }

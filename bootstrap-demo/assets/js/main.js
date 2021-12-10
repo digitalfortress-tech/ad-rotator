@@ -107,7 +107,7 @@ var rotatorFbackMode = rotator(
     { url: 'https://niketpathak.com#4', img: './assets/img/square/square-4.jpg' },
   ],
   {
-    mode: 'fallback',
+    fallbackMode: true,
   }
 );
 rotatorFbackMode.start(); // start the rotation
