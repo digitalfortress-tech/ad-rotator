@@ -172,8 +172,10 @@ const rotateImage = async (
   await delay(900);
   // attach an image to the link
   link.appendChild(img);
+  // clean Src element and remove all listeners
+  El.innerHTML = '';
   // add the link to the El
-  El.childNodes[0] ? El.replaceChild(link, El.childNodes[0]) : El.appendChild(link);
+  El.appendChild(link);
 
   // exec callback on every rotation
   (conf.cb || NOOP)(unit as AdUnit, El, conf);
