@@ -59,8 +59,9 @@ const detectBlock = async () => {
   // test with baitElement
   const testDiv = document.createElement('div');
   testDiv.className = window.atob(
-    'YWRzIGFkIGFkc2JveCBkb3VibGVjbGljayBhZC1wbGFjZW1lbnQgY2FyYm9uLWFkcyBwcmViaWQgYWQtdW5pdA=='
+    'YjNFbCBhZHMgYWQgYWRzYm94IGRvdWJsZWNsaWNrIGFkLXBsYWNlbWVudCBjYXJib24tYWRzIHByZWJpZCBhZC11bml0'
   );
+
   document.body.appendChild(testDiv);
   if (getComputedStyle(testDiv)['display'] == 'none') {
     return (hasBlk = true);
