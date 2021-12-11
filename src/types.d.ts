@@ -39,10 +39,6 @@ export interface EventManager {
   obsCb: IntersectionObserverCallback;
 }
 
-export interface INav extends Navigator {
-  brave: string;
-}
-
 export interface AdRotatorInstance {
   conf: AdConfig;
   start: () => void;

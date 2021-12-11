@@ -1,4 +1,4 @@
-import type { AdConfig, StickyConfig, AdUnit, EventManager, AdRotatorInstance, INav } from './types';
+import type { AdConfig, StickyConfig, AdUnit, EventManager, AdRotatorInstance } from './types';
 import { NOOP, delay } from './helpers';
 import './style.less';
 
@@ -66,6 +66,7 @@ const detectBlock = async () => {
     return (hasBlk = true);
   }
 
+  // fallback to pinging a real ad network
   try {
     await fetch(window.atob('aHR0cHM6Ly9wYWdlYWQyLmdvb2dsZXN5bmRpY2F0aW9uLmNvbS9wYWdlYWQvanMvYWRzYnlnb29nbGUuanM='), {
       method: 'HEAD',
@@ -74,11 +75,6 @@ const detectBlock = async () => {
   } catch (e) {
     return (hasBlk = true);
   }
-
-  // for Brave browser, we assume that shields are up given that its the default setting
-  // if ((navigator as INav).brave) {
-  //   return (hasBlk = true);
-  // }
 
   hasBlk = false;
 };
@@ -273,7 +269,6 @@ export const rotator = (El: HTMLElement, units: AdUnit[] = [], options: AdConfig
     async start() {
       if (conf.fallbackMode) {
         await detectBlock();
-        console.log('Running in fallback mode. Detection result :>> ', hasBlk);
         if (hasBlk === false) {
           hasErr = true; // Force Error to bypass exposed API if intended usage is only as a fallback
         }

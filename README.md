@@ -9,7 +9,6 @@
 A fast, light-weight and highly configurable JS library to rotate advertisements.
 
 **Ad-rotator.js**
-- is a vastly performant library in pure Javascript
 - has **NO DEPENDENCIES** :D
 - allows you to **display native advertisements to adblock users** as well
 - is a light-weight library, only [![](https://badgen.net/bundlephobia/minzip/ad-rotator)](https://bundlephobia.com/package/ad-rotator) minified and gzipped
@@ -17,6 +16,7 @@ A fast, light-weight and highly configurable JS library to rotate advertisements
 - Enables you to display **device specific ads** i.e. ads targeted towards mobile/desktop
 - Provides **custom callbacks** that can be used for analytics, statistics, logging, etc...
 - has built-in support for **sticky advertisements**
+- has a Fallback Mode i.e. kicks in only when your primary Ad network fails due to an Adblocker
 - supports almost every browser! (*Only IE is unsupported, but you may use a [polyfill](https://github.com/w3c/IntersectionObserver/tree/master/polyfill))
 - is completely free and open source
 
@@ -126,8 +126,8 @@ Ad-rotator accepts the following configuration options and all of them are **Opt
 | `objectFit? : string` | The `object-fit` property that should be used for the image (`inherit`,`contain`,`cover`, `fill`,... | `"inherit"`|
 | `random? : boolean` | The advertisements are rotated in a random fashion by default. Set to `false` to have them rotated sequentially | `true`|
 | `newTab? : boolean` |  Set to `true` to open the advertisement URL in a new Tab | `false`|
-| `fallbackMode? : boolean` |  Sets the working mode of the library. When set to `true`, the library will be used only if it detects an Adblocker, otherwise it does nothing | `false`|
-| `sticky? : {}` | By default, the advertisement shown is not sticky. To enable sticky advertisements, pass an empty object `sticky: {}`. You can customize sticky advertisements by providing further Sticky config properties shown below| `undefined`|
+| `fallbackMode? : boolean` |  Sets the working mode of the library. When set to `true`, the library is used **only** if it detects an Adblocker, otherwise it does absolutely nothing i.e. it neither pollutes the DOM nor attaches any events | `false`|
+| `sticky? : {}` | Allows sticky Ads. By default, Ads shown are not sticky. To enable sticky Ads, pass an empty object `sticky: {}`. You can customize sticky Ads by providing the following properties - | `undefined`|
 
 ```javascript
 sticky: {
@@ -140,7 +140,7 @@ sticky: {
 // beforeEl => Element after which the Ad becomes sticky
 // afterEl => Element before which Ad stops being sticky
 ```
-A css class **`stickyElx`** is added dynamically to the sticky Element's container to allow further fine-tuning such as customizing css properties (like z-index), using media queries and so on.
+A css class **`stickyElx`** is added dynamically to the sticky Element's container to allow further customization such as modifying css properties (like z-index), using media queries and so on.
 
 ---
 
