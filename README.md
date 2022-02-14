@@ -16,7 +16,7 @@ A fast, light-weight and highly configurable JS library to rotate advertisements
 - Enables you to display **device specific ads** i.e. ads targeted towards mobile/desktop
 - Provides **custom callbacks** that can be used for analytics, statistics, logging, etc...
 - has built-in support for **sticky advertisements**
-- has a Fallback Mode i.e. kicks in only when your primary Ad network fails due to an Adblocker
+- has a Fallback Mode i.e. kicks in only when your primary Ad network fails (for example, due to an Adblocker)
 - supports almost every browser! (*Only IE is unsupported, but you may use a [polyfill](https://github.com/w3c/IntersectionObserver/tree/master/polyfill))
 - is completely free and open source
 
