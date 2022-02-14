@@ -151,13 +151,23 @@ rotator.start();</code>
           </div>
           <div class="defaultContainer ex-live-unit mx-auto"></div>
 
+          <p>Note that the above Ad's dimensions are set via CSS
+          <pre>
+            .defaultContainer {
+              height: 300px;
+              width: 250px;
+            }
+          </pre>
+          </p>
 
           <!-- STEP 2 -->
           <h2>2. Ad Rotation with custom config: Shape Leaderboard / Desktop-only</h2>
 
           <p>
+            This example uses a leaderboard Ad size (i.e. <code>height: 90px, width: 728px</code>) which is set via CSS.
+            Alternatively, you can also set the Ad size via the <b>height/width</b> config options.<br>
             Since this ad would be cut-off on a mobile device given its long width, we
-            set the <code>target: "desktop"</code> so that this Ad would be visible on a desktop but hidden on a mobile device.
+            set the <code>target: "desktop"</code> so that this Ad would be visible only on a desktop and hidden on a mobile device.
           </p>
 
           <pre>
@@ -463,24 +473,24 @@ rotatorInstance.start();</code>
         height: 300px;
         width: 250px;
       }
-    
+
       @media only screen and (min-width: 992px) {
         .ldboardContainer {
           height: 90px;
           width: 728px;
         }
       }
-    
+
       .stickyContainer {
         height: 300px;
         width: 250px;
       }
-    
+
       .sidebarContainer {
         height: 600px;
         width: 300px;
       }
-    
+
       .mobileContainer {
         height: 90px;
       }

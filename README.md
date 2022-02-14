@@ -12,7 +12,7 @@ A fast, light-weight and highly configurable JS library to rotate advertisements
 - has **NO DEPENDENCIES** :D
 - allows you to **display native advertisements to adblock users** as well
 - is a light-weight library, only [![](https://badgen.net/bundlephobia/minzip/ad-rotator)](https://bundlephobia.com/package/ad-rotator) minified and gzipped
-- supports **multiple ad instances** with different shapes/sizes customizable to the very pixel
+- supports completely **responsive multiple ad instances** customizable to the very pixel
 - Enables you to display **device specific ads** i.e. ads targeted towards mobile/desktop
 - Provides **custom callbacks** that can be used for analytics, statistics, logging, etc...
 - has built-in support for **sticky advertisements**

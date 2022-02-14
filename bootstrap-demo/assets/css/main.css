@@ -208,7 +208,7 @@ header.masthead .overlay {
 header.masthead .page-heading,
 header.masthead .post-heading,
 header.masthead .site-heading {
-  padding: 200px 0 150px;
+  padding: 150px 0 150px;
   color: white;
 }
 
@@ -519,6 +519,7 @@ adapted from a snippet
 /************************************** CUSTOM *******************************************/
 /*****************************************************************************************/
 
+/************* CONTAINER SIZES/DIMENSIONS START  **************/
 .sidebarContainer {
   height: 600px;
   width: 300px;
@@ -534,7 +535,7 @@ adapted from a snippet
     height: 90px;
   }
 }
-
+/************* CONTAINER SIZES/DIMENSIONS END  **************/
 
 
 /* mobile first */
@@ -582,7 +583,7 @@ adapted from a snippet
     padding: 200px 0 50px 0;
   }
   #ldboardContainer {
-    padding: 50px 0;
+    padding: 10px 0 50px 0;
   }
   header.masthead .page-heading h1,
   header.masthead .site-heading h1 {
