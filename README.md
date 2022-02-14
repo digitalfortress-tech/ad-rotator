@@ -12,7 +12,7 @@ A fast, light-weight and highly configurable JS library to rotate advertisements
 - has **NO DEPENDENCIES** :D
 - allows you to **display native advertisements to adblock users** as well
 - is a light-weight library, only [![](https://badgen.net/bundlephobia/minzip/ad-rotator)](https://bundlephobia.com/package/ad-rotator) minified and gzipped
-- supports **multiple ads** with different shapes/sizes customizable to the very pixel
+- supports **multiple ad instances** with different shapes/sizes customizable to the very pixel
 - Enables you to display **device specific ads** i.e. ads targeted towards mobile/desktop
 - Provides **custom callbacks** that can be used for analytics, statistics, logging, etc...
 - has built-in support for **sticky advertisements**
@@ -76,9 +76,17 @@ let items = [
 
 ## Usage
 
-In Html, add a container Element.
+In Html, add a container Element and provide it a size (height/width) via CSS. These dimensions will be used as the Ad's dimensions. (Alternatively, you can also use the `height`/`width` config options to set the dimensions)
 ```html
 <div id="containerElement"></div>
+
+<style>
+  #containerElement {
+    height: 300px;
+    width: 250px;
+  }
+</style>
+See [common sizes for responsive Ads](https://support.google.com/google-ads/answer/7031480?hl=en) to figure out Ad-dimensions that suit your needs.
 ```
 
 Then create an `Array` with the advertisements to be displayed.
@@ -113,9 +121,8 @@ Ad-rotator accepts the following configuration options and all of them are **Opt
 
 | Parameter | Description | Default |
 | --------- | ----------- | ------- |
-|`shape?: string` |This is the expected shape of the Ad. It can also be set to `square`, `leaderboard`, `sidebar`, `mobile` or `custom`. By default, the shape is set to **square** with a height of 300px and width of 250px. When set to **Leaderboard**, the standard horizontal size of height - 90px, width - 728px is used, when shape is set to **Sidebar**, the standard size of height - 600px, width - 300px is used and when the shape is set to **Mobile**, the width is set to the width of the container Element & the height is set to 90px. (These default values can be overriden). Setting shape to `mobile` also sets the `target` device to mobile, which means the ads in this instance will only be visible on a mobile device. When you set shape to **custom**, you must provide the height/width config options yourself.|`"square"`|
-| `height? : number` | The height of the advertisement in pixels | `300` (_px_)|
-| `width? : number` | The width of the advertisement in pixels | `250` (_px_)|
+| `height? : number` | The height of the advertisement in pixels | Parent Element's height|
+| `width? : number` | The width of the advertisement in pixels | Parent Element's width|
 | `timer? : number` | The time after which an advertisement will be rotated in seconds. Lowest accepted value is 2s | `5` (_seconds_)|
 | `target? : string` | The target device. Can be set to `desktop`, `mobile` or `all`. When set to desktop, ads will be shown only on a desktop device whereas when set to mobile, ads will be displayed on a mobile device alone. By default, ads are shown on all devices. | `"all"` |
 | `cb?: (unit: AdUnit, El: HTMLElement, conf: AdConfig)` | A **callback** that is executed on every image rotation. The callback receives 3 parameters `cb(currentAdUnit, parentElement, configParams)`. This callback can be used for analytics, to programmatically control the rotator instance or for any other purpose. | `undefined` |
@@ -152,9 +159,7 @@ const instance = rotator( /* options */ )
 // update config after instantiation to change to sequential rotation
 instance.conf.random = false;
 ```
-The only 2 exceptions are:
-- Updating the `shape` config option will not automatically update the `height` & `width` config options as it does during instantiation.
-- Updating the `shape` to `mobile` will not automatically set the `target` device to mobile as it does during instantiation.
+
 ---
 
 
@@ -179,7 +184,7 @@ const instance = rotator(
         { url: 'https://gospelmusic.io#1', img: 'https://niketpathak.com/images/works/gkm_pic_sq.jpg'},
         { url: 'https://digitalfortress.tech#2', img: 'https://niketpathak.com/images/works/maestrobits_sq.jpg'}
     ],
-    { shape: "sidebar" }    // configuration options
+    { height: "300px", width: "250px" }    // configuration options
 );
 instance.start();         // starts the rotation
 ```
