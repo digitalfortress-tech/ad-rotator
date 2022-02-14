@@ -519,6 +519,24 @@ adapted from a snippet
 /************************************** CUSTOM *******************************************/
 /*****************************************************************************************/
 
+.sidebarContainer {
+  height: 600px;
+  width: 300px;
+}
+
+.blockFallback {
+  height: 300px;
+  width: 250px;
+}
+
+@media only screen and (max-width: 992px) {
+  .mobileContainer {
+    height: 90px;
+  }
+}
+
+
+
 /* mobile first */
 .mobileContainer.stickyElx {
   left: 0;

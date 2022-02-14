@@ -52,7 +52,6 @@ var rotatorLeaderboard = rotator(
     { url: 'https://niketpathak.com#5', img: './assets/img/leaderboard/leaderboard-5.png' },
   ],
   {
-    shape: 'leaderboard',
     target: 'desktop',
   }
 );
@@ -68,7 +67,7 @@ var rotatorMobile = rotator(
     { url: 'https://niketpathak.com#5', img: './assets/img/leaderboard/leaderboard-5.png' },
   ],
   {
-    shape: 'mobile',
+    target: 'mobile',
     sticky: { beforeEl: document.querySelector('.page-heading > h1') },
   }
 );
@@ -86,7 +85,6 @@ var rotatorSidebar = rotator(
     { url: 'https://niketpathak.com#7', img: './assets/img/sidebar/sidebar-7.jpg' },
   ],
   {
-    shape: 'sidebar',
     sticky: {
       offsetTop: 55,
       offsetBottom: 50,

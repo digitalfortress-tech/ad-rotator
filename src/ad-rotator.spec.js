@@ -36,7 +36,6 @@ describe('Ad-rotator', () => {
   it('should display an advert with custom options', async () => {
     const mockOnClick = jest.fn();
     const instance = rotator(AdContainer, items, {
-      shape: 'sidebar',
       imgClass: 'test-image',
       linkClass: 'test-link',
       random: false,
@@ -53,10 +52,6 @@ describe('Ad-rotator', () => {
     const img = document.querySelector('img.test-image');
     expect(img.getAttribute('src')).toEqual('./assets/image.jpg');
     expect(link.getAttribute('href')).toEqual('https://xyz.com#1');
-
-    // verify shape
-    expect(img.getAttribute('width')).toEqual('300');
-    expect(img.getAttribute('height')).toEqual('600');
 
     // verify newTab prop
     expect(link.getAttribute('target')).toEqual('_blank');

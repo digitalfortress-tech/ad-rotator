@@ -220,7 +220,29 @@
     <div id="mobile-placement-4"></div>
 
     <div id="fallbackMode-placement" style="width:320px"></div>
+    <style>
+        @media only screen and (min-width: 992px) {
+            #hz-placement-1 {
+                height: 90px;
+                width: 728px;
+            }
+        }
 
+        #sidebar-placement-1,
+        #fallbackMode-placement {
+            height: 600px;
+            width: 300px;
+        }
+
+        #sq-placement-1 {
+            height: 300px;
+            width: 250px;
+        }
+
+        #mobile-placement-4 {
+            height: 90px;
+        }
+    </style>
     <script src="../dist/ad-rotator.js"></script>
     <script type="text/javascript">
         //
@@ -266,7 +288,6 @@
 
         ];
         var instance1 = rotator(document.getElementById("sidebar-placement-1"), units, {
-            shape: 'sidebar',
             timer: '2',
             random: true,
             cb: function (current) {
@@ -295,7 +316,7 @@
         // console.debug('***instance3', instance3);
 
         var instance4 = rotator(document.getElementById("mobile-placement-4"), units3, {
-            shape: 'mobile',
+            target: 'mobile',
             objectFit: 'cover',
             timer: 3,
             sticky: {
@@ -306,7 +327,6 @@
         // console.debug('***instance4', instance4);
 
         var instance5 = rotator(document.getElementById("fallbackMode-placement"), units, {
-            shape: 'sidebar',
             fallbackMode: true,
         });
         instance5.start();

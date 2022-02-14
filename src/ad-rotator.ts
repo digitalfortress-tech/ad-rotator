@@ -16,40 +16,17 @@ let hasBlk: boolean; // flag to detect AdBlockers
 /**
  * DefaultConfig
  */
-const getDefaultConfig = (El: HTMLElement, shape = 'square') => {
-  const config: AdConfig = {
-    shape: 'square',
-    height: 300,
-    width: 250,
-    imgClass: '',
-    linkClass: '',
+const getDefaultConfig = (El: HTMLElement) =>
+  ({
+    height: El.clientHeight,
+    width: El.clientWidth,
     objectFit: 'inherit',
     target: 'all',
     timer: interval,
     random: true,
     newTab: false,
     fallbackMode: false,
-  };
-  switch (shape.toLowerCase()) {
-    case 'leaderboard':
-      config.height = 90;
-      config.width = 728;
-      break;
-    case 'sidebar':
-      config.height = 600;
-      config.width = 300;
-      break;
-    case mobile:
-      if (El) config.width = El.clientWidth; // window.screen.availWidth;
-      config.height = 90;
-      config.target = mobile;
-      break;
-    default:
-      break;
-  }
-
-  return config;
-};
+  } as AdConfig);
 
 const detectBlock = async () => {
   if (hasBlk !== undefined) {
@@ -185,7 +162,7 @@ const rotateImage = async (
 
 export const rotator = (El: HTMLElement, units: AdUnit[] = [], options: AdConfig = {}): AdRotatorInstance => {
   let hasErr = false;
-  const conf = { ...getDefaultConfig(El, options.shape || ''), ...options };
+  const conf = { ...getDefaultConfig(El), ...options };
   if (
     !El ||
     !(El instanceof HTMLElement) ||
@@ -229,10 +206,10 @@ export const rotator = (El: HTMLElement, units: AdUnit[] = [], options: AdConfig
       // make sticky
       if (
         conf.sticky &&
-        ((conf.sticky as unknown) as Record<string, unknown>).constructor === Object &&
-        (!((conf.sticky as unknown) as Record<string, unknown>).noMobile || device !== mobile)
+        (conf.sticky as unknown as Record<string, unknown>).constructor === Object &&
+        (!(conf.sticky as unknown as Record<string, unknown>).noMobile || device !== mobile)
       ) {
-        this.scrollEvRef = stickyEl(El, (conf.sticky as unknown) as Record<string, unknown>);
+        this.scrollEvRef = stickyEl(El, conf.sticky as unknown as Record<string, unknown>);
       }
     },
     destroy() {
