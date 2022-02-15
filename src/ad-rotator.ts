@@ -16,17 +16,14 @@ let hasBlk: boolean; // flag to detect AdBlockers
 /**
  * DefaultConfig
  */
-const getDefaultConfig = (El: HTMLElement) =>
-  ({
-    height: El.clientHeight,
-    width: El.clientWidth,
-    objectFit: 'inherit',
-    target: 'all',
-    timer: interval,
-    random: true,
-    newTab: false,
-    fallbackMode: false,
-  } as AdConfig);
+const getDefaultConfig = {
+  objectFit: 'inherit',
+  target: 'all',
+  timer: interval,
+  random: true,
+  newTab: false,
+  fallbackMode: false,
+} as AdConfig;
 
 const detectBlock = async () => {
   if (hasBlk !== undefined) {
@@ -137,7 +134,7 @@ const rotateImage = async (
     (conf.onClick || NOOP)(e, unit as AdUnit);
   });
   // create image
-  const img = new Image(conf.width, conf.height);
+  const img = document.createElement('img');
   img.src = (unit as AdUnit).img;
   img.classList.add('fadeIn');
   conf.imgClass && img.classList.add(conf.imgClass);
@@ -162,7 +159,7 @@ const rotateImage = async (
 
 export const rotator = (El: HTMLElement, units: AdUnit[] = [], options: AdConfig = {}): AdRotatorInstance => {
   let hasErr = false;
-  const conf = { ...getDefaultConfig(El), ...options };
+  const conf = { ...getDefaultConfig, ...options };
   if (
     !El ||
     !(El instanceof HTMLElement) ||
@@ -172,12 +169,10 @@ export const rotator = (El: HTMLElement, units: AdUnit[] = [], options: AdConfig
     !(units[0] instanceof Object) ||
     !units[0].url ||
     !units[0].img ||
-    isNaN(conf.timer as number) ||
-    isNaN(conf.height as number) ||
-    isNaN(conf.width as number)
+    isNaN(conf.timer as number)
   ) {
     hasErr = true;
-    console.error('Missing/malformed parameters - El, Units, Config', El, units, conf);
+    console.error('Missing/malformed params - El, Units, Config', El, units, conf);
   }
 
   let inter: number | undefined; // reference to interval
@@ -206,10 +201,10 @@ export const rotator = (El: HTMLElement, units: AdUnit[] = [], options: AdConfig
       // make sticky
       if (
         conf.sticky &&
-        (conf.sticky as unknown as Record<string, unknown>).constructor === Object &&
-        (!(conf.sticky as unknown as Record<string, unknown>).noMobile || device !== mobile)
+        ((conf.sticky as unknown) as Record<string, unknown>).constructor === Object &&
+        (!((conf.sticky as unknown) as Record<string, unknown>).noMobile || device !== mobile)
       ) {
-        this.scrollEvRef = stickyEl(El, conf.sticky as unknown as Record<string, unknown>);
+        this.scrollEvRef = stickyEl(El, (conf.sticky as unknown) as Record<string, unknown>);
       }
     },
     destroy() {

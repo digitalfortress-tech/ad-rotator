@@ -76,20 +76,29 @@ let items = [
 
 ## Usage
 
-In Html, add a container Element and provide it a size (height/width) via CSS. These dimensions will be used as the Ad's dimensions. (Alternatively, you can also use the `height`/`width` config options to set the dimensions)
+In Html, create an Element. This element will be used as a container to inject Ads.
+
 ```html
 <div id="containerElement"></div>
+```
+In CSS, provide a size to your container Element. Also, set `img` elements to 100% height/width to ensure they fill the container.
 
+```html
 <style>
-  #containerElement {
+  #containerElement { /* set Ad size */
     height: 300px;
     width: 250px;
   }
+  img {               /* set img elements to be responsive */
+    height: 100%;
+    width: 100%;
+  }
 </style>
-See [common sizes for responsive Ads](https://support.google.com/google-ads/answer/7031480?hl=en) to figure out Ad-dimensions that suit your needs.
 ```
+Using the above styles, the displayed Ads will have a height of 300px and width of 250px. **Ad sizes are completely controlled by the user**. You are free to use media queries to further tweak the dimensions.
+See [common sizes for responsive Ads](https://support.google.com/google-ads/answer/7031480?hl=en) to see Ad-dimensions that suit your needs.
 
-Then create an `Array` with the advertisements to be displayed.
+In JS, create an `Array` with the advertisements to be displayed.
 
 ```javascript
 // An array with the advertisements to display
@@ -121,8 +130,6 @@ Ad-rotator accepts the following configuration options and all of them are **Opt
 
 | Parameter | Description | Default |
 | --------- | ----------- | ------- |
-| `height? : number` | The height of the advertisement in pixels | Parent Element's height|
-| `width? : number` | The width of the advertisement in pixels | Parent Element's width|
 | `timer? : number` | The time after which an advertisement will be rotated in seconds. Lowest accepted value is 2s | `5` (_seconds_)|
 | `target? : string` | The target device. Can be set to `desktop`, `mobile` or `all`. When set to desktop, ads will be shown only on a desktop device whereas when set to mobile, ads will be displayed on a mobile device alone. By default, ads are shown on all devices. | `"all"` |
 | `cb?: (unit: AdUnit, El: HTMLElement, conf: AdConfig)` | A **callback** that is executed on every image rotation. The callback receives 3 parameters `cb(currentAdUnit, parentElement, configParams)`. This callback can be used for analytics, to programmatically control the rotator instance or for any other purpose. | `undefined` |
@@ -184,7 +191,7 @@ const instance = rotator(
         { url: 'https://gospelmusic.io#1', img: 'https://niketpathak.com/images/works/gkm_pic_sq.jpg'},
         { url: 'https://digitalfortress.tech#2', img: 'https://niketpathak.com/images/works/maestrobits_sq.jpg'}
     ],
-    { height: "300px", width: "250px" }    // configuration options
+    { target: 'mobile' }  // configuration options
 );
 instance.start();         // starts the rotation
 ```

@@ -165,7 +165,6 @@ rotator.start();</code>
 
           <p>
             This example uses a leaderboard Ad size (i.e. <code>height: 90px, width: 728px</code>) which is set via CSS.
-            Alternatively, you can also set the Ad size via the <b>height/width</b> config options.<br>
             Since this ad would be cut-off on a mobile device given its long width, we
             set the <code>target: "desktop"</code> so that this Ad would be visible only on a desktop and hidden on a mobile device.
           </p>
@@ -196,8 +195,6 @@ rotator.start();</code>
               ],
               {
                 target: 'desktop',
-                //width: 500,   // 500px
-                //height: 150,  // 150px
                 //timer: 2, // 2 seconds
                 //sticky: {}
               }
@@ -220,7 +217,7 @@ var rotator = new adRotator(
   document.querySelector('.className'),
   [{ url: 'xyz.com', img: '../xyz.jpg'}],
   {
-    shape: "mobile",
+    target: "mobile",
   }
 );
 // start rotation (returns undefined by default)
@@ -427,7 +424,7 @@ rotatorInstance.start();</code>
           <div class="col-lg-8 col-md-10 mx-auto">
             <ul class="list-inline text-center">
               <li class="list-inline-item">
-                <a href="mailto:your-email@example.com">
+                <a href="mailto:contact@niketpathak.com">
                   <span class="fa-stack fa-lg">
                     <i class="fas fa-circle fa-stack-2x"></i>
                     <i class="far fa-envelope fa-stack-1x fa-inverse"></i>
@@ -491,8 +488,10 @@ rotatorInstance.start();</code>
         width: 300px;
       }
 
-      .mobileContainer {
-        height: 90px;
+      @media only screen and (max-width: 992px) {
+        .mobileContainer {
+          height: 90px;
+        }
       }
     </style>
     <script

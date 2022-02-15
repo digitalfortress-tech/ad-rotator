@@ -520,19 +520,28 @@ adapted from a snippet
 /*****************************************************************************************/
 
 /************* CONTAINER SIZES/DIMENSIONS START  **************/
+img {
+  height: 100%;
+  width: 100%;
+}
+
 .sidebarContainer {
   height: 600px;
   width: 300px;
 }
-
 .blockFallback {
   height: 300px;
   width: 250px;
 }
-
 @media only screen and (max-width: 992px) {
   .mobileContainer {
     height: 90px;
+  }
+}
+@media only screen and (min-width: 992px) {
+  #ldboardContainer {
+    height: 140px;
+    width: 728px;
   }
 }
 /************* CONTAINER SIZES/DIMENSIONS END  **************/
@@ -541,9 +550,6 @@ adapted from a snippet
 /* mobile first */
 .mobileContainer.stickyElx {
   left: 0;
-}
-.mobileContainer.stickyElx img {
-  width: 100%;
 }
 .sidebarContainer {
   text-align: center;

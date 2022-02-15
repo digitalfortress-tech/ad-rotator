@@ -29,6 +29,6 @@ module.exports = {
     // disable rules from base configurations
     'no-console': 'warn',
 
-    'prettier/prettier': 2, // 2 means error, 1 means warn and 0 means off
+    'prettier/prettier': 1, // 2 means error, 1 means warn and 0 means off
   },
 };
