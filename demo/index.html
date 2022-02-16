@@ -255,15 +255,32 @@
         var units = [
             {
                 url: 'https://niketpathak.com#1',
-                img: './assets/images/square/1.jpg'
+                img: './assets/images/square/1.jpg',
+                weight: 5,
             },
             {
                 url: 'https://digitalfortress.tech#2',
-                img: './assets/images/square/2.jpg'
+                img: './assets/images/square/2.jpg',
+                weight: 6,
             },
             {
                 url: 'https://digitalfortress.tech#3',
-                img: './assets/images/square/3.jpg'
+                img: './assets/images/square/3.jpg',
+                weight: 6,
+            },
+            {
+                url: 'https://digitalfortress.tech#4',
+                img: './assets/images/square/4.png',
+                weight: 2,
+            },
+            {
+                url: 'https://digitalfortress.tech#5',
+                img: './assets/images/square/5.jpg',
+                weight: 2,
+            },
+            {
+                url: 'https://digitalfortress.tech#6',
+                img: './assets/images/square/6.jpeg',
             },
             ];
 
@@ -294,7 +311,7 @@
 
         ];
         var instance1 = rotator(document.getElementById("sidebar-placement-1"), units, {
-            timer: '2',
+            timer: '3',
             random: true,
             cb: function (current) {
                 console.log('currentItem -->', current.url)
@@ -305,7 +322,7 @@
         });
         instance1.start();
         // console.debug('***instance1', instance1);
-
+        /*
         var instance2 = rotator(document.getElementById("hz-placement-1"), units2, { target: "desktop", objectFit: 'cover', timer: 3, debug: true });
             instance2.start();
         // console.debug('***instance2', instance2);
@@ -337,6 +354,7 @@
         });
         instance5.start();
         // console.debug('***instance5', instance5);
+        */
     </script>
 </body>
 
