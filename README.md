@@ -10,12 +10,13 @@ A fast, light-weight and highly configurable JS library to rotate advertisements
 
 **Ad-rotator.js**
 - has **NO DEPENDENCIES** :D
-- allows you to **display native advertisements to adblock users** as well
-- is a light-weight library, only [![](https://badgen.net/bundlephobia/minzip/ad-rotator)](https://bundlephobia.com/package/ad-rotator) minified and gzipped
+- allows you to **display native advertisements to adblock users**
+- is a light-weight library, only [![~4Kb](https://img.shields.io/bundlephobia/minzip/ad-rotator)](https://bundlephobia.com/package/ad-rotator) minified and gzipped
 - supports completely **responsive multiple ad instances** customizable to the very pixel
 - Enables you to display **device specific ads** i.e. ads targeted towards mobile/desktop
 - Provides **custom callbacks** that can be used for analytics, statistics, logging, etc...
 - has built-in support for **sticky advertisements**
+- permits assigning weight/priority to Ad unit(s) to increase its chances of being shown
 - has a Fallback Mode i.e. kicks in only when your primary Ad network fails (for example, due to an Adblocker)
 - supports almost every browser! (*Only IE is unsupported, but you may use a [polyfill](https://github.com/w3c/IntersectionObserver/tree/master/polyfill))
 - is completely free and open source
@@ -61,17 +62,17 @@ The library will be available as a global object at `window.rotator`
 
 Ad-rotator.js requires 2 mandatory parameters to be setup. A 3rd optional parameter can be provided to override default values.
 - **`DOM element` (required)** - A container Element where the Ads should be displayed
-- **`Array` (required)** - An Array of Advertisements(`[{url: '', img: ''},...]`) to be displayed. Each advertisement is expected to be an object with 2 mandatory keys `img` and `url` -
+- **`Array` (required)** - An Array of Advertisements(`[{url: '', img: ''},...]`) to be displayed. Each advertisement is expected to be an object with 2 mandatory keys `img` and `url` & an optional key `weight` -
 ```javascript
 let items = [
-  {img: './assets/image.jpg', url: 'https://xyz.com#1'},              // ad 1
-  {img: 'https://xyz.com/image.png', url: 'https://xyz.com#2'},       // ad 2
-  {img: 'https://xyz.com/image.svg', url: 'https://xyz.com#3'},       // ad 3
-  {img: 'data:image/jpeg;base64,/9j/4AAQSkZJRg...', url: 'https...'}  // ad 4
+  {img: './assets/image.jpg', url: 'https://xyz.com#1'},                    // ad 1
+  {img: 'https://xyz.com/image.png', url: 'https://xyz.com#2', weight: 5},  // ad 2
+  {img: 'https://xyz.com/image.svg', url: 'https://xyz.com#3', weight: 10}, // ad 3
+  {img: 'data:image/jpeg;base64,/9j/4AAQSkZJRg...', url: 'https...'}        // ad 4
 ]
 ```
 
-`img` can be an absolute URL, a relative URL or even a base-64 encoded image.
+`img` can be an absolute URL, a relative URL or even a base-64 encoded image. The `weight` key behaves differently depending on whether you are using sequential/random rotation. For sequential rotation, ads will be sorted by weight i.e. highest weight to the lowest weight. For random Ad rotation, weight adds a priority to each item. The higher the weight, the higher the chances of that Ad being shown.
 - **`Object` (optional)** - An Object with custom configuration options to override default values. (See all **[`configuration options`](#configurationoptions)**)
 
 ## Usage

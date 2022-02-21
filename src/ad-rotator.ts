@@ -96,6 +96,36 @@ export const stickyEl = (El: HTMLElement, stickyConf: StickyConfig): null | (() 
   return eventHandler;
 };
 
+/**
+ * Generates a random number by weight
+ * @param units Array of AdUnits
+ * @returns
+ */
+const randomNum = (units: AdUnit[]): number => {
+  const totalWeight = units.reduce((acc, item) => acc + (item.weight || 1), 0);
+
+  // generate an array that has a percentage of each item
+  let runningTotal = 0;
+  const cumulativeWeight = units.map((val) => {
+    const relativeWeight = (val.weight || 1) / totalWeight;
+    const cw = relativeWeight + runningTotal;
+    runningTotal += relativeWeight;
+    return cw;
+  });
+
+  // generate random number and compare it to the closest array value
+  const r = Math.random();
+  let closestIndex = 0;
+  for (let i = 0, len = cumulativeWeight.length; i < len; i++) {
+    if (r <= cumulativeWeight[i]) {
+      closestIndex = i;
+      break;
+    }
+  }
+
+  return closestIndex;
+};
+
 const rotateImage = async (
   El: HTMLElement,
   units: AdUnit[],
@@ -106,10 +136,10 @@ const rotateImage = async (
   let unit: AdUnit | undefined;
   if (conf.random) {
     // get random unit
-    let index = unitsClone.length === 1 ? 0 : Math.floor(Math.random() * unitsClone.length);
+    let index = unitsClone.length === 1 ? 0 : randomNum(unitsClone);
     while (unitsClone.length > 1 && prevItem.img === unitsClone[index].img) {
-      // ensure randomness at the end of array
-      index = Math.floor(Math.random() * unitsClone.length);
+      // ensure randomness at the end of a complete rotation cycle
+      index = randomNum(unitsClone);
     }
     unit = unitsClone[index];
     if (unitsClone.length !== 1) {
@@ -151,6 +181,8 @@ const rotateImage = async (
   // exec callback on every rotation
   (conf.cb || NOOP)(unit as AdUnit, El, conf);
 
+  // unitsClone.length === units.length && console.log(' **** End of rotation cycle **** ');
+
   return {
     unitsClone,
     prevItem: unit,
@@ -178,6 +210,10 @@ export const rotator = (El: HTMLElement, units: AdUnit[] = [], options: AdConfig
   let inter: number | undefined; // reference to interval
   let ret; // reference to return value of `rotateImage`
   let prevItem: AdUnit | null = null;
+
+  // sort by weight (naturally, highest weight first)
+  units.sort((a, b) => +(b.weight || 1) - +(a.weight || 1));
+
   let unitsClone = JSON.parse(JSON.stringify(units)); // clone units
 
   // Manage events
@@ -201,10 +237,10 @@ export const rotator = (El: HTMLElement, units: AdUnit[] = [], options: AdConfig
       // make sticky
       if (
         conf.sticky &&
-        ((conf.sticky as unknown) as Record<string, unknown>).constructor === Object &&
-        (!((conf.sticky as unknown) as Record<string, unknown>).noMobile || device !== mobile)
+        (conf.sticky as unknown as Record<string, unknown>).constructor === Object &&
+        (!(conf.sticky as unknown as Record<string, unknown>).noMobile || device !== mobile)
       ) {
-        this.scrollEvRef = stickyEl(El, (conf.sticky as unknown) as Record<string, unknown>);
+        this.scrollEvRef = stickyEl(El, conf.sticky as unknown as Record<string, unknown>);
       }
     },
     destroy() {
