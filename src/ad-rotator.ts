@@ -104,7 +104,7 @@ export const stickyEl = (El: HTMLElement, stickyConf: StickyConfig): null | (() 
 const randomNum = (units: AdUnit[]): number => {
   const totalWeight = units.reduce((acc, item) => acc + (item.weight || 1), 0);
 
-  // create an array that has a percentage of each item
+  // generate an array that has a percentage of each item
   let runningTotal = 0;
   const cumulativeWeight = units.map((val) => {
     const relativeWeight = (val.weight || 1) / totalWeight;
@@ -122,10 +122,8 @@ const randomNum = (units: AdUnit[]): number => {
       break;
     }
   }
-  console.log('cumulativeWeight, r, closestIndex :>> ', cumulativeWeight, r, closestIndex);
+
   return closestIndex;
-  // src: https://stackoverflow.com/questions/8435183/generate-a-weighted-random-number
-  // https://github.com/alvarocastro/pick-random-weighted/blob/master/index.js
 };
 
 const rotateImage = async (
@@ -137,11 +135,10 @@ const rotateImage = async (
 ) => {
   let unit: AdUnit | undefined;
   if (conf.random) {
-    console.log('unitsClone :>> ', unitsClone);
     // get random unit
     let index = unitsClone.length === 1 ? 0 : randomNum(unitsClone);
     while (unitsClone.length > 1 && prevItem.img === unitsClone[index].img) {
-      // ensure randomness at the end of array
+      // ensure randomness at the end of a complete rotation cycle
       index = randomNum(unitsClone);
     }
     unit = unitsClone[index];
@@ -184,7 +181,7 @@ const rotateImage = async (
   // exec callback on every rotation
   (conf.cb || NOOP)(unit as AdUnit, El, conf);
 
-  unitsClone.length === units.length && console.log(' **** End of rotation cycle **** ');
+  // unitsClone.length === units.length && console.log(' **** End of rotation cycle **** ');
 
   return {
     unitsClone,
@@ -216,31 +213,6 @@ export const rotator = (El: HTMLElement, units: AdUnit[] = [], options: AdConfig
 
   // sort by weight (naturally, highest weight first)
   units.sort((a, b) => +(b.weight || 1) - +(a.weight || 1));
-
-  // type WeightedGroup = Record<number, AdUnit[]>;
-
-  // const weightedGroups = units.reduce((prev, curr) => {
-  //   if (!curr.weight) {
-  //     curr.weight = 1;
-  //   }
-
-  //   if (prev[curr.weight]) {
-  //     prev[curr.weight] = [...prev[curr.weight], curr];
-  //   } else {
-  //     prev = {
-  //       ...prev,
-  //       [curr.weight]: [curr],
-  //     };
-  //   }
-
-  //   return prev;
-  // }, {} as WeightedGroup);
-  // console.log('unitsssss :>> ', units);
-  // console.log('groups :>> ', weightedGroups);
-
-  // for (const [key, value] of Object.entries(weightedGroups).reverse()) {
-  //   console.log(`${key}: ${JSON.stringify(value)}`);
-  // }
 
   let unitsClone = JSON.parse(JSON.stringify(units)); // clone units
 
