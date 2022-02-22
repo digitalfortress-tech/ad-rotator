@@ -17,7 +17,7 @@ describe('AdRotator', () => {
     cy.get('@leaderboardAd').find('a').should('have.attr', 'href', 'https://digitalfortress.tech#6x');
   });
 
-  it.only('should rotate Ad sequentially with weights', () => {
+  it('should rotate Ad sequentially with weights', () => {
     cy.visit('/demo/index.html');
     cy.get('#sidebar-placement-1')
       .as('sidebarAd')
@@ -43,14 +43,17 @@ describe('AdRotator', () => {
 
   it('should pause rotation on hover', () => {
     cy.visit('/demo/index.html');
-    cy.get('#sidebar-placement-1').as('sidebarAd').find('a').should('have.attr', 'href', 'https://niketpathak.com#1');
-    cy.get('@sidebarAd').find('img').should('have.attr', 'src', './assets/images/square/1.jpg');
+    cy.get('#sidebar-placement-1')
+      .as('sidebarAd')
+      .find('a')
+      .should('have.attr', 'href', 'https://digitalfortress.tech#3');
+    cy.get('@sidebarAd').find('img').should('have.attr', 'src', './assets/images/square/3.jpg');
     cy.get('@sidebarAd').trigger('mouseenter');
     cy.wait(3100);
-    cy.get('@sidebarAd').find('img').should('have.attr', 'src', './assets/images/square/1.jpg');
+    cy.get('@sidebarAd').find('img').should('have.attr', 'src', './assets/images/square/3.jpg');
   });
 
-  xit('should be visible only on desktop', () => {
+  it('should be visible only on desktop', () => {
     // bug in cypress doesn't retrieve the correct "window.screen.availWidth" even after setting the viewport
     cy.visit('/demo/index.html');
     cy.get('#hz-placement-1').as('leaderboardAd').find('a').should('have.attr', 'href', 'https://gospelmusic.io#5');

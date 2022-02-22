@@ -161,12 +161,17 @@ rotator.start();</code>
           </p>
 
           <!-- STEP 2 -->
-          <h2>2. Ad Rotation with custom config: Shape Leaderboard / Desktop-only</h2>
+          <h2>2. Ad Rotation - custom config: Size Leaderboard / Desktop-only / Prioritized Ads</h2>
 
           <p>
             This example uses a leaderboard Ad size (i.e. <code>height: 90px, width: 728px</code>) which is set via CSS.
             Since this ad would be cut-off on a mobile device given its long width, we
             set the <code>target: "desktop"</code> so that this Ad would be visible only on a desktop and hidden on a mobile device.
+            <br>
+            Note the 3rd and the 5th Ad unit. They have been assigned weights to increase their priority and thereby their
+            chances of being shown first. However since it is randomized, only their chances are increased but there is no guarantee
+            of it being shown first. To sort Ads by their weight (highest to lowest), set <code>random: false</code>.
+            Ads with missing weights are automatically assigned a weight of <code>1</code>.
           </p>
 
           <pre>
@@ -189,14 +194,15 @@ rotator.start();</code>
               [
                 { url: "https://niketpathak.com#1", img: "./assets/img/leaderboard/leaderboard-1.gif" },
                 { url: "https://niketpathak.com#2", img: "./assets/img/leaderboard/leaderboard-2.jpeg" },
-                { url: "https://niketpathak.com#3", img: "./assets/img/leaderboard/leaderboard-3.gif" },
+                { url: "https://niketpathak.com#3", img: "./assets/img/leaderboard/leaderboard-3.gif", weight: 5 },
                 { url: "https://niketpathak.com#4", img: "./assets/img/leaderboard/leaderboard-4.gif" },
-                { url: "https://niketpathak.com#5", img: "./assets/img/leaderboard/leaderboard-5.png" },
+                { url: "https://niketpathak.com#5", img: "./assets/img/leaderboard/leaderboard-5.png", weight: 6 },
               ],
               {
                 target: 'desktop',
                 //timer: 2, // 2 seconds
-                //sticky: {}
+                //sticky: {},
+                //random: false,
               }
             );
             rotatorLeaderboard.start();
