@@ -5,6 +5,7 @@
 ![Downloads](https://img.shields.io/npm/dt/ad-rotator)
 ![maintained](https://img.shields.io/badge/maintained-yes-blueviolet)
 [![License](https://img.shields.io/badge/license-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Donate](https://img.shields.io/badge/Donate-PayPal-blue.svg?logo=paypal)](https://www.paypal.com/donate/?hosted_button_id=PZ5ULVZBZX55A)
 
 A fast, light-weight and highly configurable JS library to rotate advertisements.
 
