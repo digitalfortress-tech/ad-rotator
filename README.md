@@ -13,7 +13,7 @@ A fast, light-weight and highly configurable JS library to rotate advertisements
 
 - 📦 Has **0 DEPENDENCIES**! Written in pure JS (typescript).
 - 🖼 Display **native advertisements to adblock users**
-- 🔥 A super light-weight library, only [![~2Kb minzipped](https://img.shields.io/bundlephobia/minzip/ad-rotator)](https://bundlephobia.com/package/ad-rotator)
+- 🔥 A super light-weight library, only [![<3Kb minzipped](https://img.shields.io/bundlephobia/minzip/ad-rotator)](https://bundlephobia.com/package/ad-rotator)
 - 📳 Supports completely **responsive multiple ad instances** customizable to the very pixel
 - 💻 Display **device specific ads** i.e. ads targeted towards mobile/desktop
 - 🪝 Provides **hooks/callbacks** that can be used for analytics, statistics, logging, etc...
@@ -62,7 +62,6 @@ require('ad-rotator/dist/style.css');
 <!-- Alternatively, you can use a CDN -->
 <script src="https://cdn.jsdelivr.net/npm/ad-rotator"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ad-rotator/dist/style.css" /> <!-- Optional -->
-
 
 <!-- or with unpkg.com to get a specific version -->
 <script src="https://unpkg.com/ad-rotator@5.5.0/dist/ad-rotator.js"></script>
@@ -164,9 +163,9 @@ In addition to the styling required for setting the dimensions of an Ad-unit, it
   }
 }
 /*
- * If you use sticky Ads, the following style is useful for adding a smooth transition
+ * If you use sticky Ads: Add a smooth transition, z-index
  */
-.stickyElx {  /* adds smooth transition for sticky Ads */
+.stickyElx {
   transition: all 0.5s;
   z-index: 1;
 }
@@ -232,7 +231,7 @@ instance.conf.random = false;
 * [`adRotator.destroy()`](#adrotatordestroy)
 
 
-#### <a id="adrotatorstart">adRotator.`start()`</a>
+#### <a id="adrotatorstart">🔸 adRotator.`start()`</a>
 
 Starts the Ad-Rotation
 
@@ -248,7 +247,7 @@ const instance = rotator(
 instance.start();         // starts the rotation
 ```
 
-#### <a id="adrotatorpause">adRotator.`pause()`</a>
+#### <a id="adrotatorpause">🔸 adRotator.`pause()`</a>
 
 Pauses the Rotation. However, if the user clicks/hovers the Ad or scrolls away from the Ad such that it is not visible anymore & then scrolls back to it, rotation will resume automatically. Rotation cannot be paused permanently because that would beat the purpose of this library.
 ```javascript
@@ -264,7 +263,7 @@ See [cb(callback) config option](#configurationoptions) for further details on i
 
 To resume the rotation, simply call `adRotatorInstance.resume()`
 
-#### <a id="adrotatorresume">adRotator.`resume()`</a>
+#### <a id="adrotatorresume">🔸 adRotator.`resume()`</a>
 
 Resumes the Rotation.
 ```javascript
@@ -289,7 +288,7 @@ instance.add(
 ```
 The newly injected Advertisement will be displayed in the next rotation cycle
 
-#### <a id="adrotatorremove">adRotator.`remove()`</a>
+#### <a id="adrotatorremove">🔸 adRotator.`remove()`</a>
 
 Remove an item from the Advertisements array.
 ```javascript
@@ -304,7 +303,7 @@ instance.remove(   // remove a specific item
 ```
 The `remove()` method deletes the last item in the advertisements array. To remove a particular advertisement, you can also pass it a parameter (**`rotatorInstance.remove({ img: 'xyz.gif'})`**). The change in the Advertisements array will be reflected in the next rotation cycle
 
-#### <a id="adrotatordestroy">adRotator.`destroy()`</a>
+#### <a id="adrotatordestroy">🔸 adRotator.`destroy()`</a>
 
 Destroys Ad Rotation. Cleans up the DOM and removes all associated events.
 
