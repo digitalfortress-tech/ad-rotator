@@ -9,26 +9,28 @@
 
 A fast, light-weight and highly configurable JS library to rotate advertisements.
 
-**Ad-rotator.js**
-- has **NO DEPENDENCIES** :D
-- allows you to **display native advertisements to adblock users**
-- is a light-weight library, only [![~4Kb](https://img.shields.io/bundlephobia/minzip/ad-rotator)](https://bundlephobia.com/package/ad-rotator) minified and gzipped
-- supports completely **responsive multiple ad instances** customizable to the very pixel
-- Enables you to display **device specific ads** i.e. ads targeted towards mobile/desktop
-- Provides **custom callbacks** that can be used for analytics, statistics, logging, etc...
-- has built-in support for **sticky advertisements**
-- permits assigning weight/priority to Ad unit(s) to increase its chances of being shown
-- has a Fallback Mode i.e. kicks in only when your primary Ad network fails (for example, due to an Adblocker)
-- supports almost every browser! (*Only IE is unsupported, but you may use a [polyfill](https://github.com/w3c/IntersectionObserver/tree/master/polyfill))
-- is completely free and open source
+**🌟 Features 🌟**
+
+- 📦 Has **0 DEPENDENCIES**! Written in pure JS (typescript).
+- 🖼 Display **native advertisements to adblock users**
+- 🔥 A super light-weight library, only [![~2Kb minzipped](https://img.shields.io/bundlephobia/minzip/ad-rotator)](https://bundlephobia.com/package/ad-rotator)
+- 📳 Supports completely **responsive multiple ad instances** customizable to the very pixel
+- 💻 Display **device specific ads** i.e. ads targeted towards mobile/desktop
+- 🪝 Provides **hooks/callbacks** that can be used for analytics, statistics, logging, etc...
+- 🧲 Built-in support for **sticky advertisements**
+- ⚖️ Assign weight/**priority** to Ad unit(s) to increase its chances of being shown
+- ⚜️ Has a Fallback Mode i.e. kicks in only when your primary Ad network fails (for example, due to an Adblocker)
+- 🌐 Supports almost every browser! (*Only IE is unsupported, but you may use a [polyfill](https://github.com/w3c/IntersectionObserver/tree/master/polyfill))
+- 🎀 Framework agnostic, free and open source
 
 ---
-### Demo
+### ✨ Demo
 
 Here is a **[Live Demo](https://rotator.digitalfortress.tech/)** of Ad-rotation in action. You will find **live examples** that can tinkered with to get a clearer picture about what you could expect from this library.
 
 ---
-## Install
+## <a id="installLink">➕ Install</a>
+
 ```shell script
 # you can install ad-rotator with npm
 $ npm install --save ad-rotator
@@ -41,29 +43,49 @@ Then include the library in your App/Page.
 **As a module,**
 ```javascript
 // using ES6 modules
-import rotator from 'ad-rotator';
+import rotator from 'ad-rotator';   // imports library
+import 'ad-rotator/dist/style.css'; // imports base style (optional)
 
 // using CommonJS modules
-var rotator = require('ad-rotator');
+const rotator = require('ad-rotator');
+require('ad-rotator/dist/style.css');
 ```
 
 **In the browser context,**
 ```html
 <!-- Include the library -->
 <script src="./node_modules/ad-rotator/dist/ad-rotator.js"></script>
+<!-- Optionally include the base style -->
+<link rel="stylesheet" href="./node_modules/ad-rotator/dist/style.css" />
+
 
 <!-- Alternatively, you can use a CDN -->
 <script src="https://cdn.jsdelivr.net/npm/ad-rotator"></script>
-<!-- or with unpkg.com -->
-<script src="https://unpkg.com/ad-rotator@4.3.0/dist/ad-rotator.js"></script>
-```
-The library will be available as a global object at `window.rotator`
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ad-rotator/dist/style.css" /> <!-- Optional -->
 
-## Configuration
+
+<!-- or with unpkg.com to get a specific version -->
+<script src="https://unpkg.com/ad-rotator@5.5.0/dist/ad-rotator.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/ad-rotator@5.5.0/dist/style.css" /> <!-- Optional -->
+
+```
+The library will be available as a global object at **`window.rotator`**
+
+## 🔧 Configuration
 
 Ad-rotator.js requires 2 mandatory parameters to be setup. A 3rd optional parameter can be provided to override default values.
 - **`DOM element` (required)** - A container Element where the Ads should be displayed
-- **`Array` (required)** - An Array of Advertisements(`[{url: '', img: ''},...]`) to be displayed. Each advertisement is expected to be an object with 2 mandatory keys `img` and `url` & an optional key `weight` -
+- **`Array` (required)** - An Array of Advertisements(`[{url: '', img: ''},...]`) to be displayed. Each advertisement is expected to be an object with 2 mandatory keys `img` and `url` & an optional key `weight`
+<details>
+  <summary>
+  <b>Details & Example of an Array of Ads</b>
+  </summary>
+
+- `img` can be an absolute URL, a relative URL or even a base-64 encoded image.
+- `url` is the target url where the end-user will be directed on clicking the Ad.
+- The `weight` key behaves differently depending on whether you are using sequential/random rotation. For sequential rotation, ads will be sorted by weight i.e. highest weight to the lowest weight. For random Ad rotation, weight adds a priority to each item. The higher the weight, the higher the chances of that Ad being shown.
+
+
 ```javascript
 let items = [
   {img: './assets/image.jpg', url: 'https://xyz.com#1'},                    // ad 1
@@ -72,32 +94,30 @@ let items = [
   {img: 'data:image/jpeg;base64,/9j/4AAQSkZJRg...', url: 'https...'}        // ad 4
 ]
 ```
+</details>
 
-`img` can be an absolute URL, a relative URL or even a base-64 encoded image. The `weight` key behaves differently depending on whether you are using sequential/random rotation. For sequential rotation, ads will be sorted by weight i.e. highest weight to the lowest weight. For random Ad rotation, weight adds a priority to each item. The higher the weight, the higher the chances of that Ad being shown.
 - **`Object` (optional)** - An Object with custom configuration options to override default values. (See all **[`configuration options`](#configurationoptions)**)
 
-## Usage
+## 🌱 Usage
 
-In Html, create an Element. This element will be used as a container to inject Ads.
+In Html, create an Element. This element will be used as a **container** to inject Ads.
 
 ```html
 <div id="containerElement"></div>
 ```
 In CSS, provide a size to your container Element. Also, set `img` elements to 100% height/width to ensure they fill the container.
 
-```html
-<style>
-  #containerElement { /* set Ad size */
-    height: 300px;
-    width: 250px;
-  }
-  img {               /* set img elements to be responsive */
-    height: 100%;
-    width: 100%;
-  }
-</style>
+```css
+#containerElement { /* set Ad size */
+  height: 300px;
+  width: 250px;
+}
+img {               /* set img elements to be responsive */
+  height: 100%;
+  width: 100%;
+}
 ```
-Using the above styles, the displayed Ads will have a height of 300px and width of 250px. **Ad sizes are completely controlled by the user**. You are free to use media queries to further tweak the dimensions.
+Using the above styles, the displayed Ads will have a height of `300px` and width of `250px`. **Ad sizes are completely controlled by the user**. You are free to use media queries to further tweak the dimensions.
 See [common sizes for responsive Ads](https://support.google.com/google-ads/answer/7031480?hl=en) to see Ad-dimensions that suit your needs.
 
 In JS, create an `Array` with the advertisements to be displayed.
@@ -119,14 +139,44 @@ const instance = rotator(
 // start the rotation
 instance.start();
 ```
-That's it! You should now have Ad-rotation in action! The library sets sensible defaults on initialization. For example, Ads are rotated in a random fashion by default. You can provide a 3rd *optional* configuration parameter to override this and fine tune the settings of your adrotator. See [`configuration options`](#configurationoptions) for available variations.
+That's it! You should now have Ad-rotation in action! The library sets sensible defaults on initialization. For example, Ads are rotated in a random fashion by default. You can provide a 3rd *optional* configuration parameter to override this and fine tune the settings of your adrotator. See **[`configuration options`](#configurationoptions)** for available variations.
 
 
-_**_NOTE:_**_ By default, `adRotator` is designed to **fail silently** for any configuration error. This means that it will neither pollute the DOM nor will it attach any events in case of an error. It will only log a console error to help you diagnose any configuration errors.
+_**_NOTE:_**_ By default, `adRotator` is designed to **fail silently** for any configuration error. This means that it will neither pollute the DOM nor will it attach any events in case of an error. It only logs a console error to help you diagnose any configuration error.
+
+## 🎨 Styling (css)
+
+In addition to the styling required for setting the dimensions of an Ad-unit, it is **strongly recommended** that you include the following base styles, however this is not mandatory. (**Note**: You may have included them already if you followed the steps in the [install](#installLink) section)
+
+```css
+.fadeIn { /* adds animation during Ad-rotation */
+  -webkit-animation: fadeIn 200ms ease-in-out;
+  animation: fadeIn 200ms ease-in-out;
+}
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+}
+/*
+ * If you use sticky Ads, the following style is useful for adding a smooth transition
+ */
+.stickyElx {  /* adds smooth transition for sticky Ads */
+  transition: all 0.5s;
+  z-index: 1;
+}
+```
+
+These styles are optional and can be omitted or can be easily overriden as needed.
 
 ---
 
-## <a id="configurationoptions">Configuration Options</a>
+## <a id="configurationoptions">⚙️ Configuration Options</a>
 
 Ad-rotator accepts the following configuration options and all of them are **Optional**.
 
@@ -160,7 +210,7 @@ A css class **`stickyElx`** is added dynamically to the sticky Element's contain
 
 ---
 
-### Note
+### 💡 Note
 It is possible to change configuration options after instantiation.
 ```javascript
 // init adRotator with default options
@@ -172,7 +222,7 @@ instance.conf.random = false;
 ---
 
 
-## API
+## 💠 API
 
 * [`adRotator.start()`](#adrotatorstart)
 * [`adRotator.pause()`](#adrotatorpause)
@@ -265,16 +315,16 @@ instance.destroy();        // destroys the rotation, DOM and events
 To reactivate adRotator, simply call `adRotatorInstance.start()`
 
 
-### Contribute
+### 🧑‍💻 Contribute
 
 Interested in contributing features and fixes?
 
 [Read more on contributing](./contributing.md).
 
-### Changelog
+### 📝 Changelog
 
 See the [Changelog](https://github.com/niketpathak/adRotator/wiki/Changelog)
 
-### License
+### 📄 License
 
 [MIT](LICENSE) © [DigitalFortress](https://digitalfortress.tech)
