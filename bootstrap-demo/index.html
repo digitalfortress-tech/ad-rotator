@@ -372,8 +372,10 @@
       const urlParams = new URLSearchParams(window.location.search);
       const mode = urlParams.get('mode');
       if (typeof mode === "string" && mode.toLowerCase() === 'dev') {
+        document.write('<link rel="stylesheet" href="./../dist/style.css" \/>');
         document.write('<script src="./../dist/ad-rotator.js"><\/script>');
       } else {
+        document.write('<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ad-rotator/dist/style.css" \/>');
         document.write('<script src="https://cdn.jsdelivr.net/npm/ad-rotator"><\/script>');
       }
     </script>
