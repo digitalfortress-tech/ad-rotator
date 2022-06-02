@@ -17,7 +17,6 @@ let hasBlk: boolean; // flag to detect AdBlockers
  * DefaultConfig
  */
 const getDefaultConfig = {
-  objectFit: 'inherit',
   target: 'all',
   timer: interval,
   random: true,
@@ -168,7 +167,6 @@ const rotateImage = async (
   img.src = (unit as AdUnit).img;
   img.classList.add('fadeIn');
   conf.imgClass && img.classList.add(conf.imgClass);
-  img.style.objectFit = conf.objectFit as string;
   // allow time to preload images
   await delay(900);
   // attach an image to the link

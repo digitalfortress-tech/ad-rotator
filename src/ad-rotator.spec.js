@@ -42,7 +42,6 @@ describe('Ad-rotator', () => {
       newTab: true,
       onClick: mockOnClick,
       timer: 2,
-      objectFit: 'cover',
     });
     instance.start();
 
@@ -55,9 +54,6 @@ describe('Ad-rotator', () => {
 
     // verify newTab prop
     expect(link.getAttribute('target')).toEqual('_blank');
-
-    // verify style => object-fit
-    expect(img.getAttribute('style')).toEqual('object-fit: cover;');
 
     // test onClick callback
     link.click();

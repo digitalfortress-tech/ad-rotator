@@ -248,6 +248,10 @@
             height: 90px;
             width: 95%;
         }
+
+        #mobile-placement-4 img, #hz-placement-1 img {
+            object-fit: cover;
+        }
     </style>
     <link rel="stylesheet" href="../dist/style.css" />
     <script src="../dist/ad-rotator.js"></script>
@@ -330,7 +334,6 @@
 
         var instance2 = rotator(document.getElementById("hz-placement-1"), units2, {
             target: "desktop",
-            objectFit: 'cover',
             timer: 3,
             random: false,
         });
@@ -350,7 +353,6 @@
 
         var instance4 = rotator(document.getElementById("mobile-placement-4"), units3, {
             target: 'mobile',
-            objectFit: 'cover',
             timer: 3,
             sticky: {
                 // offsetBottom: '10px'

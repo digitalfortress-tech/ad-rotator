@@ -20,7 +20,7 @@ A fast, light-weight and highly configurable JS library to rotate advertisements
 - 🧲 Built-in support for **sticky advertisements**
 - ⚖️ Assign weight/**priority** to Ad unit(s) to increase its chances of being shown
 - ⚜️ Has a Fallback Mode i.e. kicks in only when your primary Ad network fails (for example, due to an Adblocker)
-- 🌐 Supports almost every browser! (*Only IE is unsupported, but you may use a [polyfill](https://github.com/w3c/IntersectionObserver/tree/master/polyfill))
+- 🌐 Supports every major browser!
 - 🎀 Framework agnostic, free and open source
 
 ---
@@ -82,7 +82,7 @@ Ad-rotator.js requires 2 mandatory parameters to be setup. A 3rd optional parame
 
 - `img` can be an absolute URL, a relative URL or even a base-64 encoded image.
 - `url` is the target url where the end-user will be directed on clicking the Ad.
-- The `weight` key behaves differently depending on whether you are using sequential/random rotation. For sequential rotation, ads will be sorted by weight i.e. highest weight to the lowest weight. For random Ad rotation, weight adds a priority to each item. The higher the weight, the higher the chances of that Ad being shown.
+- The `weight` key behaves differently depending on whether you are using sequential/random rotation. For sequential rotation, ads will be sorted by weight i.e. highest weight to the lowest weight. For random Ad rotation, weight adds a priority to each item. The higher the weight, the higher the chances of that Ad being shown first.
 
 
 ```javascript
@@ -114,6 +114,8 @@ In CSS, provide a size to your container Element. Also, set `img` elements to 10
 img {               /* set img elements to be responsive */
   height: 100%;
   width: 100%;
+  /* [optional] To stretch image to fit container */
+  /* object-fit: cover; */
 }
 ```
 Using the above styles, the displayed Ads will have a height of `300px` and width of `250px`. **Ad sizes are completely controlled by the user**. You are free to use media queries to further tweak the dimensions.
@@ -188,7 +190,6 @@ Ad-rotator accepts the following configuration options and all of them are **Opt
 | `onClick?: (e: MouseEvent, unit: AdUnit)` | A **callback** that is executed on clicking an Ad unit. The callback receives 2 parameters `(event, currentAdUnit)` | `undefined` |
 | `imgClass? : string` | Class that should be added to the image Tag | `""`|
 | `linkClass? : string` | Class that should be added to the link Tag | `""`|
-| `objectFit? : string` | The `object-fit` property that should be used for the image (`inherit`,`contain`,`cover`, `fill`,... | `"inherit"`|
 | `random? : boolean` | The advertisements are rotated in a random fashion by default. Set to `false` to have them rotated sequentially | `true`|
 | `newTab? : boolean` |  Set to `true` to open the advertisement URL in a new Tab | `false`|
 | `fallbackMode? : boolean` |  Sets the working mode of the library. When set to `true`, the library is used **only** if it detects an Adblocker, otherwise it does absolutely nothing i.e. it neither pollutes the DOM nor attaches any events | `false`|

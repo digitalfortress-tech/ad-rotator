@@ -17,7 +17,6 @@ export interface StickyConfig {
 export interface AdConfig {
   imgClass?: string;
   linkClass?: string;
-  objectFit?: 'inherit' | 'contain' | 'cover' | 'none' | 'fill' | 'inital' | 'revert' | 'scale-down' | 'unset';
   sticky?: StickyConfig;
   target?: 'all' | 'desktop' | 'mobile';
   timer?: number;
