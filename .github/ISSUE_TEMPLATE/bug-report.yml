@@ -68,17 +68,16 @@ body:
   - type: dropdown
     id: browsers
     attributes:
-      label: Platforms/Browsers
-      description: Mark the platforms/browsers in which you see the problem on. _If you select `Other`, please explain it in `Additional context` section._
+      label: Browsers
+      description: Mark the browsers in which you see the problem on. _If you select `Other`, please explain it in `Additional context` section._
       multiple: true
       options:
         - Firefox
         - Chrome
         - Safari
         - Microsoft Edge
-        - iOS
-        - Android
-        - Electron
+        - Brave
+        - Opera
         - Other
   - type: textarea
     id: logs
