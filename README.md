@@ -74,20 +74,22 @@ The library will be available as a global object at **`window.rotator`**
 
 Ad-rotator.js requires 2 mandatory parameters to be setup. A 3rd optional parameter can be provided to override default values.
 - **`DOM element` (required)** - A container Element where the Ads should be displayed
-- **`Array` (required)** - An Array of Advertisements(`[{url: '', img: ''},...]`) to be displayed. Each advertisement is expected to be an object with 2 mandatory keys `img` and `url` & an optional key `weight`
+- **`Array` (required)** - An Array of Advertisements(`[{url: '', img: ''},...]`) to be displayed. Each advertisement is expected to be an object with 2 mandatory properties `img` and `url`
 <details>
   <summary>
   <b>Details & Example of an Array of Ads</b>
   </summary>
 
-- `img` can be an absolute URL, a relative URL or even a base-64 encoded image.
-- `url` is the target url where the end-user will be directed on clicking the Ad.
-- The `weight` key behaves differently depending on whether you are using sequential/random rotation. For sequential rotation, ads will be sorted by weight i.e. highest weight to the lowest weight. For random Ad rotation, weight adds a priority to each item. The higher the weight, the higher the chances of that Ad being shown first.
+- **`img` (required)** - Its value can be an absolute URL, a relative URL or even a base-64 encoded image.
+- **`url` (required)** - It is the target url where the end-user will be directed on clicking the Ad.
+- **`weight` (optional)** - This property behaves differently depending on whether you are using sequential/random rotation. For sequential rotation, ads will be sorted by weight i.e. highest weight to the lowest weight. For random Ad rotation, weight adds a priority to each item. The higher the weight, the higher the chances of that Ad being shown first.
+- **`title` (optional)** - This property can be used to provide a small text describing the image/Ad. It is used to improve accessibility via aria-attributes and also to improve SEO.
 
 
 ```javascript
+/* Example of an array of Ads */
 let items = [
-  {img: './assets/image.jpg', url: 'https://xyz.com#1'},                    // ad 1
+  {img: './assets/image.jpg', url: 'https://xyz.com#1', title: 'Ad 1'},                    // ad 1
   {img: 'https://xyz.com/image.png', url: 'https://xyz.com#2', weight: 5},  // ad 2
   {img: 'https://xyz.com/image.svg', url: 'https://xyz.com#3', weight: 10}, // ad 3
   {img: 'data:image/jpeg;base64,/9j/4AAQSkZJRg...', url: 'https...'}        // ad 4

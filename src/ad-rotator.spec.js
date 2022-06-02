@@ -11,7 +11,7 @@ describe('Ad-rotator', () => {
   global.IntersectionObserver = mockIntersectionObserver;
 
   const items = [
-    { img: './assets/image.jpg', url: 'https://xyz.com#1' }, // ad 1
+    { img: './assets/image.jpg', url: 'https://xyz.com#1', title: 'Ad 1' }, // ad 1
     { img: 'https://xyz.com/image.png', url: 'https://xyz.com#2' }, // ad 2
     { img: 'https://xyz.com/image.svg', url: 'https://xyz.com#3' }, // ad 3
     { img: 'data:image/jpeg;base64,/9j/4AAQSkZJRg...', url: 'https://xyz.com#4' }, // ad 4
@@ -50,7 +50,10 @@ describe('Ad-rotator', () => {
     const link = document.querySelector('a.test-link');
     const img = document.querySelector('img.test-image');
     expect(img.getAttribute('src')).toEqual('./assets/image.jpg');
+    expect(img.getAttribute('alt')).toEqual('Ad 1');
     expect(link.getAttribute('href')).toEqual('https://xyz.com#1');
+    expect(link.getAttribute('title')).toEqual('Ad 1');
+    expect(link.getAttribute('aria-label')).toEqual('Ad 1');
 
     // verify newTab prop
     expect(link.getAttribute('target')).toEqual('_blank');

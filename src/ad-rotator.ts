@@ -167,6 +167,14 @@ const rotateImage = async (
   img.src = (unit as AdUnit).img;
   img.classList.add('fadeIn');
   conf.imgClass && img.classList.add(conf.imgClass);
+
+  if ((unit as AdUnit).title) {
+    // improve accessibility, SEO
+    link.setAttribute('title', `${(unit as AdUnit).title}`);
+    link.setAttribute('aria-label', `${(unit as AdUnit).title}`);
+    img.setAttribute('alt', `${(unit as AdUnit).title}`);
+  }
+
   // allow time to preload images
   await delay(900);
   // attach an image to the link

@@ -3,6 +3,7 @@ export type Dictionary<T = unknown> = Record<string, T>;
 export interface AdUnit extends Dictionary<unknown> {
   img: string;
   url: string;
+  title?: string;
   weight?: number;
 }
 
