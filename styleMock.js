@@ -1,5 +1,7 @@
 module.exports = {
   process() {
-    return '';
+    return {
+      code: '',
+    };
   },
 };

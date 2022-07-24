@@ -2,6 +2,7 @@
 [![npm version](https://img.shields.io/npm/v/ad-rotator.svg)](https://www.npmjs.com/package/ad-rotator)
 [![Build Status](https://travis-ci.org/niketpathak/adRotator.svg?branch=master)](https://travis-ci.org/niketpathak/adRotator)
 [![code style](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
+[![CDN hits](https://data.jsdelivr.com/v1/package/npm/ad-rotator/badge?style=rounded)](https://www.jsdelivr.com/package/npm/ad-rotator)
 ![Downloads](https://img.shields.io/npm/dt/ad-rotator)
 ![maintained](https://img.shields.io/badge/maintained-yes-blueviolet)
 [![License](https://img.shields.io/badge/license-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
