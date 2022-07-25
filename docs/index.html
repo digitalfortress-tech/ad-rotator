@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=5.0, minimum-scale=1.0" />
+  <title>Ad-rotator.js - Autocomplete Javascript Library</title>
+  <meta name="description" content="Ad-rotator - A fast fully featured standalone autocomplete library" />
+  <meta name="keywords" content="ad-rotator, adrotator, marketing, ads, advertisements, pubs, ad-management, adblock detector, adblock bypass, rotate ads, ad rotation, rotate advertisements, publicity, weighted random ads, blockadblock, adverts, advertisement rotator, random ads, random advertisements, sticky ads, sticky advertisements, mobile ads, mobile ad, mobile ad rotation, penetrate adblock, custom ad rotation, javascript ad rotator, typescript ad rotator, ad monetisation, native ads, ad monetization, in-content ads, sidebar ads, ad campaign, ad optimization, optimize ads, ad discovery, ad variation, track ads, analyse ads, track ad impression, analyse ad impression, persistant ads, ad groups, group ads, fast ad rotation, efficient ad rotator, javscript ad rotation library, ad scheduling, responsive ads, responsive advertisements, indefinite ad rotation, ad frequency, ad delivery">
+  <meta name="subject" content="Ad rotation javascript library">
+  <meta name="author" content="Niket Anant Pathak">
+  <meta name="copyright" content="DigitalFortress">
+  <meta name="owner" content="DigitalFortress">
+  <meta property="og:site_name" content="Ad-rotator.js">
+  <meta property="og:title" content="Ad-rotator.js">
+  <meta property="og:description" content="A fast, light-weight and highly configurable JS library to rotate advertisements.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://typeahead.digitalfortress.tech/">
+  <meta property="og:image" content="https://typeahead.digitalfortress.tech/assets/img/Ad-rotator-main.jpg">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="1200">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-63687183-7"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'UA-63687183-7');
+  </script>
+  <!-- <link rel="stylesheet" href="./assets/css/bootstrap.min.css" /> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha512-rO2SXEKBSICa/AfyhEK5ZqWFCOok1rcgPYfGOqtX35OyiraBg6Xa4NnBJwXgpIRoXeWjcAmcQniMhp22htDc6g==" crossorigin="anonymous" />
+  <link rel="stylesheet" href="./assets/css/main.css" />
+  <link rel="canonical" href="https://typeahead.digitalfortress.tech/" />
+  <link rel="apple-touch-icon" sizes="180x180" href="./assets/img/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/img/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./assets/img/favicon/favicon-16x16.png">
+  <link rel="manifest" href="./assets/img/favicon/site.webmanifest">
+  <link rel="mask-icon" href="./assets/img/favicon/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#2b5797">
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand simple-link" href="./">Ad-rotator</a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+        data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+        aria-label="Toggle navigation">
+        Menu
+        <i class="fa fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="./">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link"
+              href="https://digitalfortress.tech/tutorial/rotate-ads-in-javascript-with-ad-rotator/">Tutorial</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://www.npmjs.com/package/ad-rotator">Download</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+
+  <header class="masthead" style="background-image: url('./assets/img/rotator-main.jpg');">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="page-heading">
+            <h1>Ad-rotator.js</h1>
+          </div>
+          <div class="lower-tagline">
+            <span class="subheading">A fast, light-weight and highly configurable JS library to rotate advertisements</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="containerEl">
+    <div class="row">
+      <nav class="col-lg-2 nav-submenu">
+        <h5 class="center">
+          <i class="fas fa-search"></i> Ad-rotator.js
+        </h5>
+        <ul>
+          <li><a title="Introduction" href="./" class="submenu-link simple-link">🔹 Introduction</a></li>
+          <li><a title="Installation" href="#install" class="submenu-link simple-link">🔹 Install</a></li>
+          <li><a title="Usage" href="#usage" class="submenu-link simple-link">🔹 Usage</a></li>
+          <li><a title="Configuration" href="#config" class="submenu-link simple-link">🔹 Configuration</a></li>
+          <li><a title="Styles" href="#styles" class="submenu-link simple-link">🔹 Styles</a></li>
+          <li><a title="References" href="#references" class="submenu-link simple-link">🔹 References</a></li>
+          <li><a title="Playground" href="#playground" class="submenu-link simple-link">🔹 Playground</a></li>
+        </ul>
+      </nav>
+      <div class="nav-submenu-mobile">
+        <nav class="navbar">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleSubmenuMobile" aria-controls="navbarToggleSubmenuMobile" aria-expanded="false" aria-label="Toggle submenu">
+            <i class="fas fa-bars"></i>
+          </button>
+          <div class="txt">Ad-rotator.js</div>
+        </nav>
+        <div class="collapse" id="navbarToggleSubmenuMobile">
+          <div class="nav-submenu-mobile-list-container">
+            <ul>
+              <li><a title="Introduction" href="./" class="submenu-link simple-link">🔹 Introduction</a></li>
+              <li><a title="Installation" href="#install" class="submenu-link simple-link">🔹 Install</a></li>
+              <li><a title="Usage" href="#usage" class="submenu-link simple-link">🔹 Usage</a></li>
+              <li><a title="Configuration" href="#config" class="submenu-link simple-link">🔹 Configuration</a></li>
+              <li><a title="Styles" href="#styles" class="submenu-link simple-link">🔹 Styles</a></li>
+              <li><a title="References" href="#references" class="submenu-link simple-link">🔹 References</a></li>
+              <li><a title="Playground" href="#playground" class="submenu-link simple-link">🔹 Playground</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <main id="mainSection" class="col-lg-7 col-md-12 pd-btm-15">
+        <!-- The default base template is the one used in the intro.html fragment -->
+        <div>
+          <a class="simple-link" href="https://www.npmjs.com/package/ad-rotator" title="NPM Version">
+            <img src="https://img.shields.io/npm/v/ad-rotator.svg" alt="NPM Version">
+          </a>
+          <a class="simple-link" href="https://travis-ci.org/niketpathak/AdRotator" title="Build Status">
+            <img src="https://travis-ci.org/niketpathak/adRotator.svg?branch=master" alt="Build Status">
+          </a>
+          <a class="simple-link" href="https://github.com/prettier/prettier" title="Coding Style">
+            <img src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg" alt="Coding Style">
+          </a>
+          <a class="simple-link" href="https://www.jsdelivr.com/package/npm/ad-rotator" title="Ad-rotator jsdelivr CDN">
+            <img src="https://data.jsdelivr.com/v1/package/npm/ad-rotator/badge?style=rounded" alt="Ad-rotator jsdelivr CDN">
+          </a>
+          <a class="simple-link" href="https://npmtrends.com/Ad-rotator" title="Total Downloads">
+            <img src="https://img.shields.io/npm/dt/ad-rotator" alt="Downloads">
+          </a>
+          <a class="simple-link" href="https://github.com/digitalfortress-tech/Ad-rotator/releases" title="Actively Maintained">
+            <img src="https://img.shields.io/badge/maintained-yes-blueviolet" alt="maintained">
+          </a>
+          <a class="simple-link" href="https://opensource.org/licenses/MIT" title="Open Source">
+            <img src="https://img.shields.io/badge/license-MIT-yellow.svg" alt="License">
+          </a>
+          <a class="simple-link" href="https://twitter.com/acdlite/status/974390255393505280" title="">
+            <img src="https://img.shields.io/badge/speed-blazing%20%F0%9F%94%A5-9cf.svg" alt="Blazing Speed">
+          </a>
+          <a class="simple-link" href="https://www.paypal.com/donate/?hosted_button_id=PZ5ULVZBZX55A" title="Donate">
+            <img src="https://img.shields.io/badge/Donate-PayPal-blue.svg?logo=paypl" alt="Donate">
+          </a>
+        </div>
+
+        <hr>
+        <h4>✴️ What is it ?</h4>
+
+        <p>
+          Ad-rotator.js is a simple, flexible, WAI-ARIA compliant <b>ad rotation library</b>
+          progressively designed for high versatility and seamless integration with a wide range of products.
+        </p>
+
+        <hr>
+        <h4>🌟 Features 🌟</h4>
+
+        <p>
+          <ul class="feature-list">
+            <li>📦 Has <b>0</b> DEPENDENCIES and is written in pure JS (<b>Typescript</b>)</li>
+            <li>🖼 Displays <b>native advertisements</b> (even to adblock users)</li>
+            <li>🏋️‍♀️ A super light-weight library - <a href="https://bundlephobia.com/package/ad-rotator" title="Ad-rotator download size"><b>&lt; 3kb</b> minzipped</a>.</li>
+            <li>📳 Supports completely <b>responsive multiple Ad instances</b>.</li>
+            <li>🪝 Optional <b>hooks/callbacks</b> for analytics, statistics, logging, etc...</li>
+            <li>🧲 Built-in support for sticky advertisements.</li>
+            <li>💤 Lazy loads Ads for optimal performance.</li>
+            <li>💻 Display <b>device specific ads</b> i.e. ads targeted towards mobile/desktop.</li>
+            <li>⚖️ Assign <b>weight/priority</b> to Ad unit(s).</li>
+            <li>⚜️ Optional <b>Fallback Mode</b> i.e. kicks in only when your primary Ad network fails (for example, due to an Adblocker)</li>
+            <li>♿️ Fully WAI-ARIA compliant design pattern</li>
+            <li>🎀 <b>Framework agnostic</b>! That means you are free to use it with any framework (React, Vue, Svelte, Angular, etc... you name it!)</li>
+          </ul>
+        </p>
+
+        <hr>
+        <h4><a href="#intro?id=browser-support" id="browser-support" title="Ad-rotator.js Browser Support" class="submenu-link section-link">🌐 Browser Support</a></h4>
+        <p>
+          Ad-rotator supports all major browsers.
+        </p>
+        <div class="table-responsive center">
+          <table class="table table-bordered table-sm">
+            <tbody>
+              <tr>
+                <td>
+                  <img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt="IE / Edge" width="24px" height="24px" /><br>
+                  Edge
+                </td>
+                <td>
+                  <img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" /><br>
+                  Firefox
+                </td>
+                <td>
+                  <img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" /><br>
+                  Chrome
+                </td>
+                <td>
+                  <img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" alt="Safari" width="24px" height="24px" /><br>
+                  Safari
+                </td>
+                <td>
+                  <img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari-ios/safari-ios_48x48.png" alt="iOS Safari" width="24px" height="24px" /><br>
+                  iOS Safari
+                </td>
+                <td>
+                  <img src="./assets/img/logos/brave_logo.png" alt="Brave" width="24px" height="24px" /><br>
+                  Brave
+                </td>
+                <td>
+                  <img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/samsung-internet/samsung-internet_48x48.png" alt="Samsung" width="24px" height="24px" /><br>
+                  Samsung
+                </td>
+                <td>
+                  <img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/opera/opera_48x48.png" alt="Opera" width="24px" height="24px" /><br>
+                  Opera
+                </td>
+                <td>
+                  <img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/opera-mini/opera-mini_48x48.png" alt="Opera Mini" width="24px" height="24px" /><br>
+                  Opera Mini
+                </td>
+                <td>
+                  <img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/electron/electron_48x48.png" alt="Electron" width="24px" height="24px" /><br>
+                  Electron
+                </td>
+              </tr>
+              <tr>
+                <td>Last 2 versions</td>
+                <td>Last 2 versions</td>
+                <td>Last 2 versions</td>
+                <td>Last 2 versions</td>
+                <td>Last 2 versions</td>
+                <td>Last 2 versions</td>
+                <td>Last 2 versions</td>
+                <td>Last 2 versions</td>
+                <td>Last 2 versions</td>
+                <td>Last 2 versions</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <br>
+
+        <hr>
+        <h4>📄 License </h4>
+        <p>
+          Ad-rotator.js is fully opensource and released under the <a href="https://opensource.org/licenses/MIT" title="MIT license">MIT</a> license.
+        </p>
+
+        <hr>
+        <div class="bottom-nav">
+          <div class="bottom-nav-right">
+            <div class="label">Next <i class="fad fa-chevron-double-right"></i></div>
+            <a title="Installation" href="#install" class="submenu-link">Install</a>
+          </div>
+        </div>
+      </main>
+
+      <!-- TAGS -->
+      <div class="col-lg-3 col-xl-3 sidebar">
+        <div class="card beforePubbCard">
+          <div class="card-body">
+            <h4 class="card-title">Trending</h4>
+            <div class="chip chip-md mr-0">
+              <i class="fas fa-database"></i>
+              &nbsp;&nbsp;<a href="https://www.npmjs.com/package/localstorage-slim" title="Ultra lean wrapper for localStorage in pure JS">LocalStorage-slim.js</a>
+            </div>
+            <div class="chip chip-md mr-0">
+              <i class="fas fa-search"></i>
+              &nbsp;&nbsp;<a href="https://www.npmjs.com/package/typeahead-standalone" title="A fast, light-weight javascript autocompletion library">Typeahead-standalone.js</a>
+            </div>
+            <div class="chip chip-md mr-0">
+              <i class="fab fa-fort-awesome"></i>
+              &nbsp;&nbsp; <a href="https://digitalfortress.tech/" title="Technical blog for coders">Digital Fortress</a>
+            </div>
+            <div class="chip chip-md mr-0">
+              <i class="fas fa-music"></i>
+              &nbsp;&nbsp; <a href="https://gospelmusic.io/" title="Music. Artists. Social with Gospel Music">Gospel Music</a>
+            </div>
+            <div class="chip chip-md mr-0">
+              <i class="fas fa-hat-chef"></i>
+              &nbsp;&nbsp; <a href="https://fusionplatter.eu" title="A blend of tasty food and culture | Food blog">Fusion Platter</a>
+            </div>
+          </div>
+        </div>
+        <div class="divider-1 clearfix"></div>
+
+        <div class="gAdvert_sidebar gAdvert_sidebar_sticky">
+          <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+          <!-- gospelmusic_sidebar_bottom -->
+          <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1452475948444296" data-ad-slot="4434610513"
+            data-ad-format="auto" data-full-width-responsive="true"></ins>
+          <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+          <!-- <img src="https://via.placeholder.com/300x600"> -->
+        </div>
+      </div>
+      <div class="divider-1 clearfix"></div>
+    </div>
+
+    <br />
+
+    <section class="subscribe-area pb-50 pt-70">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="subscribe-text mb-15">
+              <span>JOIN OUR NEWSLETTER</span>
+              <h2>Subscribe Newsletter</h2>
+            </div>
+          </div>
+          <div class="col-md-8">
+            <div class="subscribe-wrapper subscribe2-wrapper mb-15">
+              <div class="subscribe-form">
+                <input placeholder="your email address" type="email" />
+                <div>
+                  <button>subscribe <i class="fas fa-long-arrow-alt-right"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Footer -->
+
+  <hr />
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <ul class="list-inline text-center social-icons">
+            <li class="list-inline-item">
+              <a href="https://digitalfortress.tech/contact/" title="contact form">
+                <span class="fa-stack fa-lg">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="far fa-envelope fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+            </li>
+
+            <li class="list-inline-item">
+              <a href="https://gospelmusic.io" title="GospelMusic - Music for everyone">
+                <span class="fa-stack fa-lg">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+            </li>
+
+            <li class="list-inline-item">
+              <a href="https://www.npmjs.com/package/ad-rotator" title="Typeahead standalone NPM">
+                <span class="fa-stack fa-lg">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+            </li>
+
+            <li class="list-inline-item">
+              <a href="https://github.com/digitalfortress-tech/ad-rotator" title="Typeahead standalone Github">
+                <span class="fa-stack fa-lg">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+            </li>
+          </ul>
+          <p class="copyright text-muted">Copyright &copy; Ad-rotator 2022</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <a id="back-to-top" href="#" class="btn-sm simple-link" role="button"><i class="fas fa-chevron-up"></i></a>
+
+  <!-- load render blocking styles at the end -->
+  <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.12.0/css/all.css" integrity="sha384-ekOryaXPbeCpWQNxMwSWVvQ0+1VrStoPJq54shlYhR8HzQgig1v5fas6YgOqLoKz" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/styles/dark.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ad-rotator/dist/style.css" />
+
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.bundle.min.js" integrity="sha512-Oy5BruJdE3gP9+LMJ11kC5nErkh3p4Y0GawT1Jrcez4RTDxODf3M/KP3pEsgeOYxWejqy2SPnj+QMpgtvhDciQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+
+  <!-- Uncomment following for local testing -->
+
+    <!-- <link rel="stylesheet" href="./../dist/style.css" />
+    <script src="./../dist/ad-rotator.js"></script> -->
+
+
+  <script src="https://cdn.jsdelivr.net/npm/ad-rotator"></script>
+  <script src="./assets/js/main.js"></script>
+</body>
+</html>
