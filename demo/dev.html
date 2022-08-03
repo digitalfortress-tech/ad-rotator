@@ -1,0 +1,68 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="../dist/style.css" />
+    <script src="../dist/ad-rotator.js"></script>
+  </head>
+  <body>
+    <style>
+      /* Example Styling  */
+      #publicity { /* style Ad-unit */
+        height: 250px;
+        width: 300px;
+        background-color: yellow;
+        overflow: hidden;
+      }
+      .start, .end {    /* element before the Ad-unit */
+        height: 200px;
+        width: 100%;
+        background-color: green;
+      }
+      .middle {    /* empty area */
+        min-height: 2000px;
+        width: 100%;
+      }
+      img {
+        object-fit: cover;
+        height: 100%;
+        width: 100%;
+      }
+      .end {
+        height: 1000px;
+      }
+    </style>
+    <main class="start">Main Content</main>
+    <div id="publicity">Ad area</div>
+    <section class="middle">Middle content</section>
+    <footer class="end">Footer content</footer>
+
+    <script>
+      // initialize ad-rotator
+      const instance = rotator(
+        document.getElementById('publicity'),
+        getAds(),
+        {
+          // sticky: {}, // this enables stickiness but we recommend the config below:
+          sticky: {
+            beforeEl: document.querySelector('.start'),
+            afterEl: document.querySelector('.end'),
+            offsetTop: '20',        // or '20px' (defaults to 0px)
+            offsetBottom: '10px',   // or '30'   (defaults to 0px)
+            noMobile: true          // disable stickiness on mobile (default - false)
+          },
+        }
+      );
+
+      // start the rotation
+      instance.start();
+
+      // ads
+      function getAds() {
+        return [
+          { url: 'https://fusionplatter.eu#1', img: 'https://niketpathak.com/images/works/gkm_pic_sq.jpg'},
+          { url: 'https://digitalfortress.tech#2', img: 'https://niketpathak.com/images/works/maestrobits_sq.jpg'},
+          { url: 'https://gospelmusic.io#3', img: 'https://niketpathak.com/images/works/halcyonminds_sq.jpg'}
+        ];
+      }
+    </script>
+  </body>
+</html>

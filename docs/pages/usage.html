@@ -4,31 +4,15 @@
 
 <h4>1. HTML <i class="fab fa-html5"></i></h4>
 
-<p>Add an <b><code>input</code></b> element to your HTML</p>
+<p>
+  Add any <b>container</b> element like a <code>div</code>, <code>aside</code>, etc... to your HTML.
+  This will where ad-units will be injected.
+</p>
 
-<div class="tabContainer padding-v15">
-  <nav>
-    <div class="nav nav-tabs" id="nav-tab" role="tablist">
-      <a class="nav-link active simple-link tab-link" id="nav-basic-tab" data-toggle="tab" href="#nav-basic" role="tab" aria-controls="nav-basic" aria-selected="true">Basic</a>
-      <a class="nav-link simple-link tab-link" id="nav-advanced-tab" data-toggle="tab" href="#nav-advanced" role="tab" aria-controls="nav-advanced" aria-selected="false">Advanced</a>
-    </div>
-  </nav>
-  <div class="tab-content" id="nav-tabContent">
-    <div class="tab-pane fade show active" id="nav-basic" role="tabpanel" aria-labelledby="nav-basic-tab">
-      <div class="codeContainer">
-        <span class="lang">HTML</span>
-        <span class="copy" title="Copy to Clipboard"><i class="far fa-copy"></i></span>
-        <pre class="hljs">&#60;input id="typeahead" placeholder="search"&#62;</pre>
-      </div>
-    </div>
-    <div class="tab-pane fade" id="nav-advanced" role="tabpanel" aria-labelledby="nav-advanced-tab">
-      <div class="codeContainer">
-        <span class="lang">HTML</span>
-        <span class="copy" title="Copy to Clipboard"><i class="far fa-copy"></i></span>
-        <pre class="hljs">&#60;input id="typeahead" type="search" placeholder="search" dir="ltr" spellcheck=false autocorrect="off" autocomplete="off" autocapitalize="off" maxlength="2048"&#62;</pre>
-      </div>
-    </div>
-  </div>
+<div class="codeContainer">
+  <span class="lang">HTML</span>
+  <span class="copy" title="Copy to Clipboard"><i class="far fa-copy"></i></span>
+  <pre class="hljs">&#60;div id="containerElement"&#62;&#60;/div&#62;</pre>
 </div>
 
 <hr>
@@ -50,16 +34,16 @@
         <pre class="hljs language-html language-xml">
 &#60;head&#62;
   &#60;!-- Include Locally --&#62;
-  &#60;link rel="stylesheet" href="./node_modules/Ad-rotator/dist/basic.css" /&#62;
+  &#60;link rel="stylesheet" href="./node_modules/ad-rotator/dist/style.css" /&#62;
   &#60;!-- OR include via CDN --&#62;
-  &#60;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/Ad-rotator/dist/basic.css" /&#62;
+  &#60;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ad-rotator/dist/style.css" /&#62;
 &#60;/head&#62;
 
 &#60;body&#62;
   &#60;!-- Include Locally --&#62;
-  &#60;script src="./node_modules/Ad-rotator/dist/Ad-rotator.js"&#62;&#60;/script&#62;
+  &#60;script src="./node_modules/ad-rotator/dist/ad-rotator.js"&#62;&#60;/script&#62;
   &#60;!-- OR include via CDN --&#62;
-  &#60;script src="https://cdn.jsdelivr.net/npm/Ad-rotator"&#62;&#60;/script&#62;
+  &#60;script src="https://cdn.jsdelivr.net/npm/ad-rotator"&#62;&#60;/script&#62;
 &#60;/body&#62;</pre>
       </div>
     </div>
@@ -69,12 +53,12 @@
         <span class="copy" title="Copy to Clipboard"><i class="far fa-copy"></i></span>
         <pre class="hljs language-javascript">
 // using ES6 modules
-import typeahead from 'Ad-rotator';
-import 'Ad-rotator/dist/basic.css';
+import rotator from 'ad-rotator';
+import 'ad-rotator/dist/style.css';
 
 // using RequireJS
-const typeahead = require('Ad-rotator');
-require('Ad-rotator/dist/basic.css');</pre>
+const rotator = require('ad-rotator');
+require('ad-rotator/dist/style.css');</pre>
       </div>
     </div>
   </div>
@@ -91,6 +75,7 @@ require('Ad-rotator/dist/basic.css');</pre>
     <div class="nav nav-tabs" id="nav-tab" role="tablist">
       <a class="nav-link active simple-link tab-link" id="nav-jscript-tab" data-toggle="tab" href="#nav-jscript" role="tab" aria-controls="nav-jscript" aria-selected="true">Javascript</a>
       <a class="nav-link simple-link tab-link" id="nav-html2-tab" data-toggle="tab" href="#nav-html2" role="tab" aria-controls="nav-html2" aria-selected="false">HTML</a>
+      <a class="nav-link simple-link tab-link" id="nav-css1-tab" data-toggle="tab" href="#nav-css1" role="tab" aria-controls="nav-css1" aria-selected="false">CSS</a>
     </div>
   </nav>
   <div class="tab-content" id="nav-tabContent">
@@ -99,15 +84,20 @@ require('Ad-rotator/dist/basic.css');</pre>
         <span class="lang">JS</span>
         <span class="copy" title="Copy to Clipboard"><i class="far fa-copy"></i></span>
         <pre class="hljs language-js language-javascript">
-// input element to attach to
-const inputElement = document.getElementById("typeahead");
+// ads
+const items = [
+    { url: 'https://niketpathak.com#1', img: 'https://niketpathak.com/images/works/gkm_pic_sq.jpg'},
+    { url: 'https://digitalfortress.tech#2', img: 'https://niketpathak.com/images/works/maestrobits_sq.jpg'}
+];
 
-const instance = typeahead({
-  input: inputElement,
-  source: {
-    local: ['Grey', 'Brown', 'Black', 'Blue'],
-  }
-});</pre>
+// initialize ad-rotator
+const instance = rotator(
+  document.getElementById('containerElement'),
+  items
+);
+
+// start the rotation
+instance.start();</pre>
       </div>
     </div>
     <div class="tab-pane fade" id="nav-html2" role="tabpanel" aria-labelledby="nav-html2-tab">
@@ -116,23 +106,54 @@ const instance = typeahead({
         <span class="copy" title="Copy to Clipboard"><i class="far fa-copy"></i></span>
         <pre class="hljs language-html language-xml">
 &#60;body&#62;
-  &#60;script src="https://cdn.jsdelivr.net/npm/Ad-rotator"&#62;&#60;/script&#62;
+  &#60;script src="https://cdn.jsdelivr.net/npm/ad-rotator"&#62;&#60;/script&#62;
   &#60;script&#62;
-    // input element to attach to
-    const inputElement = document.getElementById("typeahead");
+    // ads
+    const items = [
+        { url: 'https://niketpathak.com#1', img: 'https://niketpathak.com/images/works/gkm_pic_sq.jpg'},
+        { url: 'https://digitalfortress.tech#2', img: 'https://niketpathak.com/images/works/maestrobits_sq.jpg'}
+    ];
 
-    const instance = typeahead({
-      input: inputElement,
-      source: {
-        local: ['Grey', 'Brown', 'Black', 'Blue'],
-      }
-    });
+    // initialize ad-rotator
+    const instance = rotator(
+      document.getElementById('containerElement'),
+      items
+    );
+
+    // start the rotation
+    instance.start();
   &#60;/script&#62;
 &#60;/body&#62;</pre>
       </div>
     </div>
+    <div class="tab-pane fade" id="nav-css1" role="tabpanel" aria-labelledby="nav-css1-tab">
+      <div class="codeContainer">
+        <span class="lang">CSS</span>
+        <span class="copy" title="Copy to Clipboard"><i class="far fa-copy"></i></span>
+        <pre class="hljs language-css">
+/* set Ad size */
+#containerElement {
+  height: 250px;
+  width: 250px;
+}
+
+/* set img elements to be responsive */
+img {
+  height: 100%;
+  width: 100%;
+  /* [optional] Stretch img to fit container */
+  object-fit: cover;
+}
+</pre>
+      </div>
+    </div>
   </div>
 </div>
+<p>
+  Ad sizes are completely controlled via CSS. Feel free to use media queries to tweak the dimensions.
+  See <a href="https://support.google.com/google-ads/answer/7031480?hl=en" title="Responsive Ad Sizes">common sizes for responsive Ads</a>
+  to use ad dimensions that suit your needs.
+</p>
 
 <hr>
 <h4>✨ Demo ✨</h4>
@@ -141,24 +162,55 @@ const instance = typeahead({
   Here is a live demo in action. Feel free to tinker with it to see the results in real-time.
 </p>
 
-<div class="codepen" data-height="300" style="height:300px; overflow: auto;" data-theme-id="dark" data-default-tab="js,result" data-preview="true" data-editable="true"  data-prefill='{"title":"Ad-rotator Usage Demo","tags":[],"scripts":[],"stylesheets":[]}'>
+<div class="codepen" data-height="400" style="height:400px; overflow: auto;" data-theme-id="dark" data-default-tab="js,result" data-preview="true" data-editable="true"  data-prefill='{"title":"Ad-rotator Usage Demo","tags":[],"scripts":[],"stylesheets":[]}'>
   <pre data-lang="html">
 &lt;!-- Include assets -->
-&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/Ad-rotator/dist/basic.css" />
-&lt;script src="https://cdn.jsdelivr.net/npm/Ad-rotator">&lt;/script>
+&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ad-rotator/dist/style.css" />
+&lt;script src="https://cdn.jsdelivr.net/npm/ad-rotator">&lt;/script>
 
-&lt;!-- input element -->
-&lt;input type="search" id="colorSearch" autocomplete="off" placeholder="Search Colors...">
+&lt;!-- container element -->
+&lt;div id="containerElement">&lt;/div>
+&lt;hr>
+Ad-rotator.js
+</pre>
+<pre data-lang="css">
+#containerElement { /* set Ad size */
+  height: 250px;
+  width: 250px;
+  margin: auto; /* optional */
+}
+img {
+  /* set img elements to be responsive */
+  height: 100%;
+  width: 100%;
+  /* Stretch img to fit container [optional] */
+  object-fit: cover;
+}
+
+/* styling to ignore */
+body {
+  text-align: center;
+}
 </pre>
 
 <pre data-lang="js">
-typeahead({
-  input: document.getElementById('colorSearch'),
-  highlight: true,
-  source: {
-    local: ['Grey', 'Brown', 'Black', 'Blue'],
-  }
-});
+// initialize ad-rotator
+const instance = rotator(
+  document.getElementById('containerElement'),
+  getAds()
+);
+
+// start the rotation
+instance.start();
+
+// ads
+function getAds() {
+  return [
+    { url: 'https://fusionplatter.eu#1', img: 'https://niketpathak.com/images/works/gkm_pic_sq.jpg'},
+    { url: 'https://digitalfortress.tech#2', img: 'https://niketpathak.com/images/works/maestrobits_sq.jpg'},
+    { url: 'https://gospelmusic.io#3', img: 'https://niketpathak.com/images/works/halcyonminds_sq.jpg'}
+  ];
+}
 </pre>
 </div>
 

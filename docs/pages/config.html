@@ -1,13 +1,16 @@
 <h2>Configuration</h2>
 <p>
-  Ad-rotator.js provides several configuration options to fine-tune and customize autocompletion.
-  We list all available config options below. Of these, only the first two are required whereas the rest are optional that use sensible default values.
+  Ad-rotator.js provides several configuration options to fine-tune and customize rotation.
+  Only the first two are required whereas the rest are optional that use sensible default values. We list all available config options below.
 </p>
 <hr>
 
-<h4><a href="#config?id=input" id="input" title="input config param - Ad-rotator.js" class="submenu-link section-link">1. 🔤 input (<code>Required</code>)</a></h4>
+<h4><a href="#config?id=dom-element" id="dom-element" title="DOM-element config param - Ad-rotator.js" class="submenu-link section-link">1. <i class="fas fa-code"></i> DOM Element (<code>Required</code>)</a></h4>
 
-<p>This is the DOM input element typeahead will attach itself to. It is a required property and an error is thrown if it is missing</p>
+<p>
+  This is the DOM input element that ad-rotator will use as a container element to inject Ad-units into.
+  It is a required property and an error is thrown if it is missing
+</p>
 
 <div class="tabContainer padding-v15">
   <nav>
@@ -22,813 +25,467 @@
         <span class="lang">JS</span>
         <span class="copy" title="Copy to Clipboard"><i class="far fa-copy"></i></span>
         <pre class="hljs language-js">
-typeahead({
-  input: document.querySelector('.myInput'),  // required
-})</pre>
+rotator(
+  document.querySelector('.publicity_container'), // required
+  // ...
+)</pre>
       </div>
     </div>
     <div class="tab-pane fade" id="nav-html1" role="tabpanel" aria-labelledby="nav-html1-tab">
       <div class="codeContainer">
         <span class="lang">HTML</span>
         <span class="copy" title="Copy to Clipboard"><i class="far fa-copy"></i></span>
-        <pre class="hljs language-html language-xml">&#60;input id="typeahead" placeholder="myInput"&#62;</pre>
+        <pre class="hljs language-html language-xml">&#60;div class="publicity_container"&#62;&#60;/div&#62;</pre>
       </div>
     </div>
   </div>
 </div>
 
 <hr>
-<h4><a href="#config?id=source" id="source" title="source config param - Ad-rotator.js" class="submenu-link section-link">2. 🔌 source (<code>Required</code>)</a></h4>
+<h4><a href="#config?id=units" id="units" title="Ad Units config param - Ad-rotator.js" class="submenu-link section-link">2. <i class="fad fa-ad"></i> Ads (<code>Required</code>)</a></h4>
 
 <p>
-  This is the source of data from which suggestions are calculated. There are 3 types of source that can be used
-  - <b>local</b>, <b>remote</b> and <b>prefetch</b>. While using all of them is not mandatory, using atleast one of them
-  is! You may even use a combination of 2 or more source types.
+  This is the source of Ads which will be displayed. It accepts an <b>array of Ads/objects</b> where each object can have 4 properties.
+  <ol type="I">
+    <li>
+      <code>img</code>: <i>string</i> <b>(required)</b> - A url to the image/asset. You are free to use base64 encoded images too.
+    </li>
+    <li>
+      <code>url</code>: <i>string</i> <b>(required)</b> - The target url where the user will be redirected on clicking the Ad.
+    </li>
+    <li>
+      <code>weight</code>: <i>number</i> (optional) - A weight or a priority applied to the Ad. The higher the weight, the greater the chances of the Ad being shown.
+      Ads with missing weights are automatically assigned a weight of 1.
+    </li>
+    <li>
+      <code>title</code>: <i>string</i> (optional) - A small text describing the Ad which is used for improving accessibility/SEO.
+    </li>
+  </ol>
 </p>
 
-<div class="tabContainer padding-v15">
-  <nav>
-    <div class="nav nav-tabs" id="nav-tab" role="tablist">
-      <a class="nav-link active simple-link tab-link" id="nav-local-tab" data-toggle="tab" href="#nav-local" role="tab" aria-controls="nav-local" aria-selected="true">Local</a>
-      <a class="nav-link simple-link tab-link" id="nav-remote-tab" data-toggle="tab" href="#nav-remote" role="tab" aria-controls="nav-remote" aria-selected="false">Remote</a>
-      <a class="nav-link simple-link tab-link" id="nav-prefetch-tab" data-toggle="tab" href="#nav-prefetch" role="tab" aria-controls="nav-prefetch" aria-selected="false">Prefetch</a>
-      <a class="nav-link simple-link tab-link" id="nav-combination-tab" data-toggle="tab" href="#nav-combination" role="tab" aria-controls="nav-combination" aria-selected="false">Combination</a>
-    </div>
-  </nav>
-  <div class="tab-content" id="nav-tabContent">
-    <div class="tab-pane fade show active" id="nav-local" role="tabpanel" aria-labelledby="nav-local-tab">
-      <p>
-        The local data source is used when you want to provide suggestions from a local source like a variable.
-      </p>
-      <div class="codeContainer">
-        <span class="lang">JS</span>
-        <span class="copy" title="Copy to Clipboard"><i class="far fa-copy"></i></span>
-        <pre class="hljs language-js">
-// Local data source
-const superheroes = ['Superman', 'Flash', 'Captain America'];
+<div class="codeContainer">
+  <span class="lang">JS</span>
+  <span class="copy" title="Copy to Clipboard"><i class="far fa-copy"></i></span>
+  <pre class="hljs language-js">
+const instance = rotator(
+  document.querySelector('.publicity_container'),  // DOM element (required)
+  [                                                // array of Ads  (required)
+    { url: 'https://site1.com', img: './picture1.jpg', title: 'Lorem Ipsum', weight: 4 },
+    { url: 'https://site2.com', img: 'https://example.com/image2.png', title: 'On Sale!' },
+    { url: 'https://site3.com', img: 'example.com/picture3.webp', weight: 2 }
+  ]
+);</pre>
+</div>
+<p>
+  In the example above, we set <i>weight: 4</i> for the 1st Ad used. By assigning a weight to an Ad unit, we increase its priority and thereby its chances of being shown first.
+  When the rotation is randomized, only its chances are increased but there is no guarantee of it being shown first (as expected with truly random rotation).
+  To display Ads by their weight (highest to lowest), turn off random rotation by setting the config option – random: false.
+</p>
 
-typeahead({
-  input: document.querySelector('.myInput'),
-  source: {
-    local: superheroes
+<hr>
+<h4><a href="#config?id=custom_conf" id="custom_conf" title="Custom config param - Ad-rotator.js" class="submenu-link section-link">3. ⚙️ Custom Config</a></h4>
+
+<p>
+  Ad-rotator accepts an optional 3rd parameter that allows you to fine-tune configuration.
+</p>
+<div class="codeContainer">
+  <span class="lang">JS</span>
+  <span class="copy" title="Copy to Clipboard"><i class="far fa-copy"></i></span>
+  <pre class="hljs language-js">
+const instance = rotator(
+  document.querySelector('.container'),  // DOM element (required)
+  [
+    // array of Ads  (required)
+  ],
+  {
+    // custom config options [optional]
   }
-});</pre>
-      </div>
-    </div>
-    <div class="tab-pane fade" id="nav-remote" role="tabpanel" aria-labelledby="nav-remote-tab">
-      <p>
-        The remote data source is used when you want to interrogate a remote endpoint to fetch data.
-      </p>
-      <div class="codeContainer">
-        <span class="lang">JS</span>
-        <span class="copy" title="Copy to Clipboard"><i class="far fa-copy"></i></span>
-        <pre class="hljs language-js">
-typeahead({
-  input: document.querySelector('.myInput'),
-  source: {
-    remote: {
-      url: 'https://remoteapi.com/%QUERY',
-      wildcard: '%QUERY',
-      requestOptions: {}  // optional, default => undefined
+);</pre>
+</div>
+<p>
+  There are several custom config options available as listed below...
+</p>
+
+<hr>
+<h4><a href="#config?id=timer" id="timer" title="Timer config param - Ad-rotator.js" class="submenu-link section-link">A. ⏰ timer</a></h4>
+
+<p>
+  The <code>timer</code> <i>(Type: integer)</i> config option specifies the time after which an advertisement will be rotated in seconds.
+  Lowest accepted value is <b>2</b> seconds.
+</p>
+<div class="codeContainer">
+  <span class="lang">JS</span>
+  <span class="copy" title="Copy to Clipboard"><i class="far fa-copy"></i></span>
+  <pre class="hljs language-js">
+const instance = rotator(
+  document.querySelector('.container'),
+  [ ... ],     // array of Ads
+  {
+    timer: 3,
+  }
+);</pre>
+</div>
+<p>
+  Going by the above snippet, Ads will be rotated after every 3 seconds.
+</p>
+
+<hr>
+<h4><a href="#config?id=random" id="random" title="random config param - Ad-rotator.js" class="submenu-link section-link">B. <i class="fad fa-random"></i> random</h4></a>
+
+<p>
+  The <code>random</code> <i>(Type: Boolean)</i> config option controls the fashion of Ad-rotation.
+  When set to <code>false</code>, ads are rotated sequentially i.e. in the order they are provided in the Array.
+  By default, this option is set to <code>true</code>, i.e. ads are rotated randomnly.
+</p>
+<div class="codeContainer">
+  <span class="lang">JS</span>
+  <span class="copy" title="Copy to Clipboard"><i class="far fa-copy"></i></span>
+  <pre class="hljs language-js">
+const instance = rotator(
+  document.querySelector('.container'),
+  [ ... ],     // array of Ads
+  {
+    random: false, // default - true
+  }
+);</pre>
+</div>
+<p>
+  <i class="fas fa-info-circle"></i> Note: The <code>weight</code> property of the Ads array overrides the default behaviour of this option.
+</p>
+
+<hr>
+<h4><a href="#config?id=newtab" id="newtab" title="newTab config param - Ad-rotator.js" class="submenu-link section-link">C. <i class="fad fa-window"></i> newTab</a></h4>
+
+<p>
+  The <code>newTab</code> <i>(Type: Boolean)</i> config option is used to control the destination of the target URL (i.e. if it should be opened in a new tab or in the current tab/window)..
+  Set to <b>true</b> if you wish to be navigated to a new Tab.
+</p>
+<div class="codeContainer">
+  <span class="lang">JS</span>
+  <span class="copy" title="Copy to Clipboard"><i class="far fa-copy"></i></span>
+  <pre class="hljs language-js">
+const instance = rotator(
+  document.querySelector('.container'),
+  [ ... ],     // array of Ads
+  {
+    newTab: true, // opens target URL in a new Tab
+  }
+);</pre>
+</div>
+<p>
+  By default, it is set to <code>false</code>, i.e. the target URL is opened within the same tab/window.
+</p>
+
+<hr>
+<h4><a href="#config?id=target" id="target" title="target config param - Ad-rotator.js" class="submenu-link section-link">D. 🎯 target</a></h4>
+
+<p>
+  The <code>target</code> <i>(Type: Enum)</i> config option allows you to specify the device on which Ads should be shown.
+  It can be set to <code>desktop</code>, <code>mobile</code> or <code>all</code>.
+  If we set <code>target: 'desktop'</code>, ads will be shown only on a desktop device whereas if we set
+  <code>target: 'mobile'</code>, ads will be displayed on a mobile device alone.
+</p>
+<div class="codeContainer">
+  <span class="lang">JS</span>
+  <span class="copy" title="Copy to Clipboard"><i class="far fa-copy"></i></span>
+  <pre class="hljs language-js">
+const instance = rotator(
+  document.querySelector('.container'),
+  [ ... ],     // array of Ads
+  {
+    target: 'desktop', // default - all
+  }
+);</pre>
+</div>
+<p>
+  By default, the <code>target</code> config option is set to <code>all</code> meaning Ads are shown on all devices.
+</p>
+
+<hr>
+<h4><a href="#config?id=cb-hook" id="cb-hook" title="cb - Callback config param - Ad-rotator.js" class="submenu-link section-link">E. 🪝 cb (callback hook)</h4></a>
+
+<p>
+  The <code>cb()</code> config option is a callback that is invoked when the rotation starts and each time an Ad-unit is rotated.
+</p>
+<p>
+  It receives 3 parameters - <code>unit</code> (the current Ad unit), <code>El</code> (the container html element) and <code>conf</code> (the current config parameters).
+</p>
+<div class="codeContainer">
+  <span class="lang">JS</span>
+  <span class="copy" title="Copy to Clipboard"><i class="far fa-copy"></i></span>
+  <pre class="hljs language-js">
+const instance = rotator(
+  document.querySelector('.container'),   // a DOM element
+  [                                       // array of ads
+    { url: 'https://site.com', img: 'https://example/picture.jpg'},
+    // ...
+  ],
+  {                                      // configuration options
+    cb: (adUnit, el, conf) => {
+      console.log('Displayed Ad =>', adUnit);
+      config.timer = 10; // change rotation time to 10 secs
     },
   }
-});</pre>
-      </div>
-      <p>
-        The <a href="https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API" title="Fetch API">Fetch API</a> is used to make http requests.
-      </p>
-      <h5 class="underline">Properties</h5>
-      <ol>
-        <li><code>url</code> <b>(<code>*</code>Required)</b> - contains the URL to which http requests are made to retrieve the suggestions.</li>
-        <li><code>wildcard</code> <b>(<code>*</code>Required)</b> - The string that is replaced with the user's input while executing the http request.</li>
-        <li><code>requestOptions</code> - By default, the <b>GET</b> method is used to make http requests. To use <b>POST</b> method, you can provide a
-        <a href="https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#supplying_request_options" title="Fetch API request options">requestOptions</a> property.</li>
-      </ol>
-      <p>
-        The response of the http requests is cached ensuring that no multiple/unnecessary requests are made for the same input/search query.
-      </p>
-    </div>
-    <div class="tab-pane fade" id="nav-prefetch" role="tabpanel" aria-labelledby="nav-prefetch-tab">
-      <p>
-        The prefetch data source is used when you want to preload suggestions from a remote endpoint in advance.
-        Preloaded suggestions get added to the search index and are ready to be displayed instantly.
-      </p>
-      <div class="codeContainer">
-        <span class="lang">JS</span>
-        <span class="copy" title="Copy to Clipboard"><i class="far fa-copy"></i></span>
-        <pre class="hljs language-js">
-typeahead({
-  input: document.querySelector('.myInput'),
-  source: {
-    prefetch: {
-      url: 'https://remoteapi.com/load-suggestions',
-      when: 'onFocus',          // optional, default => 'onInit'
-      done: false,              // optional, default => false
-      process: (items) => void, // optional, default => undefined
-      requestOptions: {}        // optional, default => undefined
-    }
-  }
-});</pre>
-      </div>
-      <p>
-        The <a href="https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API" title="Fetch API">Fetch API</a> is used to make the prefetch http request.
-      </p>
-      <h5 class="underline">Properties</h5>
-      <ol>
-        <li><code>url</code> <b>(<code>*</code>Required)</b> - contains the URL to which the prefetch request is made to preload suggestions. </li>
-        <li><code>when</code> - defines when the prefetch request should occur. Defaults to <b>onInit</b> i.e suggestions are preloaded when typeahead is initialized.
-      You can set it to <b>onFocus</b> i.e. preload suggestions only when the user focuses the input element.</li>
-        <li><code>done</code> - A boolean used to enable/disable the prefetch request programmatically.</li>
-        <li><code>process(suggestions) => {}</code> - A callback that gets executed after the prefetch request occurs.
-          It receives the suggestions as a parameter. It can be used to process the received suggestions as desired.</li>
-        <li><code>requestOptions</code> - By default, the <b>GET</b> method is used to make http requests. To use <b>POST</b> method, you can provide a
-        <a href="https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#supplying_request_options" title="Fetch API request options">requestOptions</a> property.</li>
-      </ol>
+);</pre>
+</div>
+<p>
+  The <code>cb</code> hook is optional. It can be used for analytics or to change configuration on the fly.
+</p>
 
-    </div>
-    <div class="tab-pane fade" id="nav-combination" role="tabpanel" aria-labelledby="nav-combination-tab">
-      <p>
-        The source can also be a combination of any two or more source types.
-        An example using all 3 source-types is shown below.
-      </p>
-      <div class="codeContainer">
-        <span class="lang">JS</span>
-        <span class="copy" title="Copy to Clipboard"><i class="far fa-copy"></i></span>
-        <pre class="hljs language-js">
-typeahead({
-  input: document.querySelector('.myInput'),
-  source: {
-    local: ['Superman', 'Flash', 'Captain America'],
-    prefetch: {
-      url: 'https://remoteapi.com/load-suggestions',
-      when: 'onFocus',          // optional, default => 'onInit'
-      done: false,              // optional, default => false
-      process: (items) => void, // optional, default => undefined
-      requestOptions: {}        // optional, default => undefined
+<hr>
+<h4><a href="#config?id=onhover-hook" id="onhover-hook" title="onHover config param - Ad-rotator.js" class="submenu-link section-link">F. <i class="fad fa-mouse-pointer"></i> onHover hook</h4></a>
+
+<p>
+  The <code>onHover()</code> config option is a callback that is invoked each time an Ad-unit gets hovered upon.
+  It works only on a desktop since the hover event is not supported for touch-devices.
+</p>
+<p>
+  It receives 2 parameters - <code>item</code> (the current Ad unit) and <code>El</code> (the html container)
+</p>
+<div class="codeContainer">
+  <span class="lang">JS</span>
+  <span class="copy" title="Copy to Clipboard"><i class="far fa-copy"></i></span>
+  <pre class="hljs language-js">
+const instance = rotator(
+  document.querySelector('.container'),   // a DOM element
+  [                                       // array of ads
+    { url: 'https://site.com', img: 'https://example/picture.jpg'},
+    // ...
+  ],
+  {                                      // configuration options
+    onHover: (adUnit, El) => {
+      console.log("You hovered over this Ad =>", adUnit);
     },
-    remote: {
-      url: 'https://remoteapi.com/%QUERY',
-      wildcard: '%QUERY',
-      requestOptions: {}        // optional, default => undefined
+  }
+);</pre>
+</div>
+
+<p>
+  The <code>onHover()</code> callback is optional and can be used for analytics or to execute some action.
+</p>
+
+<hr>
+<h4><a href="#config?id=onclick-hook" id="onclick-hook" title="onClick config param - Ad-rotator.js" class="submenu-link section-link">G. 🖱️ onClick hook</a></h4>
+
+<p>
+  The <code>onClick()</code> config option is a callback that is invoked when a user clicks on an Ad unit.
+</p>
+<p>
+  It receives 2 parameters - <code>event</code> (the click event) and <code>unit</code>(the current Ad unit)
+</p>
+<div class="codeContainer">
+  <span class="lang">JS</span>
+  <span class="copy" title="Copy to Clipboard"><i class="far fa-copy"></i></span>
+  <pre class="hljs language-js">
+const instance = rotator(
+  document.querySelector('.container'),   // a DOM element
+  [                                       // array of ads
+    { url: 'https://site.com', img: 'https://example/picture.jpg'},
+    // ...
+  ],
+  {                                      // configuration options
+    onClick: (e, adUnit) => {
+      // e.preventDefault();
+      alert("You clicked on this Ad. Navigating to " + adUnit.url);
     }
   }
-});</pre>
-      </div>
-      <p>
-        Here, data from the local source gets added to the search index first.
-        Then data from the prefetch source gets added to the search index.
-        The remote source is used only when there are few or no matching suggestions available in the
-        search index. The suggestions from the remote source also get added to the search index.
-      </p>
-      <p>
-        <b>Note:</b> If there are duplicate suggestions coming from multiple sources, they will be merged. See
-        advanced source configuration for further customization.
-      </p>
-    </div>
-  </div>
+);</pre>
 </div>
-
-<hr>
-<h5 class="underline">Suggestion Data-Type</h5>
 <p>
-  The expected format of suggestions (<code>data</code>) can be of 2 types:
-  <br>- <b><code>String[]</code> (i.e. an array of Strings)</b> OR
-  <br>- <b><code>Object[]</code> (i.e. an array of Objects)</b>
-</p>
-<p>
-  In the example below, for the sake of simplicity, we will only use <code>local</code> source
-  but the idea is valid for all types of sources (i.e. local, remote & prefetch)
+  The <code>onClick()</code> callback is optional and can be used for analytics, to execute some action or to modify the default navigation action.
 </p>
 
-<div class="tabContainer padding-v15">
-  <nav>
-    <div class="nav nav-tabs" id="nav-tab" role="tablist">
-      <a class="nav-link active simple-link tab-link" id="nav-str-tab" data-toggle="tab" href="#nav-str" role="tab" aria-controls="nav-str" aria-selected="true">String Array</a>
-      <a class="nav-link simple-link tab-link" id="nav-obj-tab" data-toggle="tab" href="#nav-obj" role="tab" aria-controls="nav-obj" aria-selected="false">Object Array</a>
-    </div>
-  </nav>
-  <div class="tab-content" id="nav-tabContent">
-    <div class="tab-pane fade show active" id="nav-str" role="tabpanel" aria-labelledby="nav-str-tab">
-      <p>
-        When the suggestion data is an array of Strings, no additional configuration is needed
-        and the suggestions are calculated out of the box.
-      </p>
-      <div class="codeContainer">
-        <span class="lang">JS</span>
-        <span class="copy" title="Copy to Clipboard"><i class="far fa-copy"></i></span>
-        <pre class="hljs language-js">
-// Data source as an array of Strings
-const superheroes = ['Superman', 'Flash', 'Captain America'];
-
-typeahead({
-  input: document.querySelector(".myInput"),
-  source: {
-    local: superheroes
-  }
-});</pre>
-      </div>
-      <p>
-        <b><i class="fas fa-info-circle"></i> Note:</b> Internally, the source data gets normalised for further
-        processing. In the case of the above example, the normalised data would be
-      </p>
-        <div class="codeContainer">
-        <span class="lang">JS</span>
-        <span class="copy" title="Copy to Clipboard"><i class="far fa-copy"></i></span>
-        <pre class="hljs language-js">
-/* Normalised Data */
-[
-  { label: "Superman" },
-  { label: "Flash" },
-  // ...
-]</pre>
-      </div>
-      The string array gets converted into an object array with the format <code>label: "value"</code>.
-      The <b>label</b> acts like a default <code>identifier</code>.
-    </div>
-    <div class="tab-pane fade" id="nav-obj" role="tabpanel" aria-labelledby="nav-obj-tab">
-      <p>
-        When the suggestion data is an array of Objects, the <code>identifier</code> property must be set.
-        An <b>identifier</b> is used to identify which property of the object
-        should be used as the text for displaying the suggestions. This identifier is expected to be unique.
-
-      </p>
-      <div class="codeContainer">
-        <span class="lang">JS</span>
-        <span class="copy" title="Copy to Clipboard"><i class="far fa-copy"></i></span>
-        <pre class="hljs language-js">
-// Data source as an array of Objects
-const superheroes = [
-  { code: "Superman", name: "Clark Kent"},
-  { code: "Flash", name: "Barry Allen"},
-  { code: "Captain America", name: "Steve Rogers"},
-];
-
-typeahead({
-  input: document.querySelector(".myInput"),
-  source: {
-    local: superheroes,
-    identifier: "code",
-  }
-});
-        </pre>
-      </div>
-      <p>
-        Certain additional parameters are available when the data source is an array of objects.
-        This has been detailed below.
-      </p>
-    </div>
-  </div>
-</div>
-
 <hr>
-<h5 class="underline">Advanced Source Configuration</h5>
+<h4><a href="#config?id=fallback-mode" id="fallback-mode" title="fallbackMode config param - Ad-rotator.js" class="submenu-link section-link">H. ⚜️ fallbackMode</a></h4>
 
 <p>
-  When the suggestion data is an array of objects, a few additional parameters are available for
-  more customization. All of these advanced configurations are completely optional.
-  For the sake of simplicity, we stick to using only the local data source
-  in the examples below
-</p>
-
-<div class="tabContainer padding-v15">
-  <nav>
-    <div class="nav nav-tabs" id="nav-tab" role="tablist">
-      <a class="nav-link active simple-link tab-link" id="nav-gidentifier-tab" data-toggle="tab" href="#nav-gidentifier" role="tab" aria-controls="nav-gidentifier" aria-selected="true">groupIdentifier</a>
-      <a class="nav-link simple-link tab-link" id="nav-dtokens-tab" data-toggle="tab" href="#nav-dtokens" role="tab" aria-controls="nav-dtokens" aria-selected="false">dataTokens</a>
-      <a class="nav-link simple-link tab-link" id="nav-identity-tab" data-toggle="tab" href="#nav-identity" role="tab" aria-controls="nav-identity" aria-selected="false">identity</a>
-      <a class="nav-link simple-link tab-link" id="nav-transform-tab" data-toggle="tab" href="#nav-transform" role="tab" aria-controls="nav-transform" aria-selected="false">transform</a>
-    </div>
-  </nav>
-  <div class="tab-content" id="nav-tabContent">
-    <div class="tab-pane fade show active" id="nav-gidentifier" role="tabpanel" aria-labelledby="nav-gidentifier-tab">
-      <p>
-        The <code>groupIdentifier</code> source config option is used when you wish to group suggestions together
-      </p>
-      <div class="codeContainer">
-        <span class="lang">JS</span>
-        <span class="copy" title="Copy to Clipboard"><i class="far fa-copy"></i></span>
-        <pre class="hljs language-js">
-// Local data source
-const colors = [
-  { id: 1, color: "Yellow", colorCode: "YW" },
-  { id: 2, color: "Green", colorCode: "GN", shade: "Greenish" },
-  { id: 3, color: "Olive", colorCode: "OV", shade: "Greenish" },
-  // ...
-];
-
-typeahead({
-  input: document.querySelector(".myInput"),
-  source: {
-    local: colors,
-    identifier: "color",
-    groupIdentifier: "shade"  // optional
-  }
-});</pre>
-      </div>
-      <p>
-        In the above example, the colors <i>Green</i> and <i>Olive</i> will grouped together & will appear under the label <i>"Greenish"</i>
-        (i.e. value of the property defined by <code> groupIdentifier</code> option)
-        whereas the color Yellow will have no group.
-      </p>
-    </div>
-    <div class="tab-pane fade" id="nav-dtokens" role="tabpanel" aria-labelledby="nav-dtokens-tab">
-      <p>
-        The <code>dataTokens</code> config option accepts an array of strings (which are properties of the source object)
-        that should be added to the search index. In other words, when you want your suggestions to be searchable
-        not just by the property defined by the <code>identifier</code> option, but also by other properties,
-        you list those properties in the <b>dataTokens</b> config option.
-      </p>
-      <div class="codeContainer">
-        <span class="lang">JS</span>
-        <span class="copy" title="Copy to Clipboard"><i class="far fa-copy"></i></span>
-        <pre class="hljs language-js">
-// Local data source
-const colors = [
-  { id: 1, color: "Yellow", colorCode: "YW" },
-  { id: 2, color: "Green", colorCode: "GN", shade: "Greenish" },
-  { id: 3, color: "Olive", colorCode: "OV", shade: "Greenish" },
-  // ...
-];
-
-typeahead({
-  input: document.querySelector(".myInput"),
-  source: {
-    local: colors,
-    identifier: "color",
-    dataTokens: ["colorCode"]  // optional
-  }
-});</pre>
-      </div>
-      <p>
-        Given the data-source as seen in the example above, what if we wanted to search colors by another property(<b>colorCode</b>)
-        and not just by its identifier(<b>color</b>) ? That's exactly where dataTokens comes in. By setting
-        <code>dataTokens: ["colorCode"]</code>, we add the values defined in the colorCode property to the search index.
-        Thereafter, if we search for "YW" (case-insensitive), the suggestion "Yellow" pops up as expected.
-      </p>
-
-    </div>
-    <div class="tab-pane fade" id="nav-identity" role="tabpanel" aria-labelledby="nav-identity-tab">
-      <p>
-        The <code>identity()</code> function is used to determine <b>uniqueness</b> of each suggestion.
-        It receives the suggestion as a parameter and must return a string unique to the given suggestion.
-        This is an optional property and it defaults to returning the <code>identifier</code>.
-        However, the default value might not work everytime. For example, consider the following code -
-      </p>
-      <div class="codeContainer">
-        <span class="lang">JS</span>
-        <span class="copy" title="Copy to Clipboard"><i class="far fa-copy"></i></span>
-        <pre class="hljs language-js">
-// Local data source
-const songs = [
-  { title: "God is Good", artist: "Don Moen" },
-  { title: "God is Good", artist: "Paul Wilbur" },
-  { title: "God is Good", artist: "Micheal Smith" },
-  { title: "El Shaddai", artist: "Amy Grant" },
-  // ...
-];
-
-typeahead({
-  input: document.querySelector(".myInput"),
-  source: {
-    local: songs,
-    identifier: "title",
-    // identity: (suggestion) => `${suggestion.title}${suggestion.artist}`
-  }
-});</pre>
-      </div>
-      <p>
-        Given the data-source and the identifier as seen in the example above,
-        if you search for "<i>God</i>", you will find only 1 suggestion displayed instead of 3. This is because there are
-        3 songs with the exact same title (identifier) property. The <code>identifier</code> which is expected to be unique,
-        is not unique! In real world applications, such a scenario is very well possible. To handle such collisions, we use
-        the <code>identity()</code> callback which <b>returns a unique string</b>.
-      </p>
-      <p>
-        In this case, we know that even though the song title's are the same, the artists aren't. So we simply
-        return a string which concatenates the title & the artist ensuring the returned strings
-        will always be unique. i.e.
-
-        <br><h6><code>identity(suggestion) => `${suggestion.title}${suggestion.artist}`</code></h6><br>
-
-        Ideally, if there was a unique <code>id</code> property available within the songs data,
-        you could have simply returned the id (instead of concatenating 2 properties) from the identity callback
-        to resolve the issue.
-      </p>
-
-    </div>
-    <div class="tab-pane fade" id="nav-transform" role="tabpanel" aria-labelledby="nav-transform-tab">
-      <p>
-        An optional <code>transform()</code> function is available when you need to modify the http response
-        while using the remote/prefetch source types. This is particularly useful in situations where you are consuming
-        a public API & over which you have no control, but you need to adapt its response as per your requirements.
-        The transform callback is executed before the response gets processed by typeahead.
-      </p>
-      <div class="codeContainer">
-        <span class="lang">JS</span>
-        <span class="copy" title="Copy to Clipboard"><i class="far fa-copy"></i></span>
-        <pre class="hljs language-js">
-// lets assume the remote endpoint returns data in the format
-[
-  { id: 1, capital: "Paris", country: "France" },
-  { id: 2, capital: "London", country: "UK" },
-  { id: 3, capital: "Washington DC", country: "USA" },
-  // ...
-]
-
-typeahead({
-  input: document.querySelector('.myInput'),
-  source: {
-    remote: {
-      url: 'https://remoteapi.com/%QUERY',
-      wildcard: '%QUERY',
-    },
-    identifier: "place",
-    transform: (data) => {  // optional
-      // transforms and returns data in the format
-      // [{ id: 1, place: "Paris, France" }, ...]
-      return data.map(item => ({
-        id: item.id,
-        place: `${item.capital}, ${item.country}`
-      }));
-    }
-  }
-});</pre>
-      </div>
-      <p>
-        Here, we have used the <code>transform</code> callback to modify the original remote response and
-        return the modified response that contains a new property <code>place</code>.
-        We are now free to use this new property anywhere we like. (we used it as the <code>identifier</code>).
-      </p>
-      <p>
-        The <b>transform</b> callback can additionaly be used to - flatten an array/object, add/remove properties to/from the response object,
-        change the response format to match with a custom schema and so on...
-      </p>
-    </div>
-  </div>
-</div>
-
-<hr>
-<h4><a href="#config?id=minlen" id="minlen" title="minLength config param - Ad-rotator.js" class="submenu-link section-link">3. 📏 minLength</a></h4>
-
-<p>
-  The <code>minLength</code> <i>(Type: integer)</i> defines the minimum number of characters required to be entered in order to trigger the calculation of suggestions.
-  Its default value is <b>1</b>.
+  The <code>fallbackMode</code> <i>(Type: Boolean)</i> config option is used when you wish to use Ad-rotator.js only as a <b>fallback</b>.
+  In fallback mode, Ads are shown only if the library detects an Adblocker.
+  This is specially useful if you wish to display Ads from another provider like Google, Amazon, Carbon, etc. and want to use
+  Ad-rotator.js only as a fallback solution.
 </p>
 <div class="codeContainer">
   <span class="lang">JS</span>
   <span class="copy" title="Copy to Clipboard"><i class="far fa-copy"></i></span>
   <pre class="hljs language-js">
-typeahead({
-  input: document.querySelector(".myInput"),
-  source: {
-    local: ['Superman', 'Batman', 'Flash', 'Aquaman', 'Wonder woman'],
-  },
-  minLength: 2, // default - 1
-});</pre>
+const instance = rotator(
+  document.querySelector('.container'),   // a DOM element
+  [                                       // array of ads
+    { url: 'https://site.com', img: 'https://example/picture.jpg'},
+    // ...
+  ],
+  {                                      // configuration options
+    fallbackMode: true, // default - false
+  }
+);</pre>
 </div>
 <p>
-  As per the example, autocompletion will be triggered only after a minimum of 2 characters have been entered.
+  By default, it is set to <code>false</code>, i.e. the fallback mode is disabled and Ads will be injected irrespective of whether an Adblocker is active or not.
+</p>
+<p>
+  Tested for most Ad blockers (Adblock, Adblock Plus, Adblock ultimate, ublock origin, etc) as well as Brave's shields.
+  Kindly open an <a href="https://github.com/digitalfortress-tech/ad-rotator/issues/new" title="Open Issue">issue</a> in case fallback mode fails for a certain browser/extension.
+  Meanwhile feel free to test this mode on <a href="https://jsfiddle.net/niketpathak/u8bkvyn6/" title="Adrotator fallbackMode JS fiddle">JS Fiddle</a>.
 </p>
 
 <hr>
-<h4><a href="#config?id=limit" id="limit" title="limit config param - Ad-rotator.js" class="submenu-link section-link">4. ⏹ limit</a></h4>
+<h4><a href="#config?id=img-class" id="img-class" title="imgClass config param - Ad-rotator.js" class="submenu-link section-link">I. <i class="fad fa-image-polaroid"></i> imgClass</h4></a>
 
 <p>
-  The <code>limit</code> <i>(integer)</i> config option specifies the maximum number of suggestions that should be displayed.
-  By default <b>5</b> suggestions are shown.
+  The <code>imgClass</code> <i>(Type: String)</i> config option is used to add a custom class to the <code>&lt;img /></code> element.
 </p>
 <div class="codeContainer">
   <span class="lang">JS</span>
   <span class="copy" title="Copy to Clipboard"><i class="far fa-copy"></i></span>
   <pre class="hljs language-js">
-typeahead({
-  input: document.querySelector(".myInput"),
-  source: {
-    local: ['Brown', 'Black', 'Blue', 'Beige', 'Blond', 'Bronze', 'Burgundy'],
-  },
-  limit: 3, // default - 5
-});</pre>
+const instance = rotator(
+  document.querySelector('.container'),   // a DOM element
+  [                                       // array of ads
+    { url: 'https://site.com', img: 'https://example/picture.jpg'},
+    // ...
+  ],
+  {                                      // configuration options
+    imgClass: 'rounded',                 // default - ''
+  }
+);</pre>
 </div>
 <p>
-  Going by the above snippet, a maximum of 3 suggestions will be displayed even if there are more suggestions available.
+  The default value of <code>imgClass</code> is set to an empty string (<code>''</code>). It can be used for styling image elements.
 </p>
 
 <hr>
-<h4><a href="#config?id=highlight" id="highlight" title="highlight config param - Ad-rotator.js" class="submenu-link section-link">5. <i class="fad fa-highlighter"></i> highlight</h4></a>
+<h4><a href="#config?id=link-class" id="link-class" title="linkClass config param - Ad-rotator.js" class="submenu-link section-link"> J. <i class="fad fa-link"></i> linkClass</a></h4>
 
 <p>
-  The <code>highlight</code> <i>(Type: Boolean)</i> config option causes the matching letters between the search query and the available suggestions to be highlighted.
-  When set to <code>true</code>, the basic styling makes the matched letters <b>bold</b>.
-  A class <code>tt-highlight</code> is added to facilitate further styling.
+  The <code>linkClass</code> <i>(Type: String)</i> config option is used to add a custom class to the <code>&lt;a /></code> element.
 </p>
 <div class="codeContainer">
   <span class="lang">JS</span>
   <span class="copy" title="Copy to Clipboard"><i class="far fa-copy"></i></span>
   <pre class="hljs language-js">
-typeahead({
-  input: document.querySelector(".myInput"),
-  source: {
-    local: ['Superman', 'Batman', 'Flash', 'Aquaman', 'Wonder woman'],
-  },
-  highlight: true, // default - undefined
-});</pre>
+const instance = rotator(
+  document.querySelector('.container'),   // a DOM element
+  [                                       // array of ads
+    { url: 'https://site.com', img: 'https://example/picture.jpg'},
+    // ...
+  ],
+  {                                      // configuration options
+    linkClass: 'fancy-link',             // default - ''
+  }
+);</pre>
 </div>
 <p>
-  By default, this option is <code>undefined</code>, i.e. matching letters are not highlighted.
+  The default value of <code>linkClass</code> is set to an empty string (<code>''</code>). It can be used for styling anchor (link) elements.
 </p>
 
 <hr>
-<h4><a href="#config?id=hint" id="hint" title="hint config param - Ad-rotator.js" class="submenu-link section-link">6. 💡 hint</a></h4>
+<h4><a href="#config?id=sticky" id="sticky" title="sticky config param - Ad-rotator.js" class="submenu-link section-link">K. 🧲 sticky</h4></a>
 
 <p>
-  The <code>hint</code> <i>(Type: Boolean)</i> config option updates the input's placeholder to be equal to the first matched suggestion.
-  Pressing the <kbd>Tab</kbd> key will set the input's value to the placeholder's current value.
+  Ad-rotator.js permits you to display sticky Ads. These are ads that stay visible on the screen even when you scroll.
+  By default, this setting is disabled, but you can enable it by passing an empty object as per the official docs. (<code>sticky: {}</code>).
 </p>
-<div class="codeContainer">
-  <span class="lang">JS</span>
-  <span class="copy" title="Copy to Clipboard"><i class="far fa-copy"></i></span>
-  <pre class="hljs language-js">
-typeahead({
-  input: document.querySelector(".myInput"),
-  source: {
-    local: ['Superman', 'Batman', 'Flash', 'Aquaman', 'Wonder woman'],
-  },
-  hint: true // default - true
-});</pre>
-</div>
 <p>
-  By default, the <code>hint</code> config option is set to <code>true</code>.
-  A class <code>tt-hint</code> is added to facilitate styling.
+  You can also configure sticky advertisements in a way which ensures that your Ads are not intrusive
+  and that they do not degrade user experience.
 </p>
 
-<hr>
-<h4><a href="#config?id=autoselect" id="autoselect" title="autoSelect config param - Ad-rotator.js" class="submenu-link section-link">7. <i class="fad fa-ballot-check"></i> autoSelect</h4></a>
-
-<p>
-  The <code>autoSelect</code> <i>(Type: Boolean)</i> config option, when set to <code>true</code>,
-  simply pre-selects the first displayed suggestion. Pressing the <kbd>Enter</kbd> key will
-  fill the input box with the selected suggestion.
-</p>
-<div class="codeContainer">
-  <span class="lang">JS</span>
-  <span class="copy" title="Copy to Clipboard"><i class="far fa-copy"></i></span>
-  <pre class="hljs language-js">
-typeahead({
-  input: document.querySelector(".myInput"),
-  source: {
-    local: ['USA', 'UK', 'UAE', 'France', 'Finland'],
-  },
-  autoSelect: true, // default - false
-});</pre>
-</div>
-<p>
-  By default, <code>autoSelect</code> is set to <code>false</code>. The selected suggestion has a blue background by default
-  but a class <code>tt-selected</code> permits further styling.
-</p>
-
-<hr>
-<h4><a href="#config?id=display" id="display" title="display config param - Ad-rotator.js" class="submenu-link section-link">8. <i class="fas fa-tv-alt"></i> display</h4></a>
-
-<p>
-  The <code>display</code> config option is a callback that is executed when the user selects an item from the suggestions.
-  The selected suggestion is passed as a parameter and it <b>must return a string</b> which is then set as the input's value.
-  The display function also affects the input's placeholder.
-</p>
-<p>
-  The 2nd optional parameter <b>event</b> is a Mouse/Keyboard event which can be used to track user interaction or for analytics.
-</p>
-<div class="codepen" data-height="400" style="height:400px; overflow: auto;" data-theme-id="dark" data-default-tab="js,result" data-preview="true" data-editable="true"  data-prefill='{"title":"Ad-rotator display() config option Demo","tags":[],"scripts":[],"stylesheets":[]}'>
+<div class="codepen" data-height="400" style="height:400px; overflow: auto;" data-theme-id="dark" data-default-tab="js,result" data-preview="true" data-editable="true"  data-prefill='{"title":"Ad-rotator Usage Demo","tags":[],"scripts":[],"stylesheets":[]}'>
   <pre data-lang="html">
 &lt;!-- Include assets -->
-&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/Ad-rotator/dist/basic.css" />
-&lt;script src="https://cdn.jsdelivr.net/npm/Ad-rotator">&lt;/script>
+&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ad-rotator/dist/style.css" />
+&lt;script src="https://cdn.jsdelivr.net/npm/ad-rotator">&lt;/script>
 
-&lt;!-- input element -->
-&lt;input type="search" id="typeahead-display-eg" autocomplete="off" placeholder="Search Places...">
+&lt;!-- example markup -->
+&lt;main class="start">Main Content&lt;/main>
+&lt;div id="publicity">Ad area&lt;/div>
+&lt;section class="middle">Middle content&lt;/section>
+&lt;footer class="end">Footer content&lt;/footer>
+
+&lt;hr/>
+Ad-rotator.js
+</pre>
+<pre data-lang="css">
+/* Example Styling  */
+#publicity { /* style Ad-unit */
+  height: 250px;
+  width: 300px;
+  background-color: yellow;
+  overflow: hidden;
+}
+.start, .end {    /* element before the Ad-unit */
+  height: 200px;
+  width: 100%;
+  background-color: green;
+}
+.middle {    /* empty area */
+  min-height: 1000px;
+  width: 100%;
+}
+img {
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+}
 </pre>
 
 <pre data-lang="js">
-const places = [
-  { name: 'Paris', country: 'France'},
-  { name: 'London', country: 'UK'},
-  { name: 'Moscow', country: 'Russia'},
-  // ...
-]
-
-typeahead({
-  input: document.getElementById('typeahead-display-eg'),
-  source: {
-    local: places,
-    identifier: 'name'
-  },
-  display: (selectedItem, event) => {
-    if (event) {
-      // do something
-      // alert("event type is - " + event.type);
-    }
-
-    return `${selectedItem.name}, ${selectedItem.country}`;
+// initialize ad-rotator
+const instance = rotator(
+  document.getElementById('publicity'),
+  getAds(),
+  {
+    // sticky: {}, // this enables stickiness, but we recommend the config below:
+    sticky: {
+      beforeEl: document.querySelector('.start'),
+      afterEl: document.querySelector('.end'),
+      offsetTop: '20',        // or '20px' (defaults to 0px)
+      offsetBottom: '100px',   // or '100' (defaults to 0px)
+      noMobile: true          // disable stickiness on mobile (default - false)
+    },
   }
-});
+);
+
+// start the rotation
+instance.start();
+
+// ads
+function getAds() {
+  return [
+    { url: 'https://fusionplatter.eu#1', img: 'https://niketpathak.com/images/works/gkm_pic_sq.jpg'},
+    { url: 'https://digitalfortress.tech#2', img: 'https://niketpathak.com/images/works/maestrobits_sq.jpg'},
+    { url: 'https://gospelmusic.io#3', img: 'https://niketpathak.com/images/works/halcyonminds_sq.jpg'}
+  ];
+}
 </pre>
 </div>
 
-<p>
-  The <code>display()</code> callback is optional and by default,
-  it returns the string representation (usually the <code>identifier</code>) of the selected item.
-</p>
-<p>
-  In the above input box, if you try searching for <i>Paris</i>, you will see the placeholder value to be "<i>Paris, France</i>",
-  which is set by the <code>display</code> callback. Also, if you select the displayed suggestion, either by mouse click/touch or
-  via the keyboard, the input's value will similarly be set to "<i>Paris, France</i>".
-</p>
-
-<hr>
-<h4><a href="#config?id=preventsubmit" id="preventsubmit" title="preventSubmit config param - Ad-rotator.js" class="submenu-link section-link">9. ❎ preventSubmit</a></h4>
 
 <p>
-  The <code>preventSubmit</code> <i>(Type: Boolean)</i> config option is used to prevent the default submit action
-  when the input is used inside a form element. It defaults to <code>false</code>
-</p>
-
-<div class="tabContainer padding-v15">
-  <nav>
-    <div class="nav nav-tabs" id="nav-tab" role="tablist">
-      <a class="nav-link active simple-link tab-link" id="nav-html2-tab" data-toggle="tab" href="#nav-html2" role="tab" aria-controls="nav-html2" aria-selected="true">HTML</a>
-      <a class="nav-link simple-link tab-link" id="nav-jscript2-tab" data-toggle="tab" href="#nav-jscript2" role="tab" aria-controls="nav-jscript2" aria-selected="false">Javascript</a>
-    </div>
-  </nav>
-  <div class="tab-content" id="nav-tabContent">
-    <div class="tab-pane fade" id="nav-jscript2" role="tabpanel" aria-labelledby="nav-jscript2-tab">
-      <div class="codeContainer">
-        <span class="lang">JS</span>
-        <span class="copy" title="Copy to Clipboard"><i class="far fa-copy"></i></span>
-        <pre class="hljs language-js language-javascript">
-typeahead({
-  input: document.querySelector("#typeahead"),
-  source: {
-    local: ['Superman', 'Batman', 'Flash', 'Aquaman', 'Wonder woman'],
-  },
-  preventSubmit: true,  // default - false
-});</pre>
-      </div>
-    </div>
-    <div class="tab-pane fade show active" id="nav-html2" role="tabpanel" aria-labelledby="nav-html2-tab">
-      <div class="codeContainer">
-        <span class="lang">HTML</span>
-        <span class="copy" title="Copy to Clipboard"><i class="far fa-copy"></i></span>
-        <pre class="hljs language-html language-xml">
-&#60;body&#62;
-  &#60;form action="#" method="get" &#62;
-    &#60;input type="search" id="typeahead" placeholder="Search..."&#62;
-  &#60;/form&#62;
-&#60;/body&#62;</pre>
-      </div>
-    </div>
-  </div>
-</div>
-<p>
-  When the input element is used inside a form element, the default action on hitting the <kbd>Enter</kbd> key is to
-  submit the form. The <code>preventSubmit</code> flag can be used to prevent this default behavior.
-  To later submit the form manually, you can use the <code>onSubmit</code> callback config option.
-</p>
-
-<hr>
-<h4><a href="#config?id=onsubmit" id="onsubmit" title="onSubmit config param - Ad-rotator.js" class="submenu-link section-link">10. <i class="fad fa-paper-plane"></i> onSubmit</h4></a>
-
-<p>
-  The <code>onSubmit</code> config option is a callback that gets triggered on hitting the <kbd>Enter</kbd> key.
-  It receives the keyboard <b>event</b> as the first parameter and the <b>selectedSuggestion</b> as the second parameter.
-  (i.e. only if a suggestion was selected, otherwise the 2nd parameter is undefined.)
-</p>
-<p>
-  The main utility of this callback handler is to submit the form manually especially when the input element is being used outside of a form element.
-</p>
-<div class="codepen" data-height="400" style="height:400px; overflow: auto;" data-theme-id="dark" data-default-tab="js,result" data-preview="true" data-editable="true"  data-prefill='{"title":"Ad-rotator onSubmit() config option Demo","tags":[],"scripts":[],"stylesheets":[]}'>
-<pre data-lang="html">
-&lt;!-- Include assets -->
-&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/Ad-rotator/dist/basic.css" />
-&lt;script src="https://cdn.jsdelivr.net/npm/Ad-rotator">&lt;/script>
-
-&lt;!-- input element -->
-&lt;input type="search" id="typeahead-onsubmit-eg" placeholder="Search Countries..." autocomplete="off">
-</pre>
-<pre data-lang="js">
-typeahead({
-  input: document.getElementById('typeahead-onsubmit-eg'),
-  source: {
-    local: ['USA', 'UK', 'UAE', 'France', 'Finland'],
-    identifier: 'name'
-  },
-  onSubmit: (e, selectedSuggestion) => {
-    const query = e.target.value;
-    alert(`input -> ${query}, eventType -> ${e.type}`);
-
-    if (selectedSuggestion) {
-      alert('Selected suggestion - ' + JSON.stringify(selectedSuggestion));
-    }
-  }
-});</pre>
-</div>
-<p>
-  If you try to search for <i>"Fr"</i>, and hit the <kbd>Enter</kbd> key, the <code>onSubmit</code> callback should be triggered.
-  You will see a single alert message. But if you search for <i>"Fr"</i>, and then select the first suggestion
-  (for example by pressing the down arrow key) and then hit <kbd>Enter</kbd>, you should see 2 alert messages as expected.
-</p>
-
-<hr>
-<h4><a href="#config?id=debounce-remote" id="debounce-remote" title="debounceRemote config param - Ad-rotator.js" class="submenu-link section-link">11. ⏳ debounceRemote</h4></a>
-
-<p>
-  The <code>debounceRemote</code> <i>(Type: Integer)</i> config option is used to delay execution of
-  http requests (in milliseconds).
-</p>
-<div class="codeContainer">
-  <span class="lang">JS</span>
-  <span class="copy" title="Copy to Clipboard"><i class="far fa-copy"></i></span>
-  <pre class="hljs language-js">
-typeahead({
-  input: document.querySelector(".myInput"),
-  source: {
-    remote: {
-      // ...
-    }
-  },
-  debounceRemote: 300 // optional (in milliseconds)
-});</pre>
-</div>
-<p>
-  The default value of <code>debounceRemote</code> is set to <code>100</code>ms.
-</p>
-
-<hr>
-<h4><a href="#config?id=diacritics" id="diacritics" title="diacritis config param - Ad-rotator.js" class="submenu-link section-link"> 12. <i class="fas fa-language"></i> diacritics</a></h4>
-
-<p>
-  The <code>diacritics</code> <i>(Type: Boolean)</i> config option is used to enable/disable
-  language diacritics supported search. This means that characters with accents (<i>example input - èąśćńżóźćę</i>)
-  match with their non-accented counterparts (<i>example output - eascnzozce</i>).
-</p>
-<div class="codepen" data-height="400" style="height:400px; overflow: auto;" data-theme-id="dark" data-default-tab="js,result" data-preview="true" data-editable="true"  data-prefill='{"title":"Ad-rotator onSubmit() config option Demo","tags":[],"scripts":[],"stylesheets":[]}'>
-<pre data-lang="html">
-&lt;!-- Include assets -->
-&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/Ad-rotator/dist/basic.css" />
-&lt;script src="https://cdn.jsdelivr.net/npm/Ad-rotator">&lt;/script>
-
-&lt;!-- input element -->
-&lt;input type="search" id="diacritics-example" placeholder="Search Places..." autocomplete="off">
-</pre>
-<pre data-lang="js">
-typeahead({
-  input: document.getElementById('diacritics-example'),
-  source: {
-    local: [ 'Kraków', 'Gdańsk', 'Częstochowa', 'Ruda Śląska', 'Rhône', 'Évry', 'Épinal', 'Essonne'],
-  },
-  highlight: true,
-  diacritics: true,
-});</pre>
-</div>
-<p>
-  In the example, if you search for <i>Rho</i> (notice that the accent on the "o" is missing), you will see the
-  suggestion <i>Rhône</i>. With diacritics disabled, no suggestion would be shown.
-  <br>The default value of <code>diacritics</code> is <code>undefined</code> i.e. accents are not converted/matched with their
-  non-accented counterparts.
-</p>
-
-<hr>
-<h4><a href="#config?id=classname" id="classname" title="className config param - Ad-rotator.js" class="submenu-link section-link">13. <i class="fas fa-code"></i> className</h4></a>
-
-<p>
-  The <code>className</code> <i>(Type: String)</i> config option is used add an additional class to the
-  container of Ad-rotator. This is useful to add/override CSS.
-</p>
-<div class="codeContainer">
-  <span class="lang">JS</span>
-  <span class="copy" title="Copy to Clipboard"><i class="far fa-copy"></i></span>
-  <pre class="hljs language-js">
-typeahead({
-  input: document.querySelector(".myInput"),
-  source: {
-    // ...
-  },
-  className: "my-search-box" // optional
-});</pre>
-</div>
-<p>
-  The container has a class <code>Ad-rotator</code> by default.
-</p>
-
-<hr>
-<h4><a href="#config?id=templates" id="templates" title="templates config param - Ad-rotator.js" class="submenu-link section-link">14. 🎨 templates</h4></a>
-
-<p>
-  The <code>templates</code> config option is used to customize the
-  rendering of the list of suggestions.
-</p>
-<p>
-  There are 5 templates available to style your list of suggestions.
-  These have been detailed in the section dedicated for
-  <a title="Styles" href="#styles" class="submenu-link"><b>styles</b></a>.
+  The <code>sticky</code> config option can be customized by providing an <b>Object</b> with properties listed below -
+  <ol type="I">
+    <li>
+      <code>beforeEl</code>: <i>HTMLElement</i> - refers to the Element from where the Ad becomes sticky.
+      This means that the Ad becomes sticky only when you scroll upto this element.
+      The default behaviour is to make the Ad sticky as soon as the user scrolls.
+    </li>
+    <li>
+      <code>afterEl</code>: <i>HTMLElement</i> - refers to the Element from where the Ad stops being sticky.
+      i.e. when you scroll to/after this element, the Ad will no longer be sticky.
+      By default, the Ad stays sticky permanently.
+    </li>
+    <li>
+      <code>offsetTop</code>: <i>number | string</i> - A margin that is added at the top of the Ad.
+      Defaults to <b>0</b> i.e. sticks to the top of the screen.
+    </li>
+    <li>
+      <code>offsetBottom</code>: <i>number | string</i> - A margin that is added at the bottom of the Ad. Defaults to <b>0</b>.
+    </li>
+    <li>
+      <code>noMobile</code>: <i>Boolean</i> - This option can be used when you wish for your Ad unit to be sticky only on a mobile.
+      Its default value is <b>false</b>, meaning that the Ad will be sticky on all devices.
+    </li>
+  </ol>
 </p>
 
 <hr>
