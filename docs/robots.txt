@@ -1,2 +1,2 @@
 User-agent: *
-Sitemap: https://typeahead.digitalfortress.tech/sitemap.xml
+Sitemap: https://rotator.digitalfortress.tech/sitemap.xml

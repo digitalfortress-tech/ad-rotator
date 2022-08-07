@@ -7,47 +7,88 @@
 </p>
 
 <hr>
-<h4><a href="#playground?id=colors-example" id="colors-example" title="Ad-rotator.js Colors example" class="submenu-link section-link">1. Colors Example</a></h4>
+<h4><a href="#playground?id=basic-example" id="basic-example" title="Ad-rotator.js Basic example" class="submenu-link section-link">1. Basic Ad rotation</a></h4>
 <p>
-  This example lists <i>almost</i> every available config option. It uses a <b><a href="#config?id=source">local data source</a></b>.
-  <a href="#styles?id=templates">Templates</a> are used to stylize the suggestions.
+  This example lists <i>almost</i> every available config option set to its default value.
 </p>
 
-<div class="codepen" data-height="600" style="height:600px; overflow: auto;" data-theme-id="dark" data-default-tab="js,result" data-slug-hash="vYRKdNq" data-preview="true" data-editable="true" data-user="niketpathak" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
-  <span>See the Pen <a href="https://codepen.io/niketpathak/pen/vYRKdNq">
-  Ad-rotator Colors Example</a> by Niket Pathak (<a href="https://codepen.io/niketpathak">@niketpathak</a>)
-  on <a href="https://codepen.io">CodePen</a>.</span>
-</div>
-
-<hr>
-<h4><a href="#playground?id=movies-example" id="movies-example" title="Ad-rotator.js Colors example" class="submenu-link section-link">2. Movies Example</a></h4>
-<p>
-  This example shows the usage of a <b><a href="#config?id=source">prefetch data source</a></b>.
-  Here is the raw <a href="https://raw.githubusercontent.com/digitalfortress-tech/Ad-rotator/master/docs/assets/json/superheroes.json">dataset</a> at your disposal.
-  It has been retrieved via the <a href="https://www.themoviedb.org/">TMBD API</a>.
-</p>
-
-<p class="codepen" data-height="600" style="height:600px; overflow: auto;" data-theme-id="dark" data-default-tab="js,result" data-slug-hash="gOembOg" data-preview="true" data-editable="true" data-user="niketpathak" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
-  <span>See the Pen <a href="https://codepen.io/niketpathak/pen/gOembOg">
-  Ad-rotator Movies Example</a> by Niket Pathak (<a href="https://codepen.io/niketpathak">@niketpathak</a>)
+<p class="codepen" data-height="500" style="height:500px; overflow: auto;" data-default-tab="js,result" data-slug-hash="WNzygep" data-preview="true" data-editable="true" data-user="niketpathak" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/niketpathak/pen/WNzygep">
+  Ad-rotator.js with Default Config</a> by Niket Pathak (<a href="https://codepen.io/niketpathak">@niketpathak</a>)
   on <a href="https://codepen.io">CodePen</a>.</span>
 </p>
+
 <p>
-  If you notice, movies are searchable by their <code>title</code>. To be able to also search by their description,
-  uncomment the <code>dataTokens</code> config option above. On doing so, when you search for <i>Barry Allen</i> or
-  <i>Bruce Wayne</i>, you should see the expected suggestions.
+  The Ad-dimensions have been set via CSS.
 </p>
 
 <hr>
-<h4><a href="#playground?id=github-users-example" id="github-users-example" title="Ad-rotator.js Colors example" class="submenu-link section-link">3. Github Users Example</a></h4>
+<h4><a href="#playground?id=device-specific-example" id="device-specific-example" title="Ad-rotator.js Device Specific example" class="submenu-link section-link">2. Device specific Ad-rotation</a></h4>
 <p>
-  This example shows the usage of a <b><a href="#config?id=source">remote data source</a></b>.
-  <a href="#styles?id=templates">Templates</a> are used to stylize the suggestions.
+  This example uses a leaderboard Ad size (i.e. <i>height: 90px, width: 728px</i>) which is set via CSS.
+  Since this ad would be cut-off on a mobile device given its long width,
+  we set the config option <code>target: "desktop"</code> so that this Ad would be <b>visible only on a desktop
+  and hidden on a mobile device</b>.
 </p>
-<p class="codepen" data-height="600" style="height:600px; overflow: auto;" data-theme-id="dark" data-default-tab="js,result" data-slug-hash="ZExLeEw" data-preview="true" data-editable="true" data-user="niketpathak" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
-  <span>See the Pen <a href="https://codepen.io/niketpathak/pen/ZExLeEw">
-  Ad-rotator Github users Example</a> by Niket Pathak (<a href="https://codepen.io/niketpathak">@niketpathak</a>)
+
+<p class="codepen" data-height="500" style="height:500px; overflow: auto;" data-default-tab="js,result" data-slug-hash="OJvEovm" data-preview="true" data-editable="true" data-user="niketpathak" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/niketpathak/pen/OJvEovm">
+  Device specific Ad-rotation</a> by Niket Pathak (<a href="https://codepen.io/niketpathak">@niketpathak</a>)
   on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+
+<p>
+  <i class="fas fa-info-circle"></i> Note: Ads have been assigned weights to increase their priority and thereby their chances of being shown first.
+  However since it is randomized, only their chances are increased but there is no guarantee of it being shown first.
+  To sort Ads by their weight (highest to lowest), set <code>random: false</code>.
+  Ads with missing weights are automatically assigned a weight of  <b>1</b>.
+</p>
+
+<hr>
+<h4><a href="#playground?id=hooks-example" id="hooks-example" title="Ad-rotator.js Hooks example" class="submenu-link section-link">3. Ad-rotation with Hooks</a></h4>
+<p>
+  There are 3 types of hooks available -
+  <ol type="I">
+    <li>
+      <code>cb</code> - This hook is executed after each rotation.
+    </li>
+    <li>
+      <code>onHover</code> - This hook is executed on hovering an Ad.
+    </li>
+    <li>
+      <code>onClick</code>- This hook is executed on clicking an Ad.
+    </li>
+  </ol>
+  Each of these have been demonstrated below...
+</p>
+
+<p class="codepen" data-height="700" style="height:700px; overflow: auto;" data-default-tab="js,result" data-slug-hash="rNdKZob" data-preview="true" data-editable="true" data-user="niketpathak" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/niketpathak/pen/rNdKZob">
+  Ad-rotation with Hooks</a> by Niket Pathak (<a href="https://codepen.io/niketpathak">@niketpathak</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<p>
+  The above example also demonstrates usage of <b>sidebar Ad dimensions</b>.
+  You should see console logs when you hover an Ad and also when each Ad gets rotated.
+  If you click on any Ad, you should see an alert before being redirected to the destination URL.
+</p>
+
+<hr>
+<h4><a href="#playground?id=fallback-mode-example" id="fallback-mode-example" title="Ad-rotator.js Fallback Mode example" class="submenu-link section-link">4. Ad-rotation in Fallback Mode</a></h4>
+<p>
+
+</p>
+<p>
+
+</p>
+
+<hr>
+<h4><a href="#playground?id=sticky-example" id="sticky-example" title="Ad-rotator.js Sticky Ad example" class="submenu-link section-link">5. Sticky Ad</a></h4>
+<p>
+
+</p>
+<p>
+
 </p>
 
 

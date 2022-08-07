@@ -1,0 +1,152 @@
+<h2>
+  API
+</h2>
+<p>
+  Ad-rotator.js provides a simple API to control Ad rotation. There are 6 methods exposed by the API as described below...
+</p>
+
+<hr>
+<h4><a href="#api?id=start" id="start" title="Start API - Ad-rotator.js" class="submenu-link section-link">1. start</a></h4>
+<p>
+  The <code>start()</code> method, as you might have guessed, is used to start Ad-rotation.
+</p>
+<div class="codeContainer">
+  <span class="lang">JS</span>
+  <span class="copy" title="Copy to Clipboard"><i class="far fa-copy"></i></span>
+  <pre class="hljs language-js">
+const instance = rotator( /* config options */ );
+
+/* Starts ad rotation */
+instance.start();</pre>
+</div>
+<p>
+  It is this method that initializes ad-rotator.js by setting up the essential events and populating the DOM before it begins the actual rotation.
+</p>
+
+<hr>
+<h4><a href="#api?id=pause" id="pause" title="Pause API - Ad-rotator.js" class="submenu-link section-link">2. pause</a></h4>
+<p>
+  The <code>pause()</code> method pauses the Rotation.
+  By default, when the user hovers over an Ad, rotation is paused. It resumes if the user clicks on the Ad or is not hovering over it anymore.
+</p>
+<div class="codeContainer">
+  <span class="lang">JS</span>
+  <span class="copy" title="Copy to Clipboard"><i class="far fa-copy"></i></span>
+  <pre class="hljs language-js">
+const instance = rotator( /* config options */ );
+
+/* Pauses ad rotation */
+instance.pause();
+
+/* You can also use "pause" in the cb(callback) config option to
+ * pause every advertisement after it has been clicked/hovered upon
+ */
+instance.conf.cb = instance.pause;</pre>
+</div>
+<p>
+  Any paused instance will resume rotation automatically if the user scrolls away from the Ad such that it is no longer visible
+  (i.e. the Ad goes out of the viewport). Rotation cannot be paused permanently because that would beat the purpose of this library.
+</p>
+
+<hr>
+<h4><a href="#api?id=resume" id="resume" title="Resume API - Ad-rotator.js" class="submenu-link section-link">3. resume</a></h4>
+<p>
+  The <code>resume()</code> method resumes Ad Rotation.
+</p>
+<div class="codeContainer">
+  <span class="lang">JS</span>
+  <span class="copy" title="Copy to Clipboard"><i class="far fa-copy"></i></span>
+  <pre class="hljs language-js">
+const instance = rotator( /* config options */ );
+
+/* Resumes ad rotation */
+instance.resume();</pre>
+</div>
+<p>
+  Ad rotation is paused when Ads are hovered upon and resumed automatically when they're no longer being hovered upon.
+  Use the <code>resume()</code> method to resume a paused ad rotator instance.
+</p>
+
+<hr>
+<h4><a href="#api?id=add" id="add" title="Add API - Ad-rotator.js" class="submenu-link section-link">4. add</a></h4>
+<p>
+  The <code>add()</code> method can be used to inject a new Ad on the fly.
+
+</p>
+<div class="codeContainer">
+  <span class="lang">JS</span>
+  <span class="copy" title="Copy to Clipboard"><i class="far fa-copy"></i></span>
+  <pre class="hljs language-js">
+const instance = rotator( /* config options */ );
+
+instance.start();
+/* Adds a new Ad */
+instance.add(
+  {
+    url: 'https://gospelmusic.io',
+    img: './path-to-img.jpg',
+    title: 'Free high quality music', // optional
+    weight: '100',                    // optional
+  }
+);</pre>
+</div>
+<p>
+  The newly injected Ad is added at the end of the <i>array of Ads</i> and is displayed only in the <b>next rotation cycle</b>.
+</p>
+
+
+<hr>
+<h4><a href="#api?id=remove" id="remove" title="Remove API - Ad-rotator.js" class="submenu-link section-link">5. remove</a></h4>
+<p>
+  The <code>remove()</code> method can be used to remove an item from the Advertisements array.
+</p>
+<div class="codeContainer">
+  <span class="lang">JS</span>
+  <span class="copy" title="Copy to Clipboard"><i class="far fa-copy"></i></span>
+  <pre class="hljs language-js">
+const instance = rotator( /* config options */ );
+
+/* Remove Ads */
+instance.remove(); // remove the last Ad/item
+instance.remove(   // remove a specific Ad/item
+  {
+    url: 'https://digitalfortress.tech', // url is optional
+    img: './path-to-img'
+  }
+);</pre>
+</div>
+<p>
+  By default, the <code>remove()</code> method deletes the last item in the advertisements array.
+  To remove a particular advertisement, you can also pass the Ad as a parameter.
+  The change in the Advertisements array is reflected in the <b>next rotation cycle</b>.
+</p>
+
+<hr>
+<h4><a href="#api?id=destroy" id="destroy" title="Destroy API - Ad-rotator.js" class="submenu-link section-link">6. destroy</a></h4>
+<p>
+  The <code>destroy()</code> API method destroys Ad Rotation. It cleans up the DOM and removes all associated events.
+</p>
+<div class="codeContainer">
+  <span class="lang">JS</span>
+  <span class="copy" title="Copy to Clipboard"><i class="far fa-copy"></i></span>
+  <pre class="hljs language-js">
+const instance = rotator( /* config options */ );
+
+/* destroys the rotation, DOM and events */
+instance.destroy();</pre>
+</div>
+<p>
+  To reactivate ad Rotator, simply call <a href="#api?id=start"><code>rotatorInstance.start()</code></a>.
+</p>
+
+<hr>
+<div class="bottom-nav">
+  <div class="bottom-nav-right">
+    <div class="label">Next <i class="fad fa-chevron-double-right"></i></div>
+    <a title="Styles" href="#styles" class="submenu-link simple-link">Styles</a>
+  </div>
+  <div class="bottom-nav-left">
+    <div class="label"><i class="fad fa-chevron-double-left"></i> Previous</div>
+    <a title="Config" href="#config" class="submenu-link">Config</a>
+  </div>
+</div>

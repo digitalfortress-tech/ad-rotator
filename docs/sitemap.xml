@@ -9,24 +9,27 @@
 
 
   <url>
-    <loc>https://typeahead.digitalfortress.tech/</loc>
+    <loc>https://rotator.digitalfortress.tech/</loc>
   </url>
   <url>
-    <loc>https://typeahead.digitalfortress.tech/#install</loc>
+    <loc>https://rotator.digitalfortress.tech/#install</loc>
   </url>
   <url>
-    <loc>https://typeahead.digitalfortress.tech/#usage</loc>
+    <loc>https://rotator.digitalfortress.tech/#usage</loc>
   </url>
   <url>
-    <loc>https://typeahead.digitalfortress.tech/#config</loc>
+    <loc>https://rotator.digitalfortress.tech/#config</loc>
   </url>
   <url>
-    <loc>https://typeahead.digitalfortress.tech/#styles</loc>
+    <loc>https://rotator.digitalfortress.tech/#api</loc>
   </url>
   <url>
-    <loc>https://typeahead.digitalfortress.tech/#references</loc>
+    <loc>https://rotator.digitalfortress.tech/#styles</loc>
   </url>
   <url>
-    <loc>https://typeahead.digitalfortress.tech/#playground</loc>
+    <loc>https://rotator.digitalfortress.tech/#references</loc>
+  </url>
+  <url>
+    <loc>https://rotator.digitalfortress.tech/#playground</loc>
   </url>
 </urlset>
