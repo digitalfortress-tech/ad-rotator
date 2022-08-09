@@ -18,6 +18,7 @@
     ],
     "types": [
       "cypress",
+      "cypress-axe",
       "node"
     ]
   }

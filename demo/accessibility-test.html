@@ -1,0 +1,57 @@
+<html lang="en">
+  <head>
+    <title>Accessibility test - ad-rotator.js</title>
+    <!-- LOCAL TESTING -->
+    <link rel="stylesheet" href="../dist/style.css" />
+    <script src="../dist/ad-rotator.js"></script>
+    <style>
+
+      </style>
+  </head>
+  <body>
+    <header>
+      <h1>Ad-rotator.js - Accessibility Test</h1>
+    </header>
+    <main class="container text-center">
+      <div class="publicityContainer"></div>
+    </main>
+
+    <script>
+      /* Initialise ad-rotator.js */
+      const instance = rotator(
+      document.querySelector(".publicityContainer"),
+      getAds(),
+    );
+
+    instance.start();
+
+    // ad array
+    function getAds() {
+      return [
+        {
+          url: "https://gospelmusic.io#1",
+          img: "../docs/assets/img/square/square-1.jpeg",
+          title: "Worlds best Travel",
+        },
+        {
+          url: "https://fusionplatter.eu#2",
+          img: "../docs/assets/img/square/square-2.jpeg",
+          title: "Amazon - Real Estate",
+          weight: 4,
+        },
+        {
+          url: "https://digitalfortress.tech#3",
+          img: "../docs/assets/img/square/square-3.jpeg",
+          title: "Advertise with Us!",
+        },
+        {
+          url: "https://gospelmusic.io#4",
+          img: "../docs/assets/img/square/square-4.jpg" ,
+          title: "McDonalds Burger",
+          weight: 3,
+        },
+      ];
+    }
+    </script>
+  </body>
+</html>
