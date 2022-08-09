@@ -65,8 +65,8 @@ require('ad-rotator/dist/style.css');
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ad-rotator/dist/style.css" /> <!-- Optional -->
 
 <!-- or with unpkg.com to get a specific version -->
-<script src="https://unpkg.com/ad-rotator@5.6.0/dist/ad-rotator.js"></script>
-<link rel="stylesheet" href="https://unpkg.com/ad-rotator@5.6.0/dist/style.css" /> <!-- Optional -->
+<script src="https://unpkg.com/ad-rotator@5.7.0/dist/ad-rotator.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/ad-rotator@5.7.0/dist/style.css" /> <!-- Optional -->
 
 ```
 The library will be available as a global object at **`window.rotator`**
