@@ -1,7 +1,7 @@
 <h2>Configuration</h2>
 <p>
   Ad-rotator.js provides several configuration options to fine-tune and customize rotation.
-  Only the first two are required whereas the rest are optional that use sensible default values. We list all available config options below.
+  Only the first two are required whereas the rest are optional that use sensible default values. All available config options are listed below.
 </p>
 <hr>
 
@@ -9,7 +9,7 @@
 
 <p>
   This is the DOM input element that ad-rotator will use as a container element to inject Ad-units into.
-  It is a required property and an error is thrown if it is missing
+  It is a required property and an error is thrown if it is missing.
 </p>
 
 <div class="tabContainer padding-v15">
@@ -79,7 +79,7 @@ const instance = rotator(
 <p>
   In the example above, we set <i>weight: 4</i> for the 1st Ad used. By assigning a weight to an Ad unit, we increase its priority and thereby its chances of being shown first.
   When the rotation is randomized, only its chances are increased but there is no guarantee of it being shown first (as expected with truly random rotation).
-  To display Ads by their weight (highest to lowest), turn off random rotation by setting the config option – random: false.
+  To display Ads by their weight (highest to lowest), turn off random rotation by setting the config option – <code>random: false</code>.
 </p>
 
 <hr>
@@ -121,12 +121,12 @@ const instance = rotator(
   document.querySelector('.container'),
   [ ... ],     // array of Ads
   {
-    timer: 3,
+    timer: 3,  // default - 5
   }
 );</pre>
 </div>
 <p>
-  Going by the above snippet, Ads will be rotated after every 3 seconds.
+  Going by the above snippet, Ads will be rotated after every 3 seconds. By default, Ads are rotated after every 5 seconds.
 </p>
 
 <hr>
@@ -135,7 +135,7 @@ const instance = rotator(
 <p>
   The <code>random</code> <i>(Type: Boolean)</i> config option controls the fashion of Ad-rotation.
   When set to <code>false</code>, ads are rotated sequentially i.e. in the order they are provided in the Array.
-  By default, this option is set to <code>true</code>, i.e. ads are rotated randomnly.
+  By default, this option is set to <code>true</code>, i.e. ads are rotated randomly.
 </p>
 <div class="codeContainer">
   <span class="lang">JS</span>
@@ -240,7 +240,7 @@ const instance = rotator(
   It works only on a desktop since the hover event is not supported for touch-devices.
 </p>
 <p>
-  It receives 2 parameters - <code>item</code> (the current Ad unit) and <code>El</code> (the html container)
+  It receives 2 parameters - <code>item</code> (the current Ad unit) and <code>El</code> (the html Ad container)
 </p>
 <div class="codeContainer">
   <span class="lang">JS</span>
@@ -383,7 +383,7 @@ const instance = rotator(
 
 <p>
   Ad-rotator.js permits you to display sticky Ads. These are ads that stay visible on the screen even when you scroll.
-  By default, this setting is disabled, but you can enable it by passing an empty object as per the official docs. (<code>sticky: {}</code>).
+  By default, this setting is disabled, but you can enable it by simply passing an empty object. (<code>sticky: {}</code>).
 </p>
 <p>
   You can also configure sticky advertisements in a way which ensures that your Ads are not intrusive
@@ -482,10 +482,14 @@ function getAds() {
       <code>offsetBottom</code>: <i>number | string</i> - A margin that is added at the bottom of the Ad. Defaults to <b>0</b>.
     </li>
     <li>
-      <code>noMobile</code>: <i>Boolean</i> - This option can be used when you wish for your Ad unit to be sticky only on a mobile.
+      <code>noMobile</code>: <i>Boolean</i> - This option can be used when you wish for your Ad unit to <b>not</b> be sticky on a mobile.
       Its default value is <b>false</b>, meaning that the Ad will be sticky on all devices.
     </li>
   </ol>
+</p>
+<p>
+  Another complete example showcasing sticky Ads can be found on the
+  <a href="#playground?id=sticky-example" class="submenu-link section-link internal-section-link">Playground</a>.
 </p>
 
 <hr>

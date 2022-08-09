@@ -47,19 +47,19 @@
 <hr>
 <h4><a href="#playground?id=hooks-example" id="hooks-example" title="Ad-rotator.js Hooks example" class="submenu-link section-link">3. Ad-rotation with Hooks</a></h4>
 <p>
-  There are 3 types of hooks available -
+  There are 3 hooks available -
   <ol type="I">
     <li>
-      <code>cb</code> - This hook is executed after each rotation.
+      <code>cb()</code> - This hook is executed after each rotation.
     </li>
     <li>
-      <code>onHover</code> - This hook is executed on hovering an Ad.
+      <code>onHover()</code> - This hook is executed on hovering an Ad.
     </li>
     <li>
-      <code>onClick</code>- This hook is executed on clicking an Ad.
+      <code>onClick()</code>- This hook is executed on clicking an Ad.
     </li>
   </ol>
-  Each of these have been demonstrated below...
+  These hooks can be used for analytics or tracking user behaviour or for any other purpose. Their usage is demonstrated below...
 </p>
 
 <p class="codepen" data-height="700" style="height:700px; overflow: auto;" data-default-tab="js,result" data-slug-hash="rNdKZob" data-preview="true" data-editable="true" data-user="niketpathak" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
@@ -69,26 +69,44 @@
 </p>
 <p>
   The above example also demonstrates usage of <b>sidebar Ad dimensions</b>.
-  You should see console logs when you hover an Ad and also when each Ad gets rotated.
+  If you open up your developer tools, you should see console log messages when you hover an Ad and also when each Ad gets rotated.
   If you click on any Ad, you should see an alert before being redirected to the destination URL.
 </p>
 
 <hr>
 <h4><a href="#playground?id=fallback-mode-example" id="fallback-mode-example" title="Ad-rotator.js Fallback Mode example" class="submenu-link section-link">4. Ad-rotation in Fallback Mode</a></h4>
 <p>
-
+  When <a href="#config?id=fallback-mode" title="Ad-rotator.js FallbackMode Config option" class="submenu-link section-link internal-section-link"><code>FallbackMode</code></a> is activated,
+  Ads are shown only if the library detects an Adblocker.
+  This is specially useful if you wish to display Ads from another provider like Google, Amazon, Carbon, etc. and want to use Ad-rotator.js only as a fallback solution.
 </p>
-<p>
 
+<p class="codepen" data-height="500" style="height:500px; overflow: auto;" data-theme-id="dark" data-default-tab="js,result" data-slug-hash="wvmXLPv" data-preview="true" data-editable="true" data-user="niketpathak" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/niketpathak/pen/wvmXLPv">
+  Ad-rotator.js in Fallback mode</a> by Niket Pathak (<a href="https://codepen.io/niketpathak">@niketpathak</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+
+<p>
+  If there is an active adblocker, you should see Ads displayed by the library, otherwise you will see some text content.
 </p>
 
 <hr>
-<h4><a href="#playground?id=sticky-example" id="sticky-example" title="Ad-rotator.js Sticky Ad example" class="submenu-link section-link">5. Sticky Ad</a></h4>
+<h4><a href="#playground?id=sticky-example" id="sticky-example" title="Ad-rotator.js Sticky Ad example" class="submenu-link section-link">5. Sticky Ads</a></h4>
 <p>
-
+  The <a href="#config?id=sticky" title="Ad-rotator.js Sticky Config option" class="submenu-link section-link"><code>sticky</code></a> config option is used render an
+  Ad sticky on the screen. Its working is best explained with a live example -
 </p>
-<p>
 
+<p class="codepen" data-height="700" style="height:700px; overflow: auto;" data-theme-id="dark" data-default-tab="result" data-slug-hash="zYWaVga" data-preview="true" data-editable="true" data-user="niketpathak" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/niketpathak/pen/zYWaVga">
+  Ad-rotator.js with sticky config</a> by Niket Pathak (<a href="https://codepen.io/niketpathak">@niketpathak</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+
+<p>
+  To remove stickiness, set <code>sticky: null</code>. Note that we have set <code>noMobile: true</code> which means that this
+  Ad will not be sticky on a mobile device. Checkout the <a href="#config?id=sticky" class="submenu-link section-link internal-section-link">sticky config option</a> to see how to customize further.
 </p>
 
 
