@@ -12,6 +12,7 @@ export interface StickyConfig {
   afterEl?: HTMLElement;
   offsetTop?: string;
   offsetBottom?: string;
+  position?: 'fixed' | 'sticky';
   noMobile?: boolean;
 }
 

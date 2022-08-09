@@ -56,7 +56,9 @@ const detectBlock = async () => {
 export const stickyEl = (El: HTMLElement, stickyConf: StickyConfig): null | (() => void) => {
   if (!El || !(El instanceof HTMLElement) || !stickyConf || stickyConf.constructor !== Object) return null;
 
-  const { beforeEl, afterEl, offsetTop, offsetBottom } = stickyConf;
+  const { beforeEl, afterEl, offsetTop, offsetBottom, position } = stickyConf;
+  const isStickyPos = position === 'sticky' ? 1 : 0;
+
   let startPos = 0,
     endPos = 0;
   let ticking = false;
@@ -78,11 +80,14 @@ export const stickyEl = (El: HTMLElement, stickyConf: StickyConfig): null | (() 
           !(endPos && scrollPos > endPos - El.clientHeight - (parseInt(offsetBottom as string, 10) || 0))
         ) {
           El.classList.add('stickyElx');
-          El.style.position = 'fixed';
+          El.style.position = isStickyPos ? 'sticky' : 'fixed';
           El.style.top = (parseInt(offsetTop as string, 10) || 0) + 'px';
         } else {
-          El.style.top = '0';
-          El.style.position = 'relative';
+          if (!isStickyPos) {
+            // fixed positioning
+            El.style.top = '0';
+            El.style.position = 'relative';
+          }
           El.classList.remove('stickyElx');
         }
         ticking = false;

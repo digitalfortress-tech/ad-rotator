@@ -202,6 +202,7 @@ Ad-rotator accepts the following configuration options and all of them are **Opt
 sticky: {
     beforeEl: document.querySelector('.start'),
     afterEl: document.querySelector('.end'),
+    position: 'sticky',     // or 'fixed' (defaults to 'fixed')
     offsetTop: '10',        // or '10px' (defaults to 0px)
     offsetBottom: '150px',  // or '150'  (defaults to 0px)
     noMobile: true          // disable stickiness on mobile (defaults to false)

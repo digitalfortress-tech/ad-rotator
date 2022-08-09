@@ -439,8 +439,9 @@ const instance = rotator(
     sticky: {
       beforeEl: document.querySelector('.start'),
       afterEl: document.querySelector('.end'),
+      position: 'fixed',      // default - 'fixed'
       offsetTop: '20',        // or '20px' (defaults to 0px)
-      offsetBottom: '100px',   // or '100' (defaults to 0px)
+      offsetBottom: '100px',  // or '100' (defaults to 0px)
       noMobile: true          // disable stickiness on mobile (default - false)
     },
   }
@@ -473,6 +474,11 @@ function getAds() {
       <code>afterEl</code>: <i>HTMLElement</i> - refers to the Element from where the Ad stops being sticky.
       i.e. when you scroll to/after this element, the Ad will no longer be sticky.
       By default, the Ad stays sticky permanently.
+    </li>
+    <li>
+      <code>position</code>: <i>"fixed" | "sticky"</i> - refers to the positioning to be used.
+      By default, <b>fixed</b> positioning is used. When using <b>sticky</b> positioning,
+      the <i>beforeEl</i>, <i>afterEl</i> and <i>offsetBottom</i> options have no effect.
     </li>
     <li>
       <code>offsetTop</code>: <i>number | string</i> - A margin that is added at the top of the Ad.

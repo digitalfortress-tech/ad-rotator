@@ -29,10 +29,17 @@
       .end {
         height: 1000px;
       }
+
+      /* #publicity {
+        position: sticky;
+        top: 20;
+      } */
     </style>
     <main class="start">Main Content</main>
-    <div id="publicity">Ad area</div>
-    <section class="middle">Middle content</section>
+    <div class="container">
+      <div id="publicity">Ad area</div>
+      <section class="middle">Middle content</section>
+    </div>
     <footer class="end">Footer content</footer>
 
     <script>
@@ -45,6 +52,7 @@
           sticky: {
             beforeEl: document.querySelector('.start'),
             afterEl: document.querySelector('.end'),
+            position: 'sticky',
             offsetTop: '20',        // or '20px' (defaults to 0px)
             offsetBottom: '10px',   // or '30'   (defaults to 0px)
             noMobile: true          // disable stickiness on mobile (default - false)
