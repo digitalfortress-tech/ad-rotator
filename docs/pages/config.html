@@ -398,8 +398,10 @@ const instance = rotator(
 
 &lt;!-- example markup -->
 &lt;main class="start">Main Content&lt;/main>
-&lt;div id="publicity">Ad area&lt;/div>
-&lt;section class="middle">Middle content&lt;/section>
+&lt;div>
+  &lt;div id="publicity">Ad area&lt;/div>
+  &lt;section class="middle">Middle content&lt;/section>
+&lt;/div>
 &lt;footer class="end">Footer content&lt;/footer>
 
 &lt;hr/>
@@ -412,6 +414,7 @@ Ad-rotator.js
   width: 300px;
   background-color: yellow;
   overflow: hidden;
+  margin: 20px 0;
 }
 .start, .end {    /* element before the Ad-unit */
   height: 200px;
@@ -439,7 +442,7 @@ const instance = rotator(
     sticky: {
       beforeEl: document.querySelector('.start'),
       afterEl: document.querySelector('.end'),
-      position: 'fixed',      // default - 'fixed'
+      position: 'sticky',     // default - 'fixed'
       offsetTop: '20',        // or '20px' (defaults to 0px)
       offsetBottom: '100px',  // or '100' (defaults to 0px)
       noMobile: true          // disable stickiness on mobile (default - false)
