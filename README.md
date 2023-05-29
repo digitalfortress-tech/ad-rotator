@@ -3,7 +3,7 @@
 [![Build Status](https://img.shields.io/circleci/build/github/digitalfortress-tech/ad-rotator/master)](https://app.circleci.com/pipelines/github/digitalfortress-tech/ad-rotator?branch=master)
 [![code style](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 [![CDN hits](https://data.jsdelivr.com/v1/package/npm/ad-rotator/badge?style=rounded)](https://www.jsdelivr.com/package/npm/ad-rotator)
-![Downloads](https://img.shields.io/npm/dt/ad-rotator)
+[![Downloads](https://img.shields.io/npm/dt/ad-rotator)](https://npm-stat.com/charts.html?package=ad-rotator)
 ![maintained](https://img.shields.io/badge/maintained-yes-blueviolet)
 [![License](https://img.shields.io/badge/license-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-blue.svg?logo=paypal)](https://www.paypal.com/donate/?hosted_button_id=PZ5ULVZBZX55A)
