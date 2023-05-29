@@ -1,6 +1,6 @@
 # Ad-rotator
 [![npm version](https://img.shields.io/npm/v/ad-rotator.svg)](https://www.npmjs.com/package/ad-rotator)
-[![Build Status](https://travis-ci.org/niketpathak/adRotator.svg?branch=master)](https://travis-ci.org/niketpathak/adRotator)
+[![Build Status](https://img.shields.io/circleci/build/github/digitalfortress-tech/ad-rotator/master)](https://app.circleci.com/pipelines/github/digitalfortress-tech/ad-rotator?branch=master)
 [![code style](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 [![CDN hits](https://data.jsdelivr.com/v1/package/npm/ad-rotator/badge?style=rounded)](https://www.jsdelivr.com/package/npm/ad-rotator)
 ![Downloads](https://img.shields.io/npm/dt/ad-rotator)
