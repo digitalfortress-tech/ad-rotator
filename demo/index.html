@@ -254,8 +254,13 @@
         }
     </style>
     <link rel="stylesheet" href="../dist/style.css" />
-    <script src="../dist/ad-rotator.js"></script>
+    <script src="../dist/rotator.umd.js"></script>
+    <script type="module">
+        import { rotator as test1 } from "../dist/rotator.es.js";
+        console.log('Available here locally and not on global object :>> ', test1);
+    </script>
     <script type="text/javascript">
+        console.log('rotator', rotator);
         var units = [
             {
                 url: 'https://niketpathak.com#1',
