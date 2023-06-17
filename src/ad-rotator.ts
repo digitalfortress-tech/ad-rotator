@@ -200,7 +200,7 @@ const rotateImage = async (
   };
 };
 
-export const rotator = (El: HTMLElement, units: AdUnit[] = [], options: AdConfig = {}): AdRotatorInstance => {
+export const init = (El: HTMLElement, units: AdUnit[] = [], options: AdConfig = {}): AdRotatorInstance => {
   let hasErr = false;
   const conf = { ...getDefaultConfig, ...options };
   if (

@@ -256,7 +256,7 @@
     <link rel="stylesheet" href="../dist/style.css" />
     <script src="../dist/rotator.umd.js"></script>
     <script type="module">
-        import { rotator as test1 } from "../dist/rotator.es.js";
+        import { init as test1 } from "../dist/rotator.es.js";
         console.log('Available here locally and not on global object :>> ', test1);
     </script>
     <script type="text/javascript">
@@ -329,7 +329,7 @@
             },
 
         ];
-        var instance1 = rotator(document.getElementById("sidebar-placement-1"), units, {
+        var instance1 = rotator.init(document.getElementById("sidebar-placement-1"), units, {
             timer: '3',
             random: false,
             cb: function (current) {
@@ -342,7 +342,7 @@
         instance1.start();
         // console.debug('***instance1', instance1);
 
-        var instance2 = rotator(document.getElementById("hz-placement-1"), units2, {
+        var instance2 = rotator.init(document.getElementById("hz-placement-1"), units2, {
             target: "desktop",
             timer: 3,
             random: false,
@@ -350,7 +350,7 @@
         instance2.start();
         // console.debug('***instance2', instance2);
 
-        var instance3 = rotator(document.getElementById("sq-placement-1"), units3, {
+        var instance3 = rotator.init(document.getElementById("sq-placement-1"), units3, {
             timer: 3.5,
             sticky: {
                 beforeEl: document.querySelector('.default-shape-square'),
@@ -361,7 +361,7 @@
         instance3.start();
         // console.debug('***instance3', instance3);
 
-        var instance4 = rotator(document.getElementById("mobile-placement-4"), units3, {
+        var instance4 = rotator.init(document.getElementById("mobile-placement-4"), units3, {
             target: 'mobile',
             timer: 3,
             sticky: {
@@ -371,7 +371,7 @@
         instance4.start();
         // console.debug('***instance4', instance4);
 
-        var instance5 = rotator(document.getElementById("fallbackMode-placement"), units, {
+        var instance5 = rotator.init(document.getElementById("fallbackMode-placement"), units, {
             fallbackMode: true,
         });
         instance5.start();

@@ -1,7 +1,7 @@
 <html>
   <head>
     <link rel="stylesheet" href="../dist/style.css" />
-    <script src="../dist/ad-rotator.js"></script>
+    <script src="../dist/rotator.umd.js"></script>
   </head>
   <body>
     <style>
@@ -44,7 +44,7 @@
 
     <script>
       // initialize ad-rotator
-      const instance = rotator(
+        const instance = rotator.init(
         document.getElementById('publicity'),
         getAds(),
         {
