@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { rotator } from './ad-rotator';
+import { init } from './ad-rotator';
 
 describe('Ad-rotator', () => {
   const mockIntersectionObserver = class {
@@ -24,7 +24,7 @@ describe('Ad-rotator', () => {
   });
 
   it('should display an advert with default options', async () => {
-    const instance = rotator(AdContainer, items);
+    const instance = init(AdContainer, items);
     instance.start();
     await new Promise((res) => setTimeout(res, 1000));
     const link = document.querySelector('a');
@@ -35,7 +35,7 @@ describe('Ad-rotator', () => {
 
   it('should display an advert with custom options', async () => {
     const mockOnClick = jest.fn();
-    const instance = rotator(AdContainer, items, {
+    const instance = init(AdContainer, items, {
       imgClass: 'test-image',
       linkClass: 'test-link',
       random: false,

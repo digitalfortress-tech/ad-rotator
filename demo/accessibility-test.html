@@ -3,7 +3,7 @@
     <title>Accessibility test - ad-rotator.js</title>
     <!-- LOCAL TESTING -->
     <link rel="stylesheet" href="../dist/style.css" />
-    <script src="../dist/ad-rotator.js"></script>
+    <script src="../dist/rotator.umd.js"></script>
     <style>
 
       </style>
@@ -18,7 +18,7 @@
 
     <script>
       /* Initialise ad-rotator.js */
-      const instance = rotator(
+      const instance = rotator.init(
       document.querySelector(".publicityContainer"),
       getAds(),
     );
