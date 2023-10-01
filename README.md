@@ -44,11 +44,11 @@ Then include the library in your App/Page.
 **As a module,**
 ```javascript
 // using ES6 modules
-import rotator from 'ad-rotator';   // imports library
+import { init, stickyEl } from 'rotator';   // imports library
 import 'ad-rotator/dist/style.css'; // imports base style (optional)
 
 // using CommonJS modules
-const rotator = require('ad-rotator');
+const rotator = require('rotator');
 require('ad-rotator/dist/style.css');
 ```
 

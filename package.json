@@ -34,7 +34,7 @@
   },
   "main": "./dist/rotator.umd.js",
   "module": "./dist/rotator.es.js",
-  "types": "./dist/rotator.d.ts",
+  "types": "./dist/types.d.ts",
   "exports": {
     ".": {
       "import": "./dist/rotator.es.js",

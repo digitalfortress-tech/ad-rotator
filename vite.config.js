@@ -16,6 +16,6 @@ module.exports = defineConfig({
     },
   },
   server: {
-    open: '/demo/index.html',
+    open: '/demo/index.umd.html',
   },
 });

@@ -47,3 +47,5 @@ export interface AdRotatorInstance {
   add: (item: AdUnit) => void;
   remove: (item: AdUnit) => void;
 }
+
+declare module 'ad-rotator';
