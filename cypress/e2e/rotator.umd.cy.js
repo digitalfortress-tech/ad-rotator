@@ -5,7 +5,7 @@ describe('AdRotator', () => {
   });
 
   it('should rotate Ad sequentially without weights', () => {
-    cy.visit('/demo/index.html');
+    cy.visit('/demo/index.umd.html');
     cy.get('#hz-placement-1').as('leaderboardAd').find('a').should('have.attr', 'href', 'https://gospelmusic.io#5');
     cy.get('@leaderboardAd')
       .find('img')
@@ -18,7 +18,7 @@ describe('AdRotator', () => {
   });
 
   it('should rotate Ad sequentially with weights', () => {
-    cy.visit('/demo/index.html');
+    cy.visit('/demo/index.umd.html');
     cy.get('#sidebar-placement-1')
       .as('sidebarAd')
       .find('a')
@@ -42,7 +42,7 @@ describe('AdRotator', () => {
   });
 
   it('should pause rotation on hover', () => {
-    cy.visit('/demo/index.html');
+    cy.visit('/demo/index.umd.html');
     cy.get('#sidebar-placement-1')
       .as('sidebarAd')
       .find('a')
@@ -55,7 +55,7 @@ describe('AdRotator', () => {
 
   it('should be visible only on desktop', () => {
     // bug in cypress doesn't retrieve the correct "window.screen.availWidth" even after setting the viewport
-    cy.visit('/demo/index.html');
+    cy.visit('/demo/index.umd.html');
     cy.get('#hz-placement-1').as('leaderboardAd').find('a').should('have.attr', 'href', 'https://gospelmusic.io#5');
     cy.get('@leaderboardAd')
       .find('img')
@@ -67,12 +67,12 @@ describe('AdRotator', () => {
 
   it('should be visible only on mobile', () => {
     cy.viewport(400, 400);
-    cy.visit('/demo/index.html');
+    cy.visit('/demo/index.umd.html');
     cy.get('#mobile-placement-4').find('a').should('not.exist');
   });
 
   it('should be sticky', () => {
-    cy.visit('/demo/index.html');
+    cy.visit('/demo/index.umd.html');
     cy.get('.scrollTarget').scrollIntoView();
     cy.get('#sq-placement-1').as('stickyAd').should('have.attr', 'class', 'stickyElx');
     cy.get('@stickyAd').should('have.css', 'position', 'fixed');
@@ -83,7 +83,7 @@ describe('AdRotator', () => {
   });
 
   it('should be disabled in fallback mode', () => {
-    cy.visit('/demo/index.html');
+    cy.visit('/demo/index.umd.html');
     cy.wait(1000);
     cy.get('#fallbackMode-placement').should('be.empty');
   });
