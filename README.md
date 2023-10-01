@@ -36,8 +36,9 @@ Here is a **[Live Demo](https://rotator.digitalfortress.tech/)** of Ad-rotation 
 # you can install ad-rotator with npm
 $ npm install --save ad-rotator
 
-# Alternatively you can use Yarn
+# Alternatively you can use Yarn or PNPM
 $ yarn add ad-rotator
+$ pnpm add ad-rotator
 ```
 Then include the library in your App/Page.
 

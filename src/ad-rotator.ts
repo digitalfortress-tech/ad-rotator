@@ -307,11 +307,14 @@ export const init = (El: HTMLElement, units: AdUnit[] = [], options: AdConfig = 
       // rotate only if multiple units are present
       if (units.length > 1) {
         const rotationTime = (conf.timer as number) >= 2 ? conf.timer : interval;
-        inter = window.setInterval(async function () {
-          ret = await rotateImage(El, units, conf, unitsClone, prevItem as AdUnit);
-          unitsClone = ret.unitsClone;
-          prevItem = ret.prevItem as AdUnit;
-        }, (rotationTime as number) * 1e3 - 900);
+        inter = window.setInterval(
+          async function () {
+            ret = await rotateImage(El, units, conf, unitsClone, prevItem as AdUnit);
+            unitsClone = ret.unitsClone;
+            prevItem = ret.prevItem as AdUnit;
+          },
+          (rotationTime as number) * 1e3 - 900
+        );
       }
     },
     destroy() {

@@ -4,11 +4,10 @@ import { defineConfig } from 'vite';
 
 const __dirname = dirname(__filename);
 
-module.exports = defineConfig({
+export default defineConfig({
   build: {
     target: 'es2020', // default is 'modules' which is a vite special value
     sourcemap: 'hidden',
-    // minify: false,
     lib: {
       entry: resolve(__dirname, 'src/ad-rotator.ts'),
       name: 'rotator',
