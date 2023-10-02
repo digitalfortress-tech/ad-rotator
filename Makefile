@@ -23,7 +23,8 @@ test-e2e:		## Run e2e tests (Cypress CLI)
 test-e2e-gui:		## Run e2e tests (Cypress GUI)
 	@pnpm run test-e2e-gui
 
-prod:		## Build for Production environment
+prod:		## Build for Production environmen
+	@make lint
 	@pnpm prod
 	@pnpm run copy-typescript-definitions
 

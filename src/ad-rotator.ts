@@ -215,6 +215,7 @@ export const init = (El: HTMLElement, units: AdUnit[] = [], options: AdConfig = 
     isNaN(conf.timer as number)
   ) {
     hasErr = true;
+    // eslint-disable-next-line no-console
     console.error('Missing/malformed params - El, Units, Config', El, units, conf);
   }
 

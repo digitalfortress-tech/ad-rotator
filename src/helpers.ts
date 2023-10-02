@@ -3,6 +3,7 @@
  * @param args
  * @returns
  */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const NOOP = (...args: unknown[]): unknown => undefined;
 
 /**
