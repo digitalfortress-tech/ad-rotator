@@ -41,7 +41,7 @@
 
 &#60;body&#62;
   &#60;!-- Include Locally --&#62;
-  &#60;script src="./node_modules/ad-rotator/dist/ad-rotator.js"&#62;&#60;/script&#62;
+  &#60;script src="./node_modules/ad-rotator/dist/rotator.umd.js"&#62;&#60;/script&#62;
   &#60;!-- OR include via CDN --&#62;
   &#60;script src="https://cdn.jsdelivr.net/npm/ad-rotator"&#62;&#60;/script&#62;
 &#60;/body&#62;</pre>
@@ -53,7 +53,7 @@
         <span class="copy" title="Copy to Clipboard"><i class="far fa-copy"></i></span>
         <pre class="hljs language-javascript">
 // using ES6 modules
-import rotator from 'ad-rotator';
+import { init, stickyEl } from 'ad-rotator'; // imports library
 import 'ad-rotator/dist/style.css';
 
 // using RequireJS

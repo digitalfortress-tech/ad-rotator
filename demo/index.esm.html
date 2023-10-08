@@ -65,10 +65,7 @@
                 <div>
                     <h3>Shape - Leaderboard</h3>
                 </div>
-                <div id="hz-placement-1">
-
-
-                </div>
+                <div id="hz-placement-1"></div>
                 <p>
                     Section 1.10.32 of "de Finibus Bonorum et Malorum", written by Cicero in 45 BC
                     "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
@@ -497,7 +494,7 @@
     </script>
     <script type="module">
         import { init } from "../dist/rotator.es.js";
-        console.log('Available here locally and not on global object :>> ', init);
+        // console.log('Available here locally and not on global object :>> ', init);
         // ES6 modules are loaded asynchronously
         var instance1 = init(document.getElementById("sidebar-placement-1"), units, {
             timer: '3',
@@ -517,7 +514,10 @@
             timer: 3,
             random: false,
         });
-        instance2.start();
+        setTimeout(() => {
+            instance2.start();
+        }, 500)
+
         // console.debug('***instance2', instance2);
 
         var instance3 = init(document.getElementById("sq-placement-1"), units3, {

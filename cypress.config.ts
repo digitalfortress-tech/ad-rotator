@@ -1,12 +1,15 @@
-import { defineConfig } from 'cypress'
+import { defineConfig } from 'cypress';
 
 export default defineConfig({
-  video: false,
+  video: true,
   e2e: {
-    // We've imported your old cypress plugins here.
-    // You may want to clean this up later by importing these.
-    setupNodeEvents(on, config) {
-      return require('./cypress/plugins/index.js')(on, config)
+    setupNodeEvents(on) {
+      on('task', {
+        log(message) {
+          console.log('task log >> ', message);
+          return null;
+        },
+      });
     },
   },
-})
+});
