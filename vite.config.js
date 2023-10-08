@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { resolve, dirname } from 'path';
 import { defineConfig } from 'vite';
+// import dts from 'vite-plugin-dts';
 
 const __dirname = dirname(__filename);
 
@@ -17,4 +18,6 @@ export default defineConfig({
   server: {
     open: '/demo/index.umd.html',
   },
+  // This emits a types.d.ts within the dist/ folder
+  // plugins: [dts({ rollupTypes: true })],
 });

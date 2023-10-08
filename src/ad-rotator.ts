@@ -7,7 +7,7 @@ const mobile = 'mobile';
 const desktop = 'desktop';
 
 // Detected device ( 992 => min width to consider as desktop)
-const device = window.screen.availWidth >= 992 ? desktop : mobile;
+const device = window?.screen.availWidth >= 992 ? desktop : mobile;
 // default Rotation Time
 const interval = 5; // 5 seconds
 

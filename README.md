@@ -45,18 +45,18 @@ Then include the library in your App/Page.
 **As a module,**
 ```javascript
 // using ES6 modules
-import { init, stickyEl } from 'rotator';   // imports library
+import { init, stickyEl } from 'ad-rotator';   // imports library
 import 'ad-rotator/dist/style.css'; // imports base style (optional)
 
 // using CommonJS modules
-const rotator = require('rotator');
+const rotator = require('ad-rotator');
 require('ad-rotator/dist/style.css');
 ```
 
 **In the browser context,**
 ```html
 <!-- Include the library -->
-<script src="./node_modules/ad-rotator/dist/ad-rotator.js"></script>
+<script src="./node_modules/ad-rotator/dist/rotator.umd.js"></script>
 <!-- Optionally include the base style -->
 <link rel="stylesheet" href="./node_modules/ad-rotator/dist/style.css" />
 

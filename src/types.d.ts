@@ -1,3 +1,8 @@
+declare module 'ad-rotator';
+
+export declare const init: (El: HTMLElement, units?: AdUnit[], options?: AdConfig) => AdRotatorInstance;
+export declare const stickyEl: (El: HTMLElement, stickyConf: StickyConfig) => null | (() => void);
+
 export type Dictionary<T = unknown> = Record<string, T>;
 
 export interface AdUnit extends Dictionary<unknown> {
@@ -48,4 +53,4 @@ export interface AdRotatorInstance {
   remove: (item: AdUnit) => void;
 }
 
-declare module 'ad-rotator';
+export {};
