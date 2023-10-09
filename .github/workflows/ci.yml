@@ -1,0 +1,71 @@
+name: CI
+
+on:
+  push:
+    branches: ["master", "develop"]
+  pull_request:
+    branches: ["master", "develop"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
+    steps:
+    - uses: pnpm/action-setup@v2
+      with:
+        version: 8
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'pnpm'
+    - name: Install dependencies
+      run: make install
+    - name: Build for Production
+      run: make prod
+    - uses: actions/cache@v3
+      with:
+        path: node_modules
+        key: nmodules
+  test-unit:
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
+    steps:
+    - uses: pnpm/action-setup@v2
+      with:
+        version: 8
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'pnpm'
+    - uses: actions/cache@v3
+      with:
+        path: node_modules
+        key: nmodules
+    - name: Run unit Test
+      run: make test-unit
+  test-e2e:
+    needs: build
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - name: Checkout
+        uses: actions/checkout@v4
+      # Install NPM dependencies, cache them correctly
+      # and run all Cypress tests
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
+        with:
+          build: make prod
+          start: make test-e2e
+          browser: chrome
