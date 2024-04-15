@@ -136,8 +136,8 @@ let items = [
 ```
 Then Initialize **adRotator** by passing the `DOM Element` and the `Array` of advertisements as parameters
 ```javascript
-// initialize adRotator
-const instance = rotator(
+// initialize ad rotator
+const instance = rotator.init(  // For ESM, you can use "init(...)" directly
   document.getElementById('containerElement'),
   items
 );
