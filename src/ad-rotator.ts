@@ -1,5 +1,5 @@
 import type { AdConfig, StickyConfig, AdUnit, EventManager, AdRotatorInstance } from './types';
-import { NOOP } from './helpers';
+import { NOOP, delay } from './helpers';
 import './style.less';
 
 // init constants
@@ -181,20 +181,8 @@ const rotateImage = async (
     img.setAttribute('alt', ''); // decorative image: empty alt for accessibility
   }
 
-  // preload image: resolve on load, error, or 900ms timeout
-  await new Promise<void>((resolve) => {
-    if (img.complete) return resolve();
-    let settled = false;
-    const done = () => {
-      if (!settled) {
-        settled = true;
-        resolve();
-      }
-    };
-    img.onload = done;
-    img.onerror = done;
-    setTimeout(done, 900);
-  });
+  // allow time to preload images
+  await delay(900);
 
   // attach an image to the link
   link.appendChild(img);
