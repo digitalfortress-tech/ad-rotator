@@ -1,5 +1,5 @@
 import type { AdConfig, StickyConfig, AdUnit, EventManager, AdRotatorInstance } from './types';
-import { NOOP, delay } from './helpers';
+import { NOOP } from './helpers';
 import './style.less';
 
 // init constants
@@ -24,6 +24,14 @@ const getDefaultConfig = {
   fallbackMode: false,
 } as AdConfig;
 
+/** Sanitize URLs to prevent XSS via dangerous protocols */
+const sanitizeUrl = (url: string): string => {
+  if (!url) return '';
+  const trimmed = url.trim();
+  if (/^(?:javascript|vbscript):/i.test(trimmed)) return '';
+  return trimmed;
+};
+
 const detectBlock = async () => {
   if (hasBlk !== undefined) {
     return hasBlk;
@@ -36,7 +44,10 @@ const detectBlock = async () => {
   );
 
   document.body.appendChild(testDiv);
-  if (getComputedStyle(testDiv)['display'] == 'none') {
+  const isHidden = getComputedStyle(testDiv).display === 'none';
+  testDiv.remove();
+
+  if (isHidden) {
     return (hasBlk = true);
   }
 
@@ -96,7 +107,7 @@ export const stickyEl = (El: HTMLElement, stickyConf: StickyConfig): null | (() 
     }
   };
 
-  window.addEventListener('scroll', eventHandler);
+  window.addEventListener('scroll', eventHandler, { passive: true });
   return eventHandler;
 };
 
@@ -106,28 +117,16 @@ export const stickyEl = (El: HTMLElement, stickyConf: StickyConfig): null | (() 
  * @returns
  */
 const randomNum = (units: AdUnit[]): number => {
-  const totalWeight = units.reduce((acc, item) => acc + (item.weight || 1), 0);
-
-  // generate an array that has a percentage of each item
-  let runningTotal = 0;
-  const cumulativeWeight = units.map((val) => {
-    const relativeWeight = (val.weight || 1) / totalWeight;
-    const cw = relativeWeight + runningTotal;
-    runningTotal += relativeWeight;
-    return cw;
-  });
-
-  // generate random number and compare it to the closest array value
-  const r = Math.random();
-  let closestIndex = 0;
-  for (let i = 0, len = cumulativeWeight.length; i < len; i++) {
-    if (r <= cumulativeWeight[i]) {
-      closestIndex = i;
-      break;
-    }
+  let totalWeight = 0;
+  for (let i = 0, len = units.length; i < len; i++) {
+    totalWeight += units[i].weight || 1;
   }
-
-  return closestIndex;
+  let r = Math.random() * totalWeight;
+  for (let i = 0, len = units.length; i < len; i++) {
+    r -= units[i].weight || 1;
+    if (r <= 0) return i;
+  }
+  return units.length - 1;
 };
 
 const rotateImage = async (
@@ -149,17 +148,17 @@ const rotateImage = async (
     if (unitsClone.length !== 1) {
       unitsClone.splice(index, 1); // remove item from arr
     } else {
-      unitsClone = JSON.parse(JSON.stringify(units));
+      unitsClone = [...units];
     }
   } else {
     // sequential
     unit = unitsClone.shift();
-    if (!unitsClone.length) unitsClone = JSON.parse(JSON.stringify(units)); // reset clone when array length is reached
+    if (!unitsClone.length) unitsClone = [...units]; // reset clone when array length is reached
   }
 
   // create link
   const link = document.createElement('a');
-  link.href = (unit as AdUnit).url || '';
+  link.href = sanitizeUrl((unit as AdUnit).url);
   link.setAttribute('rel', 'noopener nofollow noreferrer');
   conf.linkClass && link.classList.add(conf.linkClass);
   conf.newTab && link.setAttribute('target', '_blank');
@@ -178,14 +177,29 @@ const rotateImage = async (
     link.setAttribute('title', `${(unit as AdUnit).title}`);
     link.setAttribute('aria-label', `${(unit as AdUnit).title}`);
     img.setAttribute('alt', `${(unit as AdUnit).title}`);
+  } else {
+    img.setAttribute('alt', ''); // decorative image: empty alt for accessibility
   }
 
-  // allow time to preload images
-  await delay(900);
+  // preload image: resolve on load, error, or 900ms timeout
+  await new Promise<void>((resolve) => {
+    if (img.complete) return resolve();
+    let settled = false;
+    const done = () => {
+      if (!settled) {
+        settled = true;
+        resolve();
+      }
+    };
+    img.onload = done;
+    img.onerror = done;
+    setTimeout(done, 900);
+  });
+
   // attach an image to the link
   link.appendChild(img);
   // clean Src element and remove all listeners
-  El.innerHTML = '';
+  while (El.firstChild) El.firstChild.remove();
   // add the link to the El
   El.appendChild(link);
 
@@ -226,7 +240,7 @@ export const init = (El: HTMLElement, units: AdUnit[] = [], options: AdConfig = 
   // sort by weight (naturally, highest weight first)
   units.sort((a, b) => +(b.weight || 1) - +(a.weight || 1));
 
-  let unitsClone = JSON.parse(JSON.stringify(units)); // clone units
+  let unitsClone = [...units]; // clone units
 
   // Manage events
   const eventManager: EventManager = {
@@ -261,11 +275,11 @@ export const init = (El: HTMLElement, units: AdUnit[] = [], options: AdConfig = 
       (El.parentNode as HTMLElement).replaceChild(clone, El);
       El = clone as HTMLElement;
       // remove stickiness
-      if (!conf.sticky) {
+      if (conf.sticky && this.scrollEvRef) {
         window.removeEventListener('scroll', this.scrollEvRef as (this: Window, event: Event) => void);
         this.scrollEvRef = null;
         El.classList.remove('stickyElx');
-        El.style.position === 'fixed' && (El.style.position = 'relative');
+        if (El.style.position === 'fixed') El.style.position = 'relative';
       }
     },
     obsCb(entries) {
@@ -283,8 +297,9 @@ export const init = (El: HTMLElement, units: AdUnit[] = [], options: AdConfig = 
   const out: AdRotatorInstance = {
     conf,
     pause() {
-      if (inter) {
+      if (inter !== undefined) {
         clearInterval(inter);
+        inter = undefined;
       }
     },
     async start() {
