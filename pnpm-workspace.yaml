@@ -1,0 +1,5 @@
+ignoredBuiltDependencies:
+  - cypress
+  - esbuild
+  - less
+  - unrs-resolver

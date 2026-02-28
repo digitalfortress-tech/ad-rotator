@@ -57,7 +57,7 @@ const detectBlock = async () => {
       method: 'HEAD',
       mode: 'no-cors',
     });
-  } catch (e) {
+  } catch (_e) {
     return (hasBlk = true);
   }
 
@@ -160,8 +160,8 @@ const rotateImage = async (
   const link = document.createElement('a');
   link.href = sanitizeUrl((unit as AdUnit).url);
   link.setAttribute('rel', 'noopener nofollow noreferrer');
-  conf.linkClass && link.classList.add(conf.linkClass);
-  conf.newTab && link.setAttribute('target', '_blank');
+  if (conf.linkClass) link.classList.add(conf.linkClass);
+  if (conf.newTab) link.setAttribute('target', '_blank');
   // add onclick handler
   link.addEventListener('click', (e) => {
     (conf.onClick || NOOP)(e, unit as AdUnit);
@@ -170,7 +170,7 @@ const rotateImage = async (
   const img = document.createElement('img');
   img.src = (unit as AdUnit).img;
   img.classList.add('fadeIn');
-  conf.imgClass && img.classList.add(conf.imgClass);
+  if (conf.imgClass) img.classList.add(conf.imgClass);
 
   if ((unit as AdUnit).title) {
     // improve accessibility, SEO

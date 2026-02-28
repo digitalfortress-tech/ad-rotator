@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
 import { init, stickyEl } from './ad-rotator';
 import { NOOP, delay } from './helpers';
 
