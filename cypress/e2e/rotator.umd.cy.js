@@ -83,4 +83,21 @@ describe('AdRotator', () => {
     cy.wait(1000);
     cy.get('#fallbackMode-placement').should('be.empty');
   });
+
+  it('should set rel attribute on ad links', () => {
+    cy.get('#sidebar-placement-1').find('a').should('have.attr', 'rel', 'noopener nofollow noreferrer');
+  });
+
+  it('should have alt attribute on images', () => {
+    cy.get('#sidebar-placement-1').find('img').should('have.attr', 'alt');
+  });
+
+  it('should have title and aria-label on links with titled ads', () => {
+    cy.get('#sidebar-placement-1').find('a').should('have.attr', 'title');
+    cy.get('#sidebar-placement-1').find('a').should('have.attr', 'aria-label');
+  });
+
+  it('should have fadeIn class on images', () => {
+    cy.get('#sidebar-placement-1').find('img').should('have.class', 'fadeIn');
+  });
 });
