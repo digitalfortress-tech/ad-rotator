@@ -34,7 +34,16 @@ make lint           # eslint --fix ./src
 make test-unit      # jest src --verbose
 make test-e2e       # cypress run (headless, chrome)
 make prod           # lint + production build + copy .d.ts
+make deploy-docs    # rsync docs/ -> static server (mirror, --delete)
 ```
+
+### Deploy docs
+
+`make deploy-docs` mirrors the local `docs/` directory to the static server with
+`rsync -avz --delete` (source `docs/`, target `nikslab:/srv/static/ad-rotator-docs/`).
+Override paths inline, e.g. `make deploy-docs DOCS_REMOTE=host:/path/`. The
+`--delete` flag makes the remote an exact mirror — files removed locally are also
+removed remotely, and changed files overwrite the older copies.
 
 ## Conventions
 
