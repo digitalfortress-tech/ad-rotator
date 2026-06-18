@@ -6,8 +6,11 @@ import './style.less';
 const mobile = 'mobile';
 const desktop = 'desktop';
 
-// Detected device ( 992 => min width to consider as desktop)
-const device = window?.screen.availWidth >= 992 ? desktop : mobile;
+// Detect device lazily ( 992 => min width to consider as desktop ).
+// Computed on demand (inside init) so importing the module never touches
+// `window`/`screen` — keeps it SSR-safe and re-evaluated per init.
+const getDevice = (): typeof mobile | typeof desktop =>
+  typeof window !== 'undefined' && window.screen && window.screen.availWidth >= 992 ? desktop : mobile;
 // default Rotation Time
 const interval = 5; // 5 seconds
 
@@ -25,14 +28,63 @@ const DEFAULT_CONFIG = Object.freeze({
   fallbackMode: false,
 }) as AdConfig;
 
-/** Sanitize URLs to prevent XSS via dangerous protocols */
-const sanitizeUrl = (url: string): string => {
-  if (!url) return '';
-  const trimmed = url.trim();
-  if (/^(?:javascript|vbscript):/i.test(trimmed)) return '';
-  return trimmed;
+// strip control chars (browsers ignore them when parsing schemes, so
+// `java\nscript:` would otherwise sneak past a scheme check)
+const stripCtrl = (url: string): string => url.trim().replace(/[\u0000-\u001F\u007F-\u009F]/g, '');
+
+// extract a lower-cased URL scheme, or null for scheme-less URLs
+// (relative paths, `//host`, `#hash`, `?query`)
+const schemeOf = (url: string): string | null => {
+  const m = /^([a-z][a-z0-9+.-]*):/i.exec(url);
+  return m ? m[1].toLowerCase() : null;
 };
 
+/**
+ * Sanitize a link href via a scheme allow-list (safer than a deny-list).
+ * Permits http(s), mailto, tel and any scheme-less URL; rejects everything
+ * else (javascript:, vbscript:, data:, file:, ...).
+ */
+const sanitizeUrl = (url: string): string => {
+  if (!url) return '';
+  const cleaned = stripCtrl(url);
+  const scheme = schemeOf(cleaned);
+  if (!scheme) return cleaned; // relative / protocol-relative / hash / query
+  return ['http', 'https', 'mailto', 'tel'].includes(scheme) ? cleaned : '';
+};
+
+/**
+ * Sanitize an image src: allow http(s), scheme-less URLs, and `data:image/*`
+ * data URIs only (blocks data:text/html and other exotic schemes).
+ */
+const sanitizeImg = (url: string): string => {
+  if (!url) return '';
+  const cleaned = stripCtrl(url);
+  const scheme = schemeOf(cleaned);
+  if (!scheme) return cleaned;
+  if (scheme === 'http' || scheme === 'https') return cleaned;
+  if (scheme === 'data') return /^data:image\//i.test(cleaned) ? cleaned : '';
+  return '';
+};
+
+/** Safely add a space-separated class string (classList.add throws on empty/spaces) */
+const addClasses = (el: HTMLElement, classStr?: string): void => {
+  if (!classStr) return;
+  for (const c of String(classStr).split(/\s+/)) {
+    if (c) el.classList.add(c);
+  }
+};
+
+/**
+ * Detect an ad-blocker (used only when `fallbackMode` is enabled).
+ *
+ * Two signals, base64-encoded so blockers can't match the literals:
+ *  1. A "bait" element with ad-like class names — blockers hide it (display:none).
+ *  2. A `no-cors` HEAD request to Google's adsbygoogle script — blockers reject it.
+ *
+ * Privacy/CSP note: signal (2) issues a network request to
+ * `pagead2.googlesyndication.com`. Integrators using a strict CSP or with
+ * privacy disclosures should account for it (see README, fallbackMode).
+ */
 const detectBlock = (): Promise<boolean> => {
   if (hasBlk !== undefined) return Promise.resolve(hasBlk);
   // memoize the in-flight probe so concurrent start() calls share one run
@@ -165,7 +217,7 @@ const rotateImage = async (
   const link = document.createElement('a');
   link.href = sanitizeUrl((unit as AdUnit).url);
   link.setAttribute('rel', 'noopener nofollow noreferrer');
-  if (conf.linkClass) link.classList.add(conf.linkClass);
+  addClasses(link, conf.linkClass);
   if (conf.newTab) link.setAttribute('target', '_blank');
   // add onclick handler
   link.addEventListener('click', (e) => {
@@ -173,9 +225,9 @@ const rotateImage = async (
   });
   // create image
   const img = document.createElement('img');
-  img.src = (unit as AdUnit).img;
+  img.src = sanitizeImg((unit as AdUnit).img);
   img.classList.add('fadeIn');
-  if (conf.imgClass) img.classList.add(conf.imgClass);
+  addClasses(img, conf.imgClass);
 
   if ((unit as AdUnit).title) {
     // improve accessibility, SEO
@@ -207,6 +259,8 @@ const rotateImage = async (
 
 export const init = (El: HTMLElement, units: AdUnit[] = [], options: AdConfig = {}): AdRotatorInstance => {
   const conf = { ...DEFAULT_CONFIG, ...options };
+  // resolve the device once per init (DOM is available here; SSR-safe)
+  const device = getDevice();
   if (
     !El ||
     !(El instanceof HTMLElement) ||

@@ -185,6 +185,66 @@ describe('Ad-rotator', () => {
     expect(link.getAttribute('href')).toEqual('https://xyz.com#1');
   });
 
+  it('should sanitize file: protocol URLs', async () => {
+    const xssItems = [
+      { img: './safe.jpg', url: 'file:///etc/passwd' },
+      { img: './safe2.jpg', url: 'https://safe.com' },
+    ];
+    const instance = init(AdContainer, xssItems, { random: false });
+    instance.start();
+    await wait(1000);
+    expect(document.querySelector('a').getAttribute('href')).toEqual('');
+  });
+
+  it('should reject data:text/html hrefs but allow scheme-less and mailto', async () => {
+    const htmlData = [
+      { img: './safe.jpg', url: 'data:text/html,<script>alert(1)</script>' },
+      { img: './safe2.jpg', url: 'https://safe.com' },
+    ];
+    let instance = init(AdContainer, htmlData, { random: false });
+    instance.start();
+    await wait(1000);
+    expect(document.querySelector('a').getAttribute('href')).toEqual('');
+
+    document.body.innerHTML = '<div id="containerElement"></div>';
+    AdContainer = document.getElementById('containerElement');
+    const relItems = [
+      { img: './safe.jpg', url: '/relative/path' },
+      { img: './safe2.jpg', url: 'https://safe.com' },
+    ];
+    instance = init(AdContainer, relItems, { random: false });
+    instance.start();
+    await wait(1000);
+    expect(document.querySelector('a').getAttribute('href')).toContain('/relative/path');
+  });
+
+  it('should block data:text/html image src but allow data:image', async () => {
+    const items = [
+      { img: 'data:text/html,<script>alert(1)</script>', url: 'https://x.com#1' },
+      { img: './b.jpg', url: 'https://x.com#2' },
+    ];
+    const instance = init(AdContainer, items, { random: false });
+    instance.start();
+    await wait(1000);
+    expect(document.querySelector('img').getAttribute('src')).toEqual('');
+  });
+
+  it('should not crash when linkClass/imgClass contain multiple tokens', async () => {
+    const instance = init(AdContainer, items, {
+      random: false,
+      linkClass: 'a b  c',
+      imgClass: 'x y',
+    });
+    instance.start();
+    await wait(1000);
+    const link = document.querySelector('a');
+    const img = document.querySelector('img');
+    expect(link.classList.contains('a')).toBe(true);
+    expect(link.classList.contains('c')).toBe(true);
+    expect(img.classList.contains('x')).toBe(true);
+    expect(img.classList.contains('fadeIn')).toBe(true);
+  });
+
   // ─── Weight / sorting ──────────────────────────────────────────────
 
   it('should sort units by weight in sequential mode (highest first)', async () => {

@@ -30,22 +30,22 @@ unless explicitly called out under "API considerations".
 
 ## 1. Security hardening
 
-### 1.1 🟠 Broaden URL sanitization beyond `javascript:`/`vbscript:`
+### 1.1 🟠 Broaden URL sanitization beyond `javascript:`/`vbscript:` — ✅ done
 - **Location:** [src/ad-rotator.ts:27-33](src/ad-rotator.ts#L27-L33) (`sanitizeUrl`), used at [src/ad-rotator.ts:161](src/ad-rotator.ts#L161).
 - **Problem:** `sanitizeUrl` blocks only `javascript:` and `vbscript:`. A `data:text/html,...` URL set as an anchor `href` is a navigation/XSS vector, and `file:` / other exotic schemes pass through. The image `src` ([src/ad-rotator.ts:171](src/ad-rotator.ts#L171)) is not sanitized at all.
 - **Fix:** Switch to a scheme **allow-list** rather than a deny-list. Permit `http:`, `https:`, `mailto:`, protocol-relative (`//`), relative paths, and hash/anchor links for `href`; permit `http:`/`https:`/`data:image/` for `img.src`. Reject everything else (return `''`). Keep the existing case-insensitive trimming. Add unit tests for `data:text/html`, `file:`, and protocol-relative URLs.
 
-### 1.2 🟢 Guard `className`/`classList.add` against malformed config classes
+### 1.2 🟢 Guard `className`/`classList.add` against malformed config classes — ✅ done
 - **Location:** [src/ad-rotator.ts:163,173](src/ad-rotator.ts#L163), and `linkClass`/`imgClass`.
 - **Problem:** `classList.add(conf.linkClass)` throws `DOMException` if the class string contains spaces or is empty. Untrusted/typo'd config crashes the whole rotation.
 - **Fix:** Split on whitespace and add tokens individually, filtering empties; or validate at `init`. Wrap in a tiny `addClasses(el, str)` helper.
 
-### 1.3 🟢 Document the adblock-detection network request
+### 1.3 🟢 Document the adblock-detection network request — ✅ done
 - **Location:** [src/ad-rotator.ts:42-62](src/ad-rotator.ts#L42-L62).
 - **Problem:** `detectBlock` base64-obfuscates a request to `pagead2.googlesyndication.com`. This is intentional (adblock bait), but it is undocumented and a privacy/CSP consideration for consumers.
 - **Fix:** Add a clear code comment explaining the bait, and document in the README that `fallbackMode` issues a `no-cors` HEAD request to a Google ad endpoint so integrators can adjust their CSP / privacy disclosures.
 
-### 1.4 🟢 SSR / non-DOM safety
+### 1.4 🟢 SSR / non-DOM safety — ✅ done
 - **Location:** [src/ad-rotator.ts:10](src/ad-rotator.ts#L10) — `window?.screen.availWidth`.
 - **Problem:** `window?.screen.availWidth` only guards `window` being nullish at the `window?` step; if `window` is `undefined` the optional chain short-circuits, but the constant is still evaluated **at module import time**, which throws / misbehaves under SSR (Next.js, etc.) and breaks tree-shaking guarantees. `window.atob` / `document` are likewise touched eagerly.
 - **Fix:** Defer all `window`/`document`/`screen` access until `init()`/`start()` runs (lazy). Compute `device` inside `init` behind a `typeof window !== 'undefined'` guard. This also fixes item 2.1 below.
@@ -54,7 +54,7 @@ unless explicitly called out under "API considerations".
 
 ## 2. Correctness / bug fixes
 
-### 2.1 🟠 `device` is computed once at import and never updates
+### 2.1 🟠 `device` is computed once at import and never updates — ✅ done
 - **Location:** [src/ad-rotator.ts:10](src/ad-rotator.ts#L10).
 - **Problem:** Device class is frozen at module load. Rotating a tablet/phone, resizing, or responsive testing never re-evaluates `desktop`/`mobile`, so `target` filtering and `sticky.noMobile` use a stale value. Also un-testable (jsdom reports `availWidth=0`).
 - **Fix:** Compute lazily in `init` (see 1.4) and/or expose a matchMedia-based check re-evaluated on `start()`. Optionally listen to `resize`/`orientationchange` if dynamic re-targeting is desired (document the trade-off).
