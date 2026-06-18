@@ -3,6 +3,13 @@ import { NOOP, delay } from './helpers';
 
 const wait = (ms) => new Promise((res) => setTimeout(res, ms));
 
+// jsdom never loads images (no load/error/decode resolution), so the library's
+// preloadImg() would otherwise hang until its fallback timeout. Make decode
+// resolve immediately so rotations are deterministic and fast in tests.
+beforeAll(() => {
+  HTMLImageElement.prototype.decode = () => Promise.resolve();
+});
+
 describe('Ad-rotator', () => {
   const mockIntersectionObserver = class {
     constructor() {}
@@ -31,7 +38,7 @@ describe('Ad-rotator', () => {
   it('should display an advert with default options', async () => {
     const instance = init(AdContainer, items);
     instance.start();
-    await wait(1000);
+    await wait(100);
     const link = document.querySelector('a');
     const img = document.querySelector('img');
     expect(link).not.toBe(null);
@@ -50,7 +57,7 @@ describe('Ad-rotator', () => {
     });
     instance.start();
 
-    await wait(1800);
+    await wait(100);
     const link = document.querySelector('a.test-link');
     const img = document.querySelector('img.test-image');
     expect(img.getAttribute('src')).toEqual('./assets/image.jpg');
@@ -116,7 +123,7 @@ describe('Ad-rotator', () => {
   it('should set rel attribute on link', async () => {
     const instance = init(AdContainer, items, { random: false });
     instance.start();
-    await wait(1000);
+    await wait(100);
     const link = document.querySelector('a');
     expect(link.getAttribute('rel')).toEqual('noopener nofollow noreferrer');
   });
@@ -124,7 +131,7 @@ describe('Ad-rotator', () => {
   it('should not set target attribute when newTab is false', async () => {
     const instance = init(AdContainer, items, { random: false, newTab: false });
     instance.start();
-    await wait(1000);
+    await wait(100);
     const link = document.querySelector('a');
     expect(link.getAttribute('target')).toBe(null);
   });
@@ -138,7 +145,7 @@ describe('Ad-rotator', () => {
     ];
     const instance = init(AdContainer, noTitleItems, { random: false });
     instance.start();
-    await wait(1000);
+    await wait(100);
     const img = document.querySelector('img');
     expect(img.getAttribute('alt')).toEqual('');
   });
@@ -146,7 +153,7 @@ describe('Ad-rotator', () => {
   it('should always have fadeIn class on img', async () => {
     const instance = init(AdContainer, items, { random: false });
     instance.start();
-    await wait(1000);
+    await wait(100);
     const img = document.querySelector('img');
     expect(img.classList.contains('fadeIn')).toBe(true);
   });
@@ -160,7 +167,7 @@ describe('Ad-rotator', () => {
     ];
     const instance = init(AdContainer, xssItems, { random: false });
     instance.start();
-    await wait(1000);
+    await wait(100);
     const link = document.querySelector('a');
     expect(link.getAttribute('href')).toEqual('');
   });
@@ -172,7 +179,7 @@ describe('Ad-rotator', () => {
     ];
     const instance = init(AdContainer, xssItems, { random: false });
     instance.start();
-    await wait(1000);
+    await wait(100);
     const link = document.querySelector('a');
     expect(link.getAttribute('href')).toEqual('');
   });
@@ -180,7 +187,7 @@ describe('Ad-rotator', () => {
   it('should allow safe URLs through sanitization', async () => {
     const instance = init(AdContainer, items, { random: false });
     instance.start();
-    await wait(1000);
+    await wait(100);
     const link = document.querySelector('a');
     expect(link.getAttribute('href')).toEqual('https://xyz.com#1');
   });
@@ -192,7 +199,7 @@ describe('Ad-rotator', () => {
     ];
     const instance = init(AdContainer, xssItems, { random: false });
     instance.start();
-    await wait(1000);
+    await wait(100);
     expect(document.querySelector('a').getAttribute('href')).toEqual('');
   });
 
@@ -203,7 +210,7 @@ describe('Ad-rotator', () => {
     ];
     let instance = init(AdContainer, htmlData, { random: false });
     instance.start();
-    await wait(1000);
+    await wait(100);
     expect(document.querySelector('a').getAttribute('href')).toEqual('');
 
     document.body.innerHTML = '<div id="containerElement"></div>';
@@ -214,7 +221,7 @@ describe('Ad-rotator', () => {
     ];
     instance = init(AdContainer, relItems, { random: false });
     instance.start();
-    await wait(1000);
+    await wait(100);
     expect(document.querySelector('a').getAttribute('href')).toContain('/relative/path');
   });
 
@@ -225,7 +232,7 @@ describe('Ad-rotator', () => {
     ];
     const instance = init(AdContainer, items, { random: false });
     instance.start();
-    await wait(1000);
+    await wait(100);
     expect(document.querySelector('img').getAttribute('src')).toEqual('');
   });
 
@@ -236,7 +243,7 @@ describe('Ad-rotator', () => {
       imgClass: 'x y',
     });
     instance.start();
-    await wait(1000);
+    await wait(100);
     const link = document.querySelector('a');
     const img = document.querySelector('img');
     expect(link.classList.contains('a')).toBe(true);
@@ -255,7 +262,7 @@ describe('Ad-rotator', () => {
     ];
     const instance = init(AdContainer, weightedItems, { random: false });
     instance.start();
-    await wait(1000);
+    await wait(100);
     const img = document.querySelector('img');
     // highest weight (10) should appear first
     expect(img.getAttribute('src')).toEqual('./b.jpg');
@@ -267,7 +274,7 @@ describe('Ad-rotator', () => {
     const mockCb = jest.fn();
     const instance = init(AdContainer, items, { random: false, cb: mockCb });
     instance.start();
-    await wait(1000);
+    await wait(100);
     expect(mockCb).toHaveBeenCalledTimes(1);
     expect(mockCb).toHaveBeenCalledWith(
       expect.objectContaining({ img: expect.any(String), url: expect.any(String) }),
@@ -280,7 +287,7 @@ describe('Ad-rotator', () => {
     const mockOnHover = jest.fn();
     const instance = init(AdContainer, items, { random: false, onHover: mockOnHover });
     instance.start();
-    await wait(1000);
+    await wait(100);
     // eventManager.init() clones the element, so re-query the live DOM node
     const liveContainer = document.getElementById('containerElement');
     liveContainer.dispatchEvent(new Event('mouseenter'));
@@ -292,7 +299,7 @@ describe('Ad-rotator', () => {
   it('pause() should clear the interval', async () => {
     const instance = init(AdContainer, items);
     instance.start();
-    await wait(1000);
+    await wait(100);
     instance.pause();
     // should not throw
     expect(() => instance.pause()).not.toThrow();
@@ -301,7 +308,7 @@ describe('Ad-rotator', () => {
   it('resume() should restart rotation', async () => {
     const instance = init(AdContainer, items);
     instance.start();
-    await wait(1000);
+    await wait(100);
     instance.pause();
     expect(() => instance.resume()).not.toThrow();
     instance.pause();
@@ -310,7 +317,7 @@ describe('Ad-rotator', () => {
   it('destroy() should remove all children from El', async () => {
     const instance = init(AdContainer, items);
     instance.start();
-    await wait(1000);
+    await wait(100);
     expect(document.querySelector('a')).not.toBe(null);
     instance.destroy();
     // After destroy, the original container was cloned, so check the new one
@@ -325,7 +332,7 @@ describe('Ad-rotator', () => {
     ];
     const instance = init(AdContainer, twoItems, { random: false });
     instance.start();
-    await wait(1000);
+    await wait(100);
     instance.add({ img: './c.jpg', url: 'https://x.com#3' });
     // should not throw; added silently
     expect(() => instance.add({ img: './d.jpg', url: 'https://x.com#4' })).not.toThrow();
@@ -334,7 +341,7 @@ describe('Ad-rotator', () => {
   it('add() should ignore invalid items', async () => {
     const instance = init(AdContainer, items, { random: false });
     instance.start();
-    await wait(1000);
+    await wait(100);
     expect(() => instance.add(null)).not.toThrow();
     expect(() => instance.add({})).not.toThrow();
     expect(() => instance.add({ img: 'test.jpg' })).not.toThrow();
@@ -347,7 +354,7 @@ describe('Ad-rotator', () => {
     ];
     const instance = init(AdContainer, twoItems, { random: false });
     instance.start();
-    await wait(1000);
+    await wait(100);
     expect(() => instance.remove()).not.toThrow();
   });
 
@@ -359,7 +366,7 @@ describe('Ad-rotator', () => {
     ];
     const instance = init(AdContainer, twoItems, { random: false });
     instance.start();
-    await wait(1000);
+    await wait(100);
     expect(() => instance.remove({ img: './b.jpg' })).not.toThrow();
   });
 
@@ -371,7 +378,7 @@ describe('Ad-rotator', () => {
     ];
     const instance = init(AdContainer, threeItems, { random: false });
     instance.start();
-    await wait(1000);
+    await wait(100);
     instance.remove({ img: './b.jpg' });
     // conf reflects nothing here; assert the removed ad never surfaces over a full cycle
     expect(() => instance.remove({ img: './b.jpg' })).not.toThrow();
@@ -385,7 +392,7 @@ describe('Ad-rotator', () => {
     ];
     const instance = init(AdContainer, dupItems, { random: true, timer: 2 });
     instance.start();
-    await wait(1000);
+    await wait(100);
     expect(document.querySelector('img')).not.toBe(null);
     instance.pause();
   });
@@ -397,7 +404,7 @@ describe('Ad-rotator', () => {
     ];
     const instance = init(AdContainer, oneItem, { random: false });
     instance.start();
-    await wait(1000);
+    await wait(100);
     // After removing, only 1 item remains so pause is called
     expect(() => instance.remove()).not.toThrow();
   });
@@ -439,7 +446,7 @@ describe('Ad-rotator', () => {
     const singleItem = [{ img: './single.jpg', url: 'https://x.com#1', title: 'Only Ad' }];
     const instance = init(AdContainer, singleItem);
     instance.start();
-    await wait(1000);
+    await wait(100);
     const img = document.querySelector('img');
     expect(img.getAttribute('src')).toEqual('./single.jpg');
   });
@@ -462,7 +469,7 @@ describe('Ad-rotator', () => {
     // jsdom has availWidth=0, so device="mobile"; target="desktop" should skip rendering
     const instance = init(AdContainer, items, { target: 'desktop' });
     instance.start();
-    await wait(1000);
+    await wait(100);
     expect(document.querySelector('a')).toBe(null);
   });
 
@@ -470,14 +477,14 @@ describe('Ad-rotator', () => {
     // device="mobile" in jsdom, target="mobile" should render
     const instance = init(AdContainer, items, { target: 'mobile' });
     instance.start();
-    await wait(1000);
+    await wait(100);
     expect(document.querySelector('a')).not.toBe(null);
   });
 
   it('should render when target is all', async () => {
     const instance = init(AdContainer, items, { target: 'all' });
     instance.start();
-    await wait(1000);
+    await wait(100);
     expect(document.querySelector('a')).not.toBe(null);
   });
 
@@ -490,7 +497,7 @@ describe('Ad-rotator', () => {
     ];
     const instance = init(AdContainer, xssItems, { random: false });
     instance.start();
-    await wait(1000);
+    await wait(100);
     const link = document.querySelector('a');
     expect(link.getAttribute('href')).toEqual('');
   });
@@ -504,7 +511,7 @@ describe('Ad-rotator', () => {
     ];
     const instance = init(AdContainer, dataItems, { random: false });
     instance.start();
-    await wait(1000);
+    await wait(100);
     const img = document.querySelector('img');
     expect(img.getAttribute('src')).toEqual('data:image/gif;base64,R0lGODlhAQABAAAAACw=');
   });
@@ -518,7 +525,7 @@ describe('Ad-rotator', () => {
     ];
     const instance = init(AdContainer, twoItems, { random: false, timer: 2 });
     instance.start();
-    await wait(1000);
+    await wait(100);
     expect(document.querySelector('img').getAttribute('src')).toEqual('./first.jpg');
     // Manually trigger a resume cycle to force rotation (simulate interval)
     instance.pause();
@@ -533,7 +540,7 @@ describe('Ad-rotator', () => {
   it('should allow destroy followed by re-init', async () => {
     const instance = init(AdContainer, items, { random: false });
     instance.start();
-    await wait(1000);
+    await wait(100);
     expect(document.querySelector('a')).not.toBe(null);
     instance.destroy();
     const el = document.getElementById('containerElement');
@@ -541,7 +548,7 @@ describe('Ad-rotator', () => {
     // Re-init on the same element
     const instance2 = init(el, items, { random: false });
     instance2.start();
-    await wait(1000);
+    await wait(100);
     expect(document.querySelector('a')).not.toBe(null);
   });
 });

@@ -1,5 +1,5 @@
 import type { AdConfig, StickyConfig, AdUnit, EventManager, AdRotatorInstance } from './types';
-import { NOOP, delay } from './helpers';
+import { NOOP } from './helpers';
 import './style.less';
 
 // init constants
@@ -73,6 +73,35 @@ const addClasses = (el: HTMLElement, classStr?: string): void => {
     if (c) el.classList.add(c);
   }
 };
+
+// max time to wait for an image before swapping anyway (broken/slow image
+// must never stall the rotation)
+const PRELOAD_TIMEOUT = 3000;
+
+/**
+ * Resolve once the image is ready to display (decoded or loaded), or after a
+ * fallback timeout. Never rejects — a failed image still swaps in so rotation
+ * continues. Replaces the old fixed `delay(900)` guesswork.
+ */
+const preloadImg = (img: HTMLImageElement): Promise<void> =>
+  new Promise((resolve) => {
+    let settled = false;
+    const done = () => {
+      if (settled) return;
+      settled = true;
+      window.clearTimeout(timer);
+      img.removeEventListener('load', done);
+      img.removeEventListener('error', done);
+      resolve();
+    };
+    // already cached/decoded
+    if (img.complete && img.naturalWidth) return done();
+    const timer = window.setTimeout(done, PRELOAD_TIMEOUT);
+    img.addEventListener('load', done, { once: true });
+    img.addEventListener('error', done, { once: true });
+    // prefer decode() where available for a flicker-free swap
+    if (typeof img.decode === 'function') img.decode().then(done, done);
+  });
 
 /**
  * Detect an ad-blocker (used only when `fallbackMode` is enabled).
@@ -238,8 +267,9 @@ const rotateImage = async (
     img.setAttribute('alt', ''); // decorative image: empty alt for accessibility
   }
 
-  // allow time to preload images
-  await delay(900);
+  // wait until the image is actually ready (decoded/loaded) before swapping,
+  // so we never flash an empty container or the previous ad
+  await preloadImg(img);
 
   // attach an image to the link
   link.appendChild(img);
@@ -355,7 +385,7 @@ export const init = (El: HTMLElement, units: AdUnit[] = [], options: AdConfig = 
     conf,
     pause() {
       if (inter !== undefined) {
-        clearInterval(inter);
+        clearTimeout(inter);
         inter = undefined;
       }
     },
@@ -379,15 +409,17 @@ export const init = (El: HTMLElement, units: AdUnit[] = [], options: AdConfig = 
       this.pause();
       // rotate only if multiple units are present
       if (units.length > 1) {
-        const rotationTime = (conf.timer as number) >= 2 ? conf.timer : interval;
-        inter = window.setInterval(
-          async function () {
-            ret = await rotateImage(El, units, conf, unitsClone, prevItem as AdUnit);
-            unitsClone = ret.unitsClone;
-            prevItem = ret.prevItem as AdUnit;
-          },
-          (rotationTime as number) * 1e3 - 900
-        );
+        const rotationTime = ((conf.timer as number) >= 2 ? (conf.timer as number) : interval) * 1e3;
+        // self-rearming timeout chain: the next rotation is scheduled only
+        // after the current one finishes, so slow image loads can't stack up.
+        const tick = async () => {
+          ret = await rotateImage(El, units, conf, unitsClone, prevItem as AdUnit);
+          unitsClone = ret.unitsClone;
+          prevItem = ret.prevItem as AdUnit;
+          // re-arm only if still running (pause/destroy clears `inter`)
+          if (inter !== undefined) inter = window.setTimeout(tick, rotationTime);
+        };
+        inter = window.setTimeout(tick, rotationTime);
       }
     },
     destroy() {

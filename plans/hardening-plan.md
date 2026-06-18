@@ -79,7 +79,7 @@ unless explicitly called out under "API considerations".
 - **Problem:** Two concurrent `start()` calls can both run the probe before `hasBlk` is set (double bait DOM + fetch). The success path falls through to `hasBlk = false` and returns `undefined` rather than the boolean, which is fragile.
 - **Fix:** Memoize the in-flight promise (`let probe: Promise<boolean>`), return it on re-entry, and return the boolean explicitly on all paths.
 
-### 2.6 🟢 Async interval can overlap
+### 2.6 🟢 Async interval can overlap — ✅ done
 - **Location:** [src/ad-rotator.ts:314-321](src/ad-rotator.ts#L314-L321).
 - **Problem:** `setInterval(async () => { await rotateImage(...) })` does not prevent a new tick from firing while a slow image load is still awaiting, which can stack rotations.
 - **Fix:** Use a re-armed `setTimeout` chain (schedule the next rotation only after the current one resolves), which also removes the brittle `* 1e3 - 900` arithmetic (see 3.1).
@@ -88,7 +88,7 @@ unless explicitly called out under "API considerations".
 
 ## 3. Performance
 
-### 3.1 🟠 Replace the hard-coded `delay(900)` "preload" with real image preloading
+### 3.1 🟠 Replace the hard-coded `delay(900)` "preload" with real image preloading — ✅ done
 - **Location:** [src/ad-rotator.ts:185](src/ad-rotator.ts#L185) and the coupled `rotationTime * 1e3 - 900` math at [:320](src/ad-rotator.ts#L320).
 - **Problem:** The library blocks every rotation on a fixed 900 ms `setTimeout` "to allow time to preload images". This is both too long (fast networks) and too short (slow networks → flash of empty/old ad), and the magic `-900` is duplicated knowledge that couples timing to the delay constant.
 - **Fix:** Preload the next image via `new Image()` / `img.decode()` and swap only once it is decoded, then schedule the next tick (setTimeout chain from 2.6). Removes arbitrary latency and the coupled arithmetic. Keep a small fallback timeout so a never-loading image can't stall rotation.
@@ -120,7 +120,7 @@ unless explicitly called out under "API considerations".
 - The commented-out `console.log(' **** End of rotation cycle **** ')` at [:197](src/ad-rotator.ts#L197) — remove.
 - `ret` is a loosely-typed shared variable ([:225](src/ad-rotator.ts#L225)); type it as the return of `rotateImage`.
 
-### 4.4 🟢 Test-suite robustness (timing)
+### 4.4 🟢 Test-suite robustness (timing) — ✅ done
 - **Location:** [src/ad-rotator.spec.js](src/ad-rotator.spec.js) — many `await wait(1000)` calls tied to the 900 ms internal delay.
 - **Problem:** Tests are wall-clock-coupled to the magic 900 ms; once 3.1 lands they'll be flaky/slow.
 - **Fix:** Use Jest fake timers (`jest.useFakeTimers`) and mock image load/decode so tests are deterministic and fast. Add the missing-coverage cases noted in §2.
