@@ -97,15 +97,17 @@ unless explicitly called out under "API considerations".
 - **Location:** [src/ad-rotator.ts:19-25](src/ad-rotator.ts#L19-L25).
 - **Note:** `getDefaultConfig` is a misleading name for a plain object. Rename to `DEFAULT_CONFIG` and `Object.freeze` it to prevent accidental mutation of shared defaults across instances.
 
-### 3.3 🟢 Build/bundle hygiene
+### 3.3 🟢 Build/bundle hygiene — 🟡 partial
 - **Location:** [vite.config.js](vite.config.js).
+- **Done:** added `src/shims.d.ts` (`*.less`/`*.css` ambient modules) to fix the side-effect import type error without polluting the published types; narrowed `copy-typescript-definitions` to ship only `src/types.d.ts`.
+- **Deferred (needs separate validation):** re-enabling `vite-plugin-dts` and adding a `size-limit` budget — both change the published artifact pipeline and warrant their own PR.
 - **Items:** Re-enable the commented-out `vite-plugin-dts` so types are emitted by the build instead of the separate `copyfiles` step (`copy-typescript-definitions`); confirm `sourcemap: 'hidden'` is intended; verify tree-shaking with `sideEffects: false` is honored given the `import './style.less'` side-effecting import (mark the CSS import in `sideEffects` if needed). Add a bundle-size budget check (e.g. `size-limit`) to CI to prevent regressions.
 
 ---
 
 ## 4. Code quality / redundancy
 
-### 4.1 🟠 Reduce `as unknown as Record<string, unknown>` casts
+### 4.1 🟠 Reduce `as unknown as Record<string, unknown>` casts — ✅ done
 - **Location:** [src/ad-rotator.ts:254-257](src/ad-rotator.ts#L254-L257).
 - **Problem:** `conf.sticky` is typed `StickyConfig` but accessed via triple casts to read `constructor`/`noMobile`. This defeats the type system and is hard to read.
 - **Fix:** Add a proper type guard (`isPlainObject`) and narrow `conf.sticky` once. `stickyEl` already accepts `StickyConfig`, so pass it directly without casting.
@@ -152,12 +154,12 @@ unless explicitly called out under "API considerations".
 - **Location:** `ci.yml` — `actions/cache` uses a static key `nmodules` with no lockfile hash.
 - **Fix:** Key the cache on `hashFiles('**/pnpm-lock.yaml')`; rely on `setup-node`'s built-in pnpm cache instead of a hand-rolled `node_modules` cache (which is fragile across the build/test jobs).
 
-### 5.6 🟢 Add Dependabot / scheduled dependency review and a `test:coverage` gate
+### 5.6 🟢 Add Dependabot / scheduled dependency review and a `test:coverage` gate — ✅ done
 - Enable Dependabot for `npm` + `github-actions`. Add a coverage threshold to the Jest config and surface it in CI.
 
 ---
 
-## 6. Documentation
+## 6. Documentation — ✅ done
 
 - `README.md`: document `fallbackMode`'s network probe (1.3), the new URL allow-list behavior (1.1), and supported Node versions.
 - `SECURITY.md`: confirm the reporting channel and add the URL-sanitization policy.

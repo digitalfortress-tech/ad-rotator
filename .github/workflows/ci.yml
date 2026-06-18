@@ -44,8 +44,8 @@ jobs:
         cache: 'pnpm'
     - name: Install dependencies
       run: pnpm install --frozen-lockfile
-    - name: Run unit Test
-      run: make test-unit
+    - name: Run unit Test (with coverage gate)
+      run: pnpm run test-coverage
   test-e2e:
     runs-on: ubuntu-22.04
     steps:

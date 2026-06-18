@@ -19,6 +19,20 @@ will investigate and work with you to triage this issue and help you to report i
 if appropriate. At the current time we do not have the financial ability to reward
 bounties, but in extreme cases, we will, at our discretion, consider a reward.
 
+## Built-in hardening
+
+Ad-rotator sanitizes ad URLs before inserting them into the DOM using a scheme
+**allow-list** (rather than a deny-list):
+
+- Link `href`s allow `http`, `https`, `mailto`, `tel`, and scheme-less URLs
+  (relative, protocol-relative, hash, query). All other schemes
+  (`javascript:`, `vbscript:`, `data:`, `file:`, …) are dropped.
+- Image `src`s allow `http(s)`, scheme-less URLs, and `data:image/*` only.
+- Generated links carry `rel="noopener nofollow noreferrer"`.
+
+Note: when `fallbackMode` is enabled, the library issues a `no-cors` HEAD request
+to a Google ad endpoint to detect ad-blockers. See the README for CSP/privacy details.
+
 ## Security Audit
 
 You can apply to book the team’s security experts to perform a Security Audit

@@ -226,6 +226,28 @@ instance.conf.random = false;
 
 ---
 
+## 🔐 Security & privacy notes
+
+- **URL sanitization.** Ad `url`s are sanitized with a scheme **allow-list** before being
+  set as link `href`s: `http`, `https`, `mailto`, `tel` and scheme-less URLs (relative,
+  protocol-relative `//`, `#hash`, `?query`) are allowed; everything else
+  (`javascript:`, `vbscript:`, `data:`, `file:`, …) is dropped to an empty href. Image
+  `img`s allow `http(s)`, scheme-less URLs and `data:image/*` data URIs only. Links also
+  carry `rel="noopener nofollow noreferrer"`.
+- **`fallbackMode` makes a network request.** When `fallbackMode: true`, the library probes
+  for an ad-blocker using two signals: a hidden "bait" element, and a `no-cors` `HEAD`
+  request to `https://pagead2.googlesyndication.com/...`. If you run a strict
+  Content-Security-Policy or publish a privacy notice, account for that request (or leave
+  `fallbackMode` disabled, the default).
+
+## 🧩 Requirements
+
+- **Browser:** any modern evergreen browser (ES2020).
+- **Node (for building/contributing only):** Node `>= 20.19` and `pnpm` 10. The library
+  itself has **no runtime dependencies**.
+
+---
+
 
 ## 💠 API
 

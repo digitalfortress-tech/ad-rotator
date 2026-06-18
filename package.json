@@ -12,13 +12,14 @@
     "preview": "vite preview",
     "tag": "npm version minor --no-git-tag-version && npm run prod && PACKAGE_VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]') && git commit -am \"$PACKAGE_VERSION release\" && git tag v$PACKAGE_VERSION",
     "test-unit": "jest src --verbose",
+    "test-coverage": "jest src --coverage",
     "test-e2e-gui": "npm run cy:open",
     "test-e2e": "npm run cy:run",
     "cy:run": "npx cypress run --headless --browser chrome",
     "cy:open": "npx cypress open --browser chrome",
     "lint": "eslint --fix ./src",
     "lint:check": "eslint ./src",
-    "copy-typescript-definitions": "copyfiles -u 1 \"src/**/*.d.ts\" dist"
+    "copy-typescript-definitions": "copyfiles -u 1 \"src/types.d.ts\" dist"
   },
   "packageManager": "pnpm@10.28.1",
   "engines": {
@@ -30,7 +31,19 @@
       "^.+\\.(ts|tsx)?$": "ts-jest",
       "^.+\\.(css|less)$": "<rootDir>/styleMock.js"
     },
-    "testEnvironment": "jsdom"
+    "testEnvironment": "jsdom",
+    "collectCoverageFrom": [
+      "src/**/*.ts",
+      "!src/**/*.d.ts"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "statements": 70,
+        "branches": 55,
+        "functions": 75,
+        "lines": 70
+      }
+    }
   },
   "author": {
     "name": "Niket Pathak",
