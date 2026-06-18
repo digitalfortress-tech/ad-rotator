@@ -5,6 +5,7 @@ node_modules/
 thumbs.db
 *.log*
 dist/
+coverage/
 cypress/screenshots/
 cypress/videos/
 cypress/downloads/
