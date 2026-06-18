@@ -24,7 +24,7 @@ unless explicitly called out under "API considerations".
 | 2 | 🔴 | CI pins `pnpm` v8 but `pnpm-lock.yaml` is `lockfileVersion: 9.0` | `--frozen-lockfile` installs can fail or silently regenerate | ✅ done |
 | 3 | 🔴 | Deprecated GitHub Actions (`codeql-action@v1`, `checkout@v2/v3`, `setup-node@v3`) | CodeQL v1/v2 are end-of-life; runs will start failing | ✅ done |
 | 4 | 🟠 | `make prod` runs `eslint --fix` inside CI build | CI should never mutate source; masks lint failures | ✅ done |
-| 5 | 🟠 | Event listeners / observers not fully torn down (`destroy()` relies on node-clone hack) | Memory leaks on SPA re-mounts | ⬜ pending (§4.2) |
+| 5 | 🟠 | Event listeners / observers not fully torn down (`destroy()` relies on node-clone hack) | Memory leaks on SPA re-mounts | ✅ done (§4.2) |
 
 ---
 
@@ -59,22 +59,22 @@ unless explicitly called out under "API considerations".
 - **Problem:** Device class is frozen at module load. Rotating a tablet/phone, resizing, or responsive testing never re-evaluates `desktop`/`mobile`, so `target` filtering and `sticky.noMobile` use a stale value. Also un-testable (jsdom reports `availWidth=0`).
 - **Fix:** Compute lazily in `init` (see 1.4) and/or expose a matchMedia-based check re-evaluated on `start()`. Optionally listen to `resize`/`orientationchange` if dynamic re-targeting is desired (document the trade-off).
 
-### 2.2 🟠 `unitsClone` drifts out of sync with `add()` / `remove()`
+### 2.2 🟠 `unitsClone` drifts out of sync with `add()` / `remove()` — ✅ done
 - **Location:** [src/ad-rotator.ts:332-344](src/ad-rotator.ts#L332-L344) plus the clone created at [:231](src/ad-rotator.ts#L231).
 - **Problem:** `add()` pushes into `units` but not `unitsClone`, and does **not** re-sort by weight; `remove()` filters `units` but leaves stale references in `unitsClone`. The next rotation can therefore show a removed ad, or never show a newly added one until the clone naturally resets.
 - **Fix:** Centralize mutations through a helper that updates `units`, re-sorts by weight, and rebuilds `unitsClone` consistently. Add unit tests asserting an added ad appears and a removed ad disappears within one cycle.
 
-### 2.3 🟠 Potential infinite loop in random de-dup
+### 2.3 🟠 Potential infinite loop in random de-dup — ✅ done
 - **Location:** [src/ad-rotator.ts:143-146](src/ad-rotator.ts#L143-L146).
 - **Problem:** `while (unitsClone.length > 1 && prevItem.img === unitsClone[index].img)` loops forever if every remaining clone entry shares the same `img` (e.g. duplicate ads with different URLs).
 - **Fix:** Cap retries (e.g. break after N attempts) or pre-check whether a non-matching candidate exists. Add a test with duplicate `img` values.
 
-### 2.4 🟠 `init()` does work before validating, and throws on bad input
+### 2.4 🟠 `init()` does work before validating, and throws on bad input — ✅ done
 - **Location:** [src/ad-rotator.ts:205-231](src/ad-rotator.ts#L205-L231).
 - **Problem:** When `units` is invalid the code sets `hasErr = true` but then unconditionally calls `units.sort(...)` and `[...units]`. The "not an array" test only passes because it *throws* (caught by the test), which is inconsistent with the "fail silently + console.error" contract used elsewhere.
 - **Fix:** `return` an inert instance immediately after logging the error (all methods become no-ops via `hasErr`), guarding the `.sort`/spread so they only run on validated input. Make behavior uniformly "log and no-op", never throw.
 
-### 2.5 🟢 `detectBlock` race + implicit return
+### 2.5 🟢 `detectBlock` race + implicit return — ✅ done
 - **Location:** [src/ad-rotator.ts:35-65](src/ad-rotator.ts#L35-L65).
 - **Problem:** Two concurrent `start()` calls can both run the probe before `hasBlk` is set (double bait DOM + fetch). The success path falls through to `hasBlk = false` and returns `undefined` rather than the boolean, which is fragile.
 - **Fix:** Memoize the in-flight promise (`let probe: Promise<boolean>`), return it on re-entry, and return the boolean explicitly on all paths.
@@ -93,7 +93,7 @@ unless explicitly called out under "API considerations".
 - **Problem:** The library blocks every rotation on a fixed 900 ms `setTimeout` "to allow time to preload images". This is both too long (fast networks) and too short (slow networks → flash of empty/old ad), and the magic `-900` is duplicated knowledge that couples timing to the delay constant.
 - **Fix:** Preload the next image via `new Image()` / `img.decode()` and swap only once it is decoded, then schedule the next tick (setTimeout chain from 2.6). Removes arbitrary latency and the coupled arithmetic. Keep a small fallback timeout so a never-loading image can't stall rotation.
 
-### 3.2 🟢 Cache `getDefaultConfig` and avoid per-call object churn
+### 3.2 🟢 Cache `getDefaultConfig` and avoid per-call object churn — ✅ done
 - **Location:** [src/ad-rotator.ts:19-25](src/ad-rotator.ts#L19-L25).
 - **Note:** `getDefaultConfig` is a misleading name for a plain object. Rename to `DEFAULT_CONFIG` and `Object.freeze` it to prevent accidental mutation of shared defaults across instances.
 
@@ -110,12 +110,12 @@ unless explicitly called out under "API considerations".
 - **Problem:** `conf.sticky` is typed `StickyConfig` but accessed via triple casts to read `constructor`/`noMobile`. This defeats the type system and is hard to read.
 - **Fix:** Add a proper type guard (`isPlainObject`) and narrow `conf.sticky` once. `stickyEl` already accepts `StickyConfig`, so pass it directly without casting.
 
-### 4.2 🟢 Replace the `destroy()` clone-the-node hack with explicit listener removal
+### 4.2 🟢 Replace the `destroy()` clone-the-node hack with explicit listener removal — ✅ done
 - **Location:** [src/ad-rotator.ts:239-271](src/ad-rotator.ts#L239-L271).
 - **Problem:** `mouseenter`/`mouseleave` are added as anonymous functions and "removed" by cloning the element and swapping it in the DOM. This loses any external listeners/state on the node and is surprising. `IntersectionObserver` is `unobserve`d but never `disconnect`ed.
 - **Fix:** Store named handler references; `removeEventListener` them in `destroy()`; call `obs.disconnect()`. Drop the clone hack (keeps the user's element identity stable, which also simplifies the test that re-queries the DOM).
 
-### 4.3 🟢 Naming & dead code
+### 4.3 🟢 Naming & dead code — ✅ done
 - `getDefaultConfig` → `DEFAULT_CONFIG` (4.2 above).
 - The commented-out `console.log(' **** End of rotation cycle **** ')` at [:197](src/ad-rotator.ts#L197) — remove.
 - `ret` is a loosely-typed shared variable ([:225](src/ad-rotator.ts#L225)); type it as the return of `rotateImage`.

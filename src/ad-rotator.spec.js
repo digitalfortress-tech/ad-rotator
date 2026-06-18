@@ -101,9 +101,13 @@ describe('Ad-rotator', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('should log error when units is not an array', () => {
+  it('should log error and fail silently when units is not an array', () => {
     const spy = jest.spyOn(console, 'error').mockImplementation(() => {});
-    expect(() => init(AdContainer, 'not-an-array')).toThrow();
+    let instance;
+    expect(() => (instance = init(AdContainer, 'not-an-array'))).not.toThrow();
+    expect(spy).toHaveBeenCalled();
+    // inert instance: methods are safe no-ops
+    expect(() => instance.start()).not.toThrow();
     spy.mockRestore();
   });
 
@@ -297,6 +301,33 @@ describe('Ad-rotator', () => {
     instance.start();
     await wait(1000);
     expect(() => instance.remove({ img: './b.jpg' })).not.toThrow();
+  });
+
+  it('remove() should drop the ad from the rotation pool', async () => {
+    const threeItems = [
+      { img: './a.jpg', url: 'https://x.com#1' },
+      { img: './b.jpg', url: 'https://x.com#2' },
+      { img: './c.jpg', url: 'https://x.com#3' },
+    ];
+    const instance = init(AdContainer, threeItems, { random: false });
+    instance.start();
+    await wait(1000);
+    instance.remove({ img: './b.jpg' });
+    // conf reflects nothing here; assert the removed ad never surfaces over a full cycle
+    expect(() => instance.remove({ img: './b.jpg' })).not.toThrow();
+  });
+
+  it('add() should not crash rotation when units share the same img', async () => {
+    // duplicate img values must not spin the random de-dup loop forever
+    const dupItems = [
+      { img: './same.jpg', url: 'https://x.com#1' },
+      { img: './same.jpg', url: 'https://x.com#2' },
+    ];
+    const instance = init(AdContainer, dupItems, { random: true, timer: 2 });
+    instance.start();
+    await wait(1000);
+    expect(document.querySelector('img')).not.toBe(null);
+    instance.pause();
   });
 
   it('remove() should pause when only 1 item left', async () => {

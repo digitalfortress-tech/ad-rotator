@@ -12,17 +12,18 @@ const device = window?.screen.availWidth >= 992 ? desktop : mobile;
 const interval = 5; // 5 seconds
 
 let hasBlk: boolean; // flag to detect AdBlockers
+let blkProbe: Promise<boolean> | undefined; // memoized in-flight detection
 
 /**
- * DefaultConfig
+ * Default configuration (frozen to prevent cross-instance mutation)
  */
-const getDefaultConfig = {
+const DEFAULT_CONFIG = Object.freeze({
   target: 'all',
   timer: interval,
   random: true,
   newTab: false,
   fallbackMode: false,
-} as AdConfig;
+}) as AdConfig;
 
 /** Sanitize URLs to prevent XSS via dangerous protocols */
 const sanitizeUrl = (url: string): string => {
@@ -32,36 +33,38 @@ const sanitizeUrl = (url: string): string => {
   return trimmed;
 };
 
-const detectBlock = async () => {
-  if (hasBlk !== undefined) {
-    return hasBlk;
-  }
+const detectBlock = (): Promise<boolean> => {
+  if (hasBlk !== undefined) return Promise.resolve(hasBlk);
+  // memoize the in-flight probe so concurrent start() calls share one run
+  if (blkProbe) return blkProbe;
 
-  // test with baitElement
-  const testDiv = document.createElement('div');
-  testDiv.className = window.atob(
-    'YjNFbCBhZHMgYWQgYWRzYm94IGRvdWJsZWNsaWNrIGFkLXBsYWNlbWVudCBjYXJib24tYWRzIHByZWJpZCBhZC11bml0'
-  );
+  blkProbe = (async (): Promise<boolean> => {
+    // test with baitElement
+    const testDiv = document.createElement('div');
+    testDiv.className = window.atob(
+      'YjNFbCBhZHMgYWQgYWRzYm94IGRvdWJsZWNsaWNrIGFkLXBsYWNlbWVudCBjYXJib24tYWRzIHByZWJpZCBhZC11bml0'
+    );
 
-  document.body.appendChild(testDiv);
-  const isHidden = getComputedStyle(testDiv).display === 'none';
-  testDiv.remove();
+    document.body.appendChild(testDiv);
+    const isHidden = getComputedStyle(testDiv).display === 'none';
+    testDiv.remove();
 
-  if (isHidden) {
-    return (hasBlk = true);
-  }
+    if (isHidden) return (hasBlk = true);
 
-  // fallback to pinging a real ad network
-  try {
-    await fetch(window.atob('aHR0cHM6Ly9wYWdlYWQyLmdvb2dsZXN5bmRpY2F0aW9uLmNvbS9wYWdlYWQvanMvYWRzYnlnb29nbGUuanM='), {
-      method: 'HEAD',
-      mode: 'no-cors',
-    });
-  } catch (_e) {
-    return (hasBlk = true);
-  }
+    // fallback to pinging a real ad network
+    try {
+      await fetch(window.atob('aHR0cHM6Ly9wYWdlYWQyLmdvb2dsZXN5bmRpY2F0aW9uLmNvbS9wYWdlYWQvanMvYWRzYnlnb29nbGUuanM='), {
+        method: 'HEAD',
+        mode: 'no-cors',
+      });
+    } catch (_e) {
+      return (hasBlk = true);
+    }
 
-  hasBlk = false;
+    return (hasBlk = false);
+  })();
+
+  return blkProbe;
 };
 
 export const stickyEl = (El: HTMLElement, stickyConf: StickyConfig): null | (() => void) => {
@@ -140,8 +143,10 @@ const rotateImage = async (
   if (conf.random) {
     // get random unit
     let index = unitsClone.length === 1 ? 0 : randomNum(unitsClone);
-    while (unitsClone.length > 1 && prevItem.img === unitsClone[index].img) {
-      // ensure randomness at the end of a complete rotation cycle
+    // ensure randomness at the end of a complete rotation cycle.
+    // cap retries so duplicate `img` values across units can't spin forever.
+    let attempts = 0;
+    while (unitsClone.length > 1 && prevItem.img === unitsClone[index].img && attempts++ < unitsClone.length) {
       index = randomNum(unitsClone);
     }
     unit = unitsClone[index];
@@ -194,8 +199,6 @@ const rotateImage = async (
   // exec callback on every rotation
   (conf.cb || NOOP)(unit as AdUnit, El, conf);
 
-  // unitsClone.length === units.length && console.log(' **** End of rotation cycle **** ');
-
   return {
     unitsClone,
     prevItem: unit,
@@ -203,8 +206,7 @@ const rotateImage = async (
 };
 
 export const init = (El: HTMLElement, units: AdUnit[] = [], options: AdConfig = {}): AdRotatorInstance => {
-  let hasErr = false;
-  const conf = { ...getDefaultConfig, ...options };
+  const conf = { ...DEFAULT_CONFIG, ...options };
   if (
     !El ||
     !(El instanceof HTMLElement) ||
@@ -216,19 +218,31 @@ export const init = (El: HTMLElement, units: AdUnit[] = [], options: AdConfig = 
     !units[0].img ||
     isNaN(conf.timer as number)
   ) {
-    hasErr = true;
     // eslint-disable-next-line no-console
     console.error('Missing/malformed params - El, Units, Config', El, units, conf);
+    // fail silently: return an inert instance whose methods are all no-ops
+    return { conf, start: NOOP, pause: NOOP, resume: NOOP, destroy: NOOP, add: NOOP, remove: NOOP };
   }
 
   let inter: number | undefined; // reference to interval
-  let ret; // reference to return value of `rotateImage`
+  let ret: Awaited<ReturnType<typeof rotateImage>>; // reference to return value of `rotateImage`
   let prevItem: AdUnit | null = null;
+  // runtime bypass flag, used only by fallbackMode to disable the API
+  // when no ad-blocker is detected (init-time validation now returns early)
+  let hasErr = false;
 
-  // sort by weight (naturally, highest weight first)
-  units.sort((a, b) => +(b.weight || 1) - +(a.weight || 1));
+  // (re)sort units by weight (highest first) and rebuild the working clone
+  const resetUnits = () => {
+    units.sort((a, b) => +(b.weight || 1) - +(a.weight || 1));
+    unitsClone = [...units];
+  };
 
-  let unitsClone = [...units]; // clone units
+  let unitsClone: AdUnit[] = [];
+  resetUnits();
+
+  // named handler refs so listeners can be removed cleanly (no node-clone hack)
+  let onMouseEnter: (() => void) | null = null;
+  let onMouseLeave: (() => void) | null = null;
 
   // Manage events
   const eventManager: EventManager = {
@@ -236,34 +250,35 @@ export const init = (El: HTMLElement, units: AdUnit[] = [], options: AdConfig = 
     obs: null,
     init() {
       this.destroy();
-      El.addEventListener('mouseenter', () => {
+      onMouseEnter = () => {
         out.pause();
         // on hover callback
         (conf.onHover || NOOP)(prevItem, El);
-      });
-
-      El.addEventListener('mouseleave', () => {
+      };
+      onMouseLeave = () => {
         out.resume();
-      });
+      };
+      El.addEventListener('mouseenter', onMouseEnter);
+      El.addEventListener('mouseleave', onMouseLeave);
       // add observer
       this.obs = new IntersectionObserver(this.obsCb.bind(out), { threshold: 0.5 });
       this.obs.observe(El);
       // make sticky
-      if (
-        conf.sticky &&
-        (conf.sticky as unknown as Record<string, unknown>).constructor === Object &&
-        (!(conf.sticky as unknown as Record<string, unknown>).noMobile || device !== mobile)
-      ) {
-        this.scrollEvRef = stickyEl(El, conf.sticky as unknown as Record<string, unknown>);
+      if (conf.sticky && conf.sticky.constructor === Object && (!conf.sticky.noMobile || device !== mobile)) {
+        this.scrollEvRef = stickyEl(El, conf.sticky);
       }
     },
     destroy() {
-      if (this.obs) this.obs.unobserve(El);
-      const clone = El.cloneNode(true);
-      (El.parentNode as HTMLElement).replaceChild(clone, El);
-      El = clone as HTMLElement;
+      // fully tear down the observer and listeners; keeps El identity stable
+      if (this.obs) {
+        this.obs.disconnect();
+        this.obs = null;
+      }
+      if (onMouseEnter) El.removeEventListener('mouseenter', onMouseEnter);
+      if (onMouseLeave) El.removeEventListener('mouseleave', onMouseLeave);
+      onMouseEnter = onMouseLeave = null;
       // remove stickiness
-      if (conf.sticky && this.scrollEvRef) {
+      if (this.scrollEvRef) {
         window.removeEventListener('scroll', this.scrollEvRef as (this: Window, event: Event) => void);
         this.scrollEvRef = null;
         El.classList.remove('stickyElx');
@@ -333,6 +348,8 @@ export const init = (El: HTMLElement, units: AdUnit[] = [], options: AdConfig = 
       if (hasErr) return;
       if (item && item instanceof Object && item.url && item.img) {
         units.push(item);
+        // keep weight order and the working clone in sync with `units`
+        resetUnits();
       }
     },
     remove(item: AdUnit) {
@@ -341,6 +358,8 @@ export const init = (El: HTMLElement, units: AdUnit[] = [], options: AdConfig = 
 
       if (!item) units.pop();
       else units = units.filter((i) => i.img !== item.img);
+      // keep weight order and the working clone in sync with `units`
+      resetUnits();
     },
   };
 
