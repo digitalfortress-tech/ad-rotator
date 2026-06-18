@@ -18,13 +18,13 @@ unless explicitly called out under "API considerations".
 
 ## 0. Quick triage — do these first
 
-| # | Severity | Item | Why first |
-|---|----------|------|-----------|
-| 1 | 🔴 | CI Node version (18) vs. toolchain (Vite 7 / Jest 30 need Node 20+) | CI is silently building on an unsupported runtime; releases may differ from CI |
-| 2 | 🔴 | CI pins `pnpm` v8 but `pnpm-lock.yaml` is `lockfileVersion: 9.0` | `--frozen-lockfile` installs can fail or silently regenerate |
-| 3 | 🔴 | Deprecated GitHub Actions (`codeql-action@v1`, `checkout@v2/v3`, `setup-node@v3`) | CodeQL v1/v2 are end-of-life; runs will start failing |
-| 4 | 🟠 | `make prod` runs `eslint --fix` inside CI build | CI should never mutate source; masks lint failures |
-| 5 | 🟠 | Event listeners / observers not fully torn down (`destroy()` relies on node-clone hack) | Memory leaks on SPA re-mounts |
+| # | Severity | Item | Why first | Status |
+|---|----------|------|-----------|--------|
+| 1 | 🔴 | CI Node version (18) vs. toolchain (Vite 7 / Jest 30 need Node 20+) | CI is silently building on an unsupported runtime; releases may differ from CI | ✅ done |
+| 2 | 🔴 | CI pins `pnpm` v8 but `pnpm-lock.yaml` is `lockfileVersion: 9.0` | `--frozen-lockfile` installs can fail or silently regenerate | ✅ done |
+| 3 | 🔴 | Deprecated GitHub Actions (`codeql-action@v1`, `checkout@v2/v3`, `setup-node@v3`) | CodeQL v1/v2 are end-of-life; runs will start failing | ✅ done |
+| 4 | 🟠 | `make prod` runs `eslint --fix` inside CI build | CI should never mutate source; masks lint failures | ✅ done |
+| 5 | 🟠 | Event listeners / observers not fully torn down (`destroy()` relies on node-clone hack) | Memory leaks on SPA re-mounts | ⬜ pending (§4.2) |
 
 ---
 
@@ -129,25 +129,26 @@ unless explicitly called out under "API considerations".
 
 ## 5. Tooling & CI
 
-### 5.1 🔴 Fix the Node version matrix
+### 5.1 🔴 Fix the Node version matrix — ✅ done
 - **Location:** [.github/workflows/ci.yml](.github/workflows/ci.yml) — `node-version: [18.x]`.
 - **Problem:** Vite 7 requires Node `20.19+` / `22.12+`; Jest 30 likewise drops Node 18. CI is on an unsupported runtime.
 - **Fix:** Move matrix to `[20.x, 22.x]`. Add an `engines` field to `package.json` (`"node": ">=20.19"`).
 
-### 5.2 🔴 Align pnpm version with the lockfile
+### 5.2 🔴 Align pnpm version with the lockfile — ✅ done
 - **Location:** CI uses `pnpm/action-setup@v2` with `version: 8`; lockfile is `lockfileVersion: 9.0`.
 - **Fix:** Add `"packageManager": "pnpm@9.x.x"` to `package.json` and let `action-setup` read it (drop the hard-pinned `version: 8`). Use `--frozen-lockfile` in CI installs.
+- **Resolved as:** pinned `pnpm@10.28.1` (not 9.x). The repo's `pnpm-workspace.yaml` already uses the pnpm-10 convention (top-level `ignoredBuiltDependencies`), which pnpm 9 rejects with "packages field missing or empty". Lockfile 9.0 is shared by pnpm 9 and 10.
 
-### 5.3 🔴 Modernize / de-deprecate Actions
+### 5.3 🔴 Modernize / de-deprecate Actions — ✅ done
 - **Location:** [.github/workflows/ci.yml](.github/workflows/ci.yml), [.github/workflows/codeql-analysis.yml](.github/workflows/codeql-analysis.yml).
 - **Fix:** `actions/checkout@v4`, `actions/setup-node@v4`, `pnpm/action-setup@v4`, `actions/cache@v4`, and `github/codeql-action/*@v3`. Add `permissions:` blocks (least privilege) to `ci.yml`. The CodeQL workflow's `init`/`autobuild`/`analyze` must all move to `@v3`.
 
-### 5.4 🟠 Don't mutate source in CI
+### 5.4 🟠 Don't mutate source in CI — ✅ done
 - **Location:** [Makefile](Makefile) `prod:` target runs `make lint` which is `eslint --fix`.
 - **Problem:** CI's build step auto-fixes and would commit-drift / hide failures.
 - **Fix:** Split lint into `lint` (`--fix`, local) and `lint:check` (no fix, used by CI and a pre-commit gate). CI runs `lint:check` + `prod` separately.
 
-### 5.5 🟠 Cache correctness
+### 5.5 🟠 Cache correctness — ✅ done
 - **Location:** `ci.yml` — `actions/cache` uses a static key `nmodules` with no lockfile hash.
 - **Fix:** Key the cache on `hashFiles('**/pnpm-lock.yaml')`; rely on `setup-node`'s built-in pnpm cache instead of a hand-rolled `node_modules` cache (which is fragile across the build/test jobs).
 

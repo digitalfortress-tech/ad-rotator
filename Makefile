@@ -7,8 +7,11 @@ install: ## Install Dependencies
 watch:	## Build for Dev environment and Watch files
 	@pnpm watch
 
-lint:		## Lint all files
+lint:		## Lint all files (auto-fix)
 	@pnpm lint
+
+lint-check:		## Lint without auto-fixing (CI)
+	@pnpm run lint:check
 
 tests:		## Run all tests (unit + e2e)
 	@make test-unit
